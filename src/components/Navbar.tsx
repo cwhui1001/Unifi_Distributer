@@ -23,7 +23,7 @@ export default function Navbar() {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="flex items-center group">
               <img 
-                src="https://unifi.com.my/themes/unifi/img/newest2022/unifi.svg" 
+                src="/images/unifi.svg" 
                 alt="logo" 
                 className="mr-2 group-hover:scale-105 transition-transform" 
                 width="121" 

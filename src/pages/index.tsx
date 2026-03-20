@@ -37,6 +37,12 @@ export default function HomePage() {
     setSelectedAddons(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
+  const [expandedFaq, setExpandedFaq] = useState<Record<number, boolean>>({});
+  
+  const toggleFaq = (index: number) => {
+    setExpandedFaq(prev => ({ ...prev, [index]: !prev[index] }));
+  };
+
   const scrollLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: -380, behavior: 'smooth' });
@@ -54,7 +60,7 @@ export default function HomePage() {
       speedNum: "100", speedUnit: "Mbps",
       bestValue: false,
       description: "Great for small households and apartments with 2 to 4 users/devices.",
-      promoImg: "https://unifi-fibre.com.my/wp-content/uploads/2025/09/unifi_special_promo.png",
+      promoImg: "/images/unifi_special_promo.png",
       deals: [
         { highlight: "Free", text: "6 Months WiFi" }
       ],
@@ -71,7 +77,7 @@ export default function HomePage() {
       speedNum: "300", speedUnit: "Mbps",
       bestValue: false,
       description: "Optimal for Families, Home Offices and Townhouses with 4 to 6 users/devices.",
-      promoImg: "https://unifi-fibre.com.my/wp-content/uploads/2025/09/unifi_special_promo.png",
+      promoImg: "/images/unifi_special_promo.png",
       deals: [
         { highlight: "Free", text: "6 Months WiFi (30-months contract)" },
         { highlight: "ADD-ON", text: "RM10/mth Get 43″ TV (36-months contract)" }
@@ -90,7 +96,7 @@ export default function HomePage() {
       speedNum: "500", speedUnit: "Mbps",
       bestValue: true,
       description: "Perfect for gamers and streamers in houses with 6 to 8 users/devices.",
-      promoImg: "https://unifi-fibre.com.my/wp-content/uploads/2025/09/unifi_special_promo.png",
+      promoImg: "/images/unifi_special_promo.png",
       deals: [
         { highlight: "Free", text: "6 Months WiFi (30-months contract)" },
         { highlight: "ADD-ON", text: "RM10/mth Get 55″ TV (36-months contract)" },
@@ -111,7 +117,7 @@ export default function HomePage() {
       speedNum: "1", speedUnit: "Gbps",
       bestValue: false,
       description: "Lightning-Fast Speed for Power Users in Larger Homes with 8 to 10 users/devices.",
-      promoImg: "https://unifi-fibre.com.my/wp-content/uploads/2025/09/unifi_special_promo.png",
+      promoImg: "/images/unifi_special_promo.png",
       deals: [
         { highlight: "Free", text: "6 Months WiFi (30-months contract)" },
         { highlight: "ADD-ON", text: "RM10/mth Get 65″ TV (36-months contract)" },
@@ -126,6 +132,29 @@ export default function HomePage() {
       price: "249",
       slashed: "",
       contract: ""
+    }
+  ];
+
+  const faqs = [
+    {
+      question: "Can you tell me more about Unifi?",
+      answer: "Unifi provides access to a digital lifestyle for Malaysians through its converged offerings of reliable internet connectivity, content and devices for everyone in a household.<br/><br/>We offer seamless internet connectivity at home and beyond through our fibre, wireless, mobile, and solutions that help consumers stay connected at all times."
+    },
+    {
+      question: "What are the benefits if I subscribe to Unifi Home?",
+      answer: "Unifi will enhance your high speed Internet, mobile and entertainment experience by providing the fastest internet speed, greater variety of entertainment options for you and the whole family, affordable mobile packages with unlimited data and better service stability. For more information or to subscribe to Unifi Home, email us at <a href='mailto:help@tm.com.my' class='text-[#1800E7] underline font-bold'>help@tm.com.my</a>"
+    },
+    {
+      question: "Is there any penalty charge if I terminate my Unifi Home AFTER the minimum subscription period is over?",
+      answer: "There will be no penalty charge for termination made after the minimum contract period (24 months)."
+    },
+    {
+      question: "You can check Unifi service availability in your area via the following methods",
+      answer: "(a) Check via Unifi portal at <a href='/check-coverage' class='text-[#1800E7] underline font-bold'>Check Coverage</a><br/>(b) Check via our digital channels below:<br/>Live Chat or MyUnifi app<br/>Facebook at facebook.com/weareunifi<br/>Twitter at @helpmeunifi<br/>Email to <a href='mailto:help@tm.com.my' class='text-[#1800E7] underline font-bold'>help@tm.com.my</a>"
+    },
+    {
+      question: "Can I upgrade/downgrade my Unifi Home plan?",
+      answer: "Yes, you are allowed to change to the higher/lower speed package at any time. However, depending on your package selection, you will be tied to a new contract period if the package offers better value such as it comes with a new device, discounted price or any other value added regardless of whether you are within or beyond the contract period."
     }
   ];
 
@@ -237,7 +266,7 @@ export default function HomePage() {
               {/* Hero Image Column */}
               <div className="hero floating w-full md:w-2/5 lg:w-[45%] flex justify-center lg:justify-end mt-8 md:mt-0 animate-float">
                 <img 
-                  src="https://unifi.com.my/sites/default/files/page/assets/revamp/fibre-broadband/banner-homefibre.png" 
+                  src="/images/banner-homefibre.png" 
                   className="img w-full max-w-[500px] object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)]" 
                   alt="A mother wearing earphones, sharing laughter with her daughter" 
                   width="400" 
@@ -694,26 +723,176 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Features Banner */}
-      <section className="bg-[#005B9F] py-16 text-white border-y-[6px] border-[#FF7A00]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
-            <div className="px-6 flex flex-col items-center">
-              <ShieldCheck className="w-12 h-12 text-[#FF7A00] mb-4" />
-              <h3 className="text-xl font-bold mb-2">Safe & Secure</h3>
-              <p className="text-blue-200">Built-in cybersecurity protection for your whole family against online threats.</p>
+      {/* Coverage Section */}
+      <section className="relative pt-16 pb-28 md:pb-36 overflow-hidden z-20">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FFA200] via-[#FF7A00] to-[#D64400]"></div>
+        
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 z-30 container text-center pt-6">
+            <h2 className="text-[1.8rem] md:text-4xl lg:text-[2.8rem] font-black uppercase tracking-tight text-white mb-5 leading-[1.1] drop-shadow-sm px-2">
+                IS UNIFI HOME FIBRE BROADBAND AVAILABLE IN YOUR AREA?
+            </h2>
+            <div className="text-white text-[15px] md:text-lg mb-10 max-w-4xl mx-auto font-medium leading-relaxed drop-shadow-sm px-2">
+                Experience ultra-fast fibre internet. Check Unifi Fibre Broadband coverage in your area and enjoy smooth streaming, lag-free gaming, and fast browsing at home.
             </div>
-            <div className="px-6 flex flex-col items-center pt-8 md:pt-0">
-              <Zap className="w-12 h-12 text-[#FF7A00] mb-4" />
-              <h3 className="text-xl font-bold mb-2">Guaranteed Speed</h3>
-              <p className="text-blue-200">Consistent, symmetrical upload and download speeds around the clock.</p>
+            
+            <div className="flex justify-center w-full mt-8">
+               <Link href="/check-coverage" className="group cursor-pointer flex items-stretch h-[54px] w-full max-w-[320px] decoration-transparent relative z-40 pointer-events-auto">
+                    <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] shadow-[0_8px_20px_rgba(24,0,231,0.25)] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3]">
+                        <span className="translate-x-3">Check Fibre Coverage</span>
+                    </div>
+                    <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
+                    <div 
+                        className="w-[60px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] shadow-[0_8px_20px_rgba(24,0,231,0.25)] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
+                        style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
+                    ></div>
+               </Link>
             </div>
-            <div className="px-6 flex flex-col items-center pt-8 md:pt-0">
-              <Home className="w-12 h-12 text-[#FF7A00] mb-4" />
-              <h3 className="text-xl font-bold mb-2">Smart Home Ready</h3>
-              <p className="text-blue-200">Next-gen WiFi 6 devices included to connect all your smart devices effortlessly.</p>
+        </div>
+
+        {/* Swooping Wave at the bottom with Blue Border */}
+        <div className="absolute -bottom-[2px] left-0 w-full overflow-hidden leading-[0] z-20 pointer-events-none">
+            <svg 
+              viewBox="0 0 1200 120" 
+              preserveAspectRatio="none" 
+              className="relative block w-full h-[60px] md:h-[110px]"
+            >
+              <path 
+                d="M0,0 Q600,100 1200,0 L1200,120 L0,120 Z" 
+                className="fill-white"
+              ></path>
+              <path 
+                d="M0,0 Q600,100 1200,0" 
+                fill="none"
+                stroke="#1800E7"
+                strokeWidth="10"
+              ></path>
+            </svg>
+        </div>
+      </section>
+
+      {/* Home Installation Section */}
+      <section id="home-installation" className="bg-white py-16 md:py-24 relative z-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+                <h2 className="text-[1.8rem] md:text-3xl lg:text-[2.2rem] font-black uppercase tracking-tight text-black leading-[1.2]">
+                    WHY FAMILIES LOVE UNIFI HOME BROADBAND FIBRE INTERNET
+                </h2>
             </div>
-          </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center mb-24 px-2 lg:px-8">
+                <div className="item flex flex-col items-center group">
+                    <div className="image w-[110px] h-[110px] mb-6 flex items-center justify-center bg-gray-50 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:-translate-y-2">
+                        <img src="/images/gear-unscreen.gif" alt="Free Installation" width="70" height="70" className="object-contain mix-blend-multiply" />
+                    </div>
+                    <h3 className="title text-[1.3rem] font-black text-black mb-4">Free Installation</h3>
+                    <div className="desc text-gray-600 text-[15px] font-medium leading-relaxed max-w-[280px] mx-auto">
+                        Experts in residential drilling, cabling, &amp; router placement for optimal Unifi installation. Standard setup is free!
+                    </div>
+                </div>
+
+                <div className="item flex flex-col items-center group">
+                    <div className="image w-[110px] h-[110px] mb-6 flex items-center justify-center bg-gray-50 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:-translate-y-2">
+                        <img src="/images/repair-tools-unscreen.gif" alt="Convenience of EasyFix" width="70" height="70" className="object-contain mix-blend-multiply" />
+                    </div>
+                    <h3 className="title text-[1.3rem] font-black text-black mb-4">Convenience of EasyFix</h3>
+                    <div className="desc text-gray-600 text-[15px] font-medium leading-relaxed max-w-[280px] mx-auto">
+                        Enjoy seamless fibre broadband connectivity with our EasyFix solutions, designed for easy and sustainable use.
+                    </div>
+                </div>
+
+                <div className="item flex flex-col items-center group">
+                    <div className="image w-[110px] h-[110px] mb-6 flex items-center justify-center bg-gray-50 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:-translate-y-2">
+                        <img src="/images/24-hours-support-unscreen.gif" alt="24 Hours Service Restoration" width="70" height="70" className="object-contain mix-blend-multiply" />
+                    </div>
+                    <h3 className="title text-[1.3rem] font-black text-black mb-4">24 Hours Service Restoration</h3>
+                    <div className="desc text-gray-600 text-[15px] font-medium leading-relaxed max-w-[280px] mx-auto">
+                        Count on us to keep your fibre internet running smoothly with 24/7 service restoration, ensuring your home stays connected at all times.
+                    </div>
+                </div>
+            </div>
+
+            <div className="content-bottom text-center flex flex-col items-center justify-center mt-4">
+                <div className="image mb-6">
+                    <img src="/images/illustration.png" alt="Yunni" width="276" height="200" className="object-contain hover:scale-105 transition-transform duration-500" />
+                </div>
+                <h2 className="title text-[1.8rem] md:text-[2.2rem] font-black uppercase tracking-tight text-black mb-8 leading-[1.15]">
+                    YOUR UNIFI HOME <br className="hidden md:block"/>INSTALLATION GUIDE
+                </h2>
+                <div className="button button-arrow w-full flex justify-center">
+                    <Link href="/support/installation" className="group cursor-pointer flex items-stretch h-[54px] w-full max-w-[280px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_8px_20px_rgba(24,0,231,0.25)] rounded-full">
+                        <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3]">
+                            <span className="translate-x-3">See My Guide</span>
+                        </div>
+                        <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
+                        <div 
+                            className="w-[60px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
+                            style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
+                        ></div>
+                    </Link>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="home-faq" className="bg-gray-50 py-16 md:py-24 relative z-10 border-t border-gray-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-[1.8rem] md:text-3xl lg:text-[2.2rem] font-black uppercase tracking-tight text-black text-center mb-12 leading-[1.2]">
+                FREQUENTLY ASKED QUESTIONS
+            </h2>
+            
+            <div className="flex flex-col gap-4 mb-20">
+              {faqs.map((faq, index) => {
+                const isOpen = expandedFaq[index];
+                return (
+                  <div key={index} className="bg-white rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.04)] overflow-hidden border border-gray-100 transition-all duration-300">
+                    <button 
+                      onClick={() => toggleFaq(index)}
+                      className="w-full flex justify-between items-center p-6 text-left focus:outline-none transition-colors hover:bg-orange-50/50 group"
+                    >
+                      <span className={`font-extrabold text-[1.1rem] pr-6 transition-colors ${isOpen ? 'text-[#FF7A00]' : 'text-gray-900 group-hover:text-[#FF7A00]'}`}>
+                        {faq.question}
+                      </span>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-[#FF7A00]' : 'bg-gray-50 group-hover:bg-orange-100'}`}>
+                        <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : 'text-gray-600 group-hover:text-[#FF7A00]'}`} strokeWidth={3} />
+                      </div>
+                    </button>
+                    <div 
+                      className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[800px] opacity-100 pb-6 pointer-events-auto' : 'max-h-0 opacity-0 pb-0 pointer-events-none'}`}
+                    >
+                      <div 
+                        className="px-6 text-gray-600 text-[15px] leading-relaxed font-medium"
+                        dangerouslySetInnerHTML={{ __html: faq.answer }}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8">
+                <Link href="/faq" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
+                    <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
+                        <span>View All FAQ</span>
+                    </div>
+                    <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
+                    <div 
+                        className="w-[48px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
+                        style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
+                    ></div>
+                </Link>
+
+                <Link href="/personal/home/fibre-broadband/tnc" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
+                    <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
+                        <span>View T&C</span>
+                    </div>
+                    <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
+                    <div 
+                        className="w-[48px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
+                        style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
+                    ></div>
+                </Link>
+            </div>
         </div>
       </section>
     </>
