@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { CheckCircle2, ArrowRight, Briefcase, Globe, HeadphonesIcon, TrendingUp } from "lucide-react";
-import BusinessPlans from "../components/BusinessPlans";
+import UnifiAirBizPlans from "../../components/UnifiAirBizPlans";
 
-export default function BusinessPage() {
+export default function UnifiAirBizPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -13,61 +12,10 @@ export default function BusinessPage() {
     return () => clearInterval(timer);
   }, []);
 
-  const plans = [
-    {
-      speed: "100Mbps",
-      price: "RM139",
-      period: "/month",
-      features: [
-        "Dynamic IP",
-        "Free Business WiFi 6 Router",
-        "Business Voice Service (VDSL)",
-        "Priority Customer Support"
-      ],
-      popular: false,
-    },
-    {
-      speed: "300Mbps",
-      price: "RM249",
-      period: "/month",
-      features: [
-        "Fixed IP Available",
-        "Free Business WiFi 6 Router",
-        "Advanced Security Endpoint",
-        "24/7 Premium Support SLA"
-      ],
-      popular: true,
-    },
-    {
-      speed: "500Mbps",
-      price: "RM299",
-      period: "/month",
-      features: [
-        "Fixed IP Available",
-        "Enterprise-Grade Mesh WiFi",
-        "Cloud Storage Included",
-        "Dedicated Account Manager"
-      ],
-      popular: false,
-    },
-    {
-      speed: "1Gbps",
-      price: "RM399",
-      period: "/month",
-      features: [
-        "Multiple Fixed IPs",
-        "2x Enterprise Mesh WiFi",
-        "Comprehensive Cybersecurity",
-        "Highest Support Priority SLA"
-      ],
-      popular: false,
-    }
-  ];
-
   return (
     <>
       <Head>
-        <title>Business Broadband | unifi Fibre</title>
+        <title>Unifi Air Biz | unifi Business</title>
       </Head>
       
       {/* Hero Section */}
@@ -80,7 +28,7 @@ export default function BusinessPage() {
             <div role="group" aria-roledescription="slide" className="min-w-0 shrink-0 grow-0 basis-full z-50">
               <div className="banner-content relative min-h-[inherit] h-[120vw] md:h-[23vh] lg:h-[22rem] xl:h-[67vh] 2xl:h-[50.8vh]">
                 <img 
-                  alt="Unifi Business Broadband" 
+                  alt="Unifi Air Biz" 
                   loading="eager" 
                   decoding="async" 
                   data-nimg="fill" 
@@ -90,7 +38,7 @@ export default function BusinessPage() {
                   src="/images/business/fibre-web.png" 
                 />
                 <img 
-                  alt="Unifi Business Broadband" 
+                  alt="Unifi Air Biz" 
                   loading="eager" 
                   decoding="async" 
                   data-nimg="fill" 
@@ -106,7 +54,8 @@ export default function BusinessPage() {
                         <div className="h-full w-full">
                           <div className="mx-auto mt-16 flex h-full w-[70%] flex-col justify-start md:mx-0 md:-mt-14 md:ml-10 md:w-[48%] lg:mt-14 lg:w-1/2 xl:ml-32 xl:mt-0 xl:w-[40%] xl:justify-center 2xl:-mt-8 2xl:ml-[10%] 2xl:w-[32%]">
                             <h2 className="font-[900] text-3xl md:text-5xl uppercase leading-none text-[#005B9F]">Unifi</h2>
-                            <h1 className="font-[900] text-4xl mt-2 md:text-6xl uppercase leading-none text-[#FF7A00]">Business Broadband</h1>
+                            <h1 className="font-[900] text-4xl mt-2 md:text-6xl uppercase leading-none text-[#FF7A00]">Air Biz</h1>
+                            <p className="text-xl md:text-2xl mt-4 font-semibold text-[#005B9F] opacity-90 drop-shadow-sm">Flexible 5G Wireless Broadband</p>
                           </div>
                         </div>
                       </div>
@@ -138,9 +87,6 @@ export default function BusinessPage() {
                   sizes="50vh" 
                   src="/images/business/wib_mobile.png" 
                 />
-                <div className="relative h-full min-h-[inherit] select-none pointer-events-none">
-                  <div className="pointer-events-auto h-full"></div>
-                </div>
               </div>
             </div>
           </div>
@@ -172,8 +118,8 @@ export default function BusinessPage() {
         </div>
       </section>
 
-      {/* Business Plans Section */}
-      <BusinessPlans />
+      {/* Unifi Air Biz Plans Section */}
+      <UnifiAirBizPlans />
     </>
   );
 }
