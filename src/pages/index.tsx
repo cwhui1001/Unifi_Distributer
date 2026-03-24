@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import Head from "next/head";
 import { CheckCircle2, Zap, Home, ShieldCheck, ChevronDown, ChevronLeft, ChevronRight, ArrowUpDown, Router, Headset } from "lucide-react";
 import Link from "next/link";
+import HomeFAQ from "@/components/HomeFAQ";
 
 export default function HomePage() {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -37,11 +38,6 @@ export default function HomePage() {
     setSelectedAddons(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const [expandedFaq, setExpandedFaq] = useState<Record<number, boolean>>({});
-  
-  const toggleFaq = (index: number) => {
-    setExpandedFaq(prev => ({ ...prev, [index]: !prev[index] }));
-  };
 
   const scrollLeft = () => {
     if (sliderRef.current) {
@@ -135,28 +131,6 @@ export default function HomePage() {
     }
   ];
 
-  const faqs = [
-    {
-      question: "Can you tell me more about Unifi?",
-      answer: "Unifi provides access to a digital lifestyle for Malaysians through its converged offerings of reliable internet connectivity, content and devices for everyone in a household.<br/><br/>We offer seamless internet connectivity at home and beyond through our fibre, wireless, mobile, and solutions that help consumers stay connected at all times."
-    },
-    {
-      question: "What are the benefits if I subscribe to Unifi Home?",
-      answer: "Unifi will enhance your high speed Internet, mobile and entertainment experience by providing the fastest internet speed, greater variety of entertainment options for you and the whole family, affordable mobile packages with unlimited data and better service stability. For more information or to subscribe to Unifi Home, email us at <a href='mailto:help@tm.com.my' class='text-[#1800E7] underline font-bold'>help@tm.com.my</a>"
-    },
-    {
-      question: "Is there any penalty charge if I terminate my Unifi Home AFTER the minimum subscription period is over?",
-      answer: "There will be no penalty charge for termination made after the minimum contract period (24 months)."
-    },
-    {
-      question: "You can check Unifi service availability in your area via the following methods",
-      answer: "(a) Check via Unifi portal at <a href='/check-coverage' class='text-[#1800E7] underline font-bold'>Check Coverage</a><br/>(b) Check via our digital channels below:<br/>Live Chat or MyUnifi app<br/>Facebook at facebook.com/weareunifi<br/>Twitter at @helpmeunifi<br/>Email to <a href='mailto:help@tm.com.my' class='text-[#1800E7] underline font-bold'>help@tm.com.my</a>"
-    },
-    {
-      question: "Can I upgrade/downgrade my Unifi Home plan?",
-      answer: "Yes, you are allowed to change to the higher/lower speed package at any time. However, depending on your package selection, you will be tied to a new contract period if the package offers better value such as it comes with a new device, discounted price or any other value added regardless of whether you are within or beyond the contract period."
-    }
-  ];
 
   const plans = [
     {
@@ -308,8 +282,8 @@ export default function HomePage() {
               {winbackPlans.map((wp, index) => (
                 <div 
                   key={index} 
-                  className={`flex-none w-full h-auto flex flex-col transition-all duration-300 relative ${
-                    wp.bestValue ? 'z-20' : 'z-10'
+                  className={`flex-none w-full h-auto flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
+                    wp.bestValue ? 'z-20' : 'hover:z-10'
                   }`}
                 >
                   {/* Header Spacer for Top Alignment */}
@@ -323,8 +297,10 @@ export default function HomePage() {
                   </div>
                   
                   {/* Main White Body */}
-                  <div className={`relative flex flex-col bg-white overflow-hidden w-full h-auto ${
-                    wp.bestValue ? 'rounded-b-[1.25rem] border-b-[3px] border-x-[3px] border-[#FF7A00] shadow-[0_15px_40px_rgba(0,0,0,0.12)]' : 'rounded-[1.25rem] border border-gray-100 shadow-[0_8px_25px_rgba(0,0,0,0.06)]'
+                  <div className={`relative flex flex-col bg-white overflow-hidden w-full h-auto transition-all duration-500 ${
+                    wp.bestValue 
+                      ? 'rounded-b-[1.25rem] border-b-[3px] border-x-[3px] border-[#FF7A00] shadow-[0_15px_40px_rgba(0,0,0,0.12)] hover:shadow-[0_30px_60px_rgba(255,122,0,0.2)]' 
+                      : 'rounded-[1.25rem] border border-gray-100 shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.1)]'
                   }`}>
                     
                     {/* Top Badges */}
@@ -497,7 +473,7 @@ export default function HomePage() {
             {plans.map((plan, index) => (
               <div 
                 key={index} 
-                className={`flex-none w-[85vw] sm:w-[350px] snap-center h-auto flex flex-col transition-all duration-300 relative ${
+                className={`flex-none w-[85vw] sm:w-[350px] snap-center h-auto flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
                   plan.bestSeller ? 'z-10' : ''
                 }`}
               >
@@ -512,8 +488,10 @@ export default function HomePage() {
                 </div>
                 
                 {/* Main White Body */}
-                <div className={`relative flex-1 flex flex-col bg-white overflow-hidden w-full h-full ${
-                  plan.bestSeller ? 'rounded-b-[1.25rem] border-b-[3px] border-x-[3px] border-[#FF7A00] shadow-[0_15px_40px_rgba(0,0,0,0.12)]' : 'rounded-[1.25rem] border border-gray-100 shadow-[0_8px_25px_rgba(0,0,0,0.06)]'
+                <div className={`relative flex-1 flex flex-col bg-white overflow-hidden w-full h-full transition-all duration-500 ${
+                  plan.bestSeller 
+                    ? 'rounded-b-[1.25rem] border-b-[3px] border-x-[3px] border-[#FF7A00] shadow-[0_15px_40px_rgba(0,0,0,0.12)] hover:shadow-[0_30px_60px_rgba(255,122,0,0.2)]' 
+                    : 'rounded-[1.25rem] border border-gray-100 shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.1)]'
                 }`}>
                   {/* Top Badges */}
                   <div className="flex justify-between items-start w-full">
@@ -834,67 +812,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="home-faq" className="bg-gray-50 py-16 md:py-24 relative z-10 border-t border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-[1.8rem] md:text-3xl lg:text-[2.2rem] font-black uppercase tracking-tight text-black text-center mb-12 leading-[1.2]">
-                FREQUENTLY ASKED QUESTIONS
-            </h2>
-            
-            <div className="flex flex-col gap-4 mb-20">
-              {faqs.map((faq, index) => {
-                const isOpen = expandedFaq[index];
-                return (
-                  <div key={index} className="bg-white rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.04)] overflow-hidden border border-gray-100 transition-all duration-300">
-                    <button 
-                      onClick={() => toggleFaq(index)}
-                      className="w-full flex justify-between items-center p-6 text-left focus:outline-none transition-colors hover:bg-orange-50/50 group"
-                    >
-                      <span className={`font-extrabold text-[1.1rem] pr-6 transition-colors ${isOpen ? 'text-[#FF7A00]' : 'text-gray-900 group-hover:text-[#FF7A00]'}`}>
-                        {faq.question}
-                      </span>
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-[#FF7A00]' : 'bg-gray-50 group-hover:bg-orange-100'}`}>
-                        <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : 'text-gray-600 group-hover:text-[#FF7A00]'}`} strokeWidth={3} />
-                      </div>
-                    </button>
-                    <div 
-                      className={`transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[800px] opacity-100 pb-6 pointer-events-auto' : 'max-h-0 opacity-0 pb-0 pointer-events-none'}`}
-                    >
-                      <div 
-                        className="px-6 text-gray-600 text-[15px] leading-relaxed font-medium"
-                        dangerouslySetInnerHTML={{ __html: faq.answer }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-8">
-                <Link href="/faq" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
-                    <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
-                        <span>View All FAQ</span>
-                    </div>
-                    <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
-                    <div 
-                        className="w-[48px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
-                        style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
-                    ></div>
-                </Link>
-
-                <Link href="/personal/home/fibre-broadband/tnc" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
-                    <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
-                        <span>View T&C</span>
-                    </div>
-                    <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
-                    <div 
-                        className="w-[48px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
-                        style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
-                    ></div>
-                </Link>
-            </div>
-        </div>
-      </section>
+      <HomeFAQ />
     </>
   );
 }
