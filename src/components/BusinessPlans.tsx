@@ -348,10 +348,10 @@ export default function BusinessPlans() {
               {NAV_LINKS.map((link) => (
                 <a 
                   key={link.label}
-                  className={`overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 font-hk rounded-none py-4 px-6 w-full h-auto font-bold ${link.active ? 'border-x border-t-8 border-tm-cobalt-blue-600 bg-white text-tm-cobalt-blue-600' : 'bg-[#E6E6E6] text-tm-grey-500'}`} 
+                  className={`overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 rounded-none py-4 px-6 w-full h-auto font-bold ${link.active ? 'border-x border-t-8 border-tm-cobalt-blue-600 bg-white text-tm-cobalt-blue-600' : 'bg-[#E6E6E6] text-tm-grey-500'}`} 
                   href={link.href}
                 >
-                  <span className="text-sm">{link.label}</span>
+                  <span className="text-sm font-sans">{link.label}</span>
                 </a>
               ))}
             </div>
@@ -419,7 +419,7 @@ export default function BusinessPlans() {
                                       <div className={`rounded-[18px] border-2 ${plan.isPopular ? 'border-[#FF7A00] bg-orange-50/50 shadow-lg shadow-orange-500/20' : 'border-gray-200 bg-white shadow-sm'} transition-all duration-300 md:hover:scale-[1.03] hover:shadow-xl hover:shadow-orange-500/10 cursor-pointer h-full flex flex-col overflow-hidden w-[160px] group`}>
                                         <div className={`w-full text-center text-[11px] sm:text-[13px] py-2 text-white ${plan.badgeColor} font-bold capitalize tracking-wide`}>{plan.badge}</div>
                                         <div className={`p-4 flex flex-col flex-1 ${!plan.isPopular ? 'bg-white md:group-hover:bg-orange-50/20' : ''} transition-colors`}>
-                                          <div className="mb-4 h-10 font-hk font-bold text-[#005B9F]">
+                                          <div className="mb-4 h-10 font-bold text-[#005B9F]">
                                             <span className="text-4xl">{plan.speed}</span>
                                             <span className="text-lg">{plan.unit}</span>
                                           </div>

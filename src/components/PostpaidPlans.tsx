@@ -319,7 +319,7 @@ export default function PostpaidPlans() {
 
                 {/* Voucher Image for Postpaid 39 */}
                 {plan.id === "postpaid_39" && (
-                  <div className="absolute top-8 right-4 z-20 flex flex-col items-center">
+                  <div className="absolute top-8 right-1 z-20 flex flex-col items-center">
                     <img 
                       src="/images/postpaid/tng-voucher-promo.png" 
                       alt="Voucher" 
@@ -334,7 +334,7 @@ export default function PostpaidPlans() {
                 <div className="p-8 pt-6 flex-1 flex flex-col">
                   {/* Plan Name & Speed */}
                   <div className="mb-6">
-                    <h3 className="text-2xl font-black text-gray-900 leading-tight">
+                    <h3 className="text-3xl font-black text-gray-900 leading-tight">
                       {plan.name}
                     </h3>
                     <div className="text-gray-900 font-bold mt-1">
@@ -389,7 +389,7 @@ export default function PostpaidPlans() {
                   {/* Optional Bundle */}
                   {plan.netflixTitle && (
                     <div className="mb-8">
-                      <h4 className="text-sm font-black text-gray-900 mb-3 font-outfit">Optional Bundle:</h4>
+                      <h4 className="text-sm font-black text-gray-900 mb-3 uppercase tracking-tighter">Optional Bundle:</h4>
                       <div 
                         className={`border border-gray-200 rounded-2xl overflow-hidden transition-all duration-300 ${selectedOptions[plan.id] ? "border-blue-300 ring-1 ring-blue-100" : ""}`}
                       >
@@ -442,7 +442,7 @@ export default function PostpaidPlans() {
 
                   {/* Pricing Area */}
                   <div className="mt-8 mb-2">
-                    <div className="flex items-end gap-[2px] mb-2 font-sans text-gray-900">
+                    <div className="flex items-end gap-[2px] mb-2 text-gray-900">
                       <span className="text-[1.5rem] font-black leading-none mb-[2px] tracking-tight">RM</span>
                       <span className="text-[3.5rem] font-black leading-none tracking-tighter text-[#FF6B01]">
                         {selectedOptions[plan.id] && plan.priceWithNetflix ? plan.priceWithNetflix : plan.price}
@@ -451,7 +451,7 @@ export default function PostpaidPlans() {
                     </div>
 
                     {/* Standardized CTA Button inspired by Home Plans */}
-                    <div className="mt-6 mb-2 w-full flex items-stretch h-[50px] group/btn cursor-pointer pointer-events-auto shadow-sm transition-all duration-300 hover:shadow-md">
+                    <div className="mt-6 mb-2 w-full flex items-stretch h-[50px] group/btn cursor-pointer pointer-events-auto transition-all duration-300">
                       <a
                         href={selectedOptions[plan.id] && plan.buyNowWithNetflixUrl ? plan.buyNowWithNetflixUrl : plan.buyNowUrl}
                         className={`flex-1 font-black text-[14px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] hover:bg-[#0C00B3] decoration-transparent`}
