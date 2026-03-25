@@ -49,7 +49,8 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-6 border-b border-blue-800 pb-2">Support</h3>
             <ul className="space-y-4 text-sm">
-              <li><a href="/check-coverage" className="text-blue-200 hover:text-white transition-colors">Check Coverage</a></li>
+              <li><Link href="/check-coverage" className="text-blue-200 hover:text-white transition-colors">Check Coverage</Link></li>
+              <li><Link href="/installation-guide" className="text-blue-200 hover:text-white transition-colors">Installation Guide</Link></li>
               <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Contact Us</a></li>
             </ul>
           </div>

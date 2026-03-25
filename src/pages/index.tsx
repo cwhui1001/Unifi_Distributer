@@ -406,11 +406,14 @@ export default function HomePage() {
 
                       {/* CTA Button */}
                       <div className="mt-8 mb-2 w-full flex items-stretch h-[46px] group cursor-pointer pointer-events-auto">
-                        <button className={`flex-1 font-extrabold text-[13px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none ${
-                          wp.bestValue ? 'bg-[#FF7A00] group-hover:bg-[#E05200]' : 'bg-[#1800E7] group-hover:bg-[#0C00B3]'
-                        }`}>
+                        <Link 
+                          href={`/apply-unifi-home?package=Unifi%20Winback%20Special%20Promo%20Plan&plan=${wp.speedNum}${wp.speedUnit}`} 
+                          className={`flex-1 font-extrabold text-[13px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none ${
+                            wp.bestValue ? 'bg-[#FF7A00] group-hover:bg-[#E05200]' : 'bg-[#1800E7] group-hover:bg-[#0C00B3]'
+                          }`}
+                        >
                           <span className="translate-x-3">SIGN UP NOW</span>
-                        </button>
+                        </Link>
                         <div className="w-[4px] bg-white z-10 shrink-0"></div>
                         <div 
                           className={`w-12 transition-all flex items-center justify-center shrink-0 ${
@@ -676,13 +679,14 @@ export default function HomePage() {
 
                     {/* CTA Button */}
                     <div className="mt-8 mb-2 w-full flex items-stretch h-[46px] group cursor-pointer pointer-events-auto">
-                      <button 
+                      <Link 
+                        href={`/apply-unifi-home?package=Unifi%20Home%20Plan&plan=${plan.speed.replace(' ', '')}`}
                         className={`flex-1 font-extrabold text-[13px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none ${
                           plan.bestSeller ? 'bg-[#FF7A00] group-hover:bg-[#E05200]' : 'bg-[#1800E7] group-hover:bg-[#0C00B3]'
                         }`}
                       >
                         <span className="translate-x-3">{plan.speed.includes("2 Gb") ? "GET IT NOW" : "SIGN UP NOW"}</span>
-                      </button>
+                      </Link>
                       <div className="w-[4px] bg-white z-10 shrink-0"></div>
                       <div 
                         className={`w-12 transition-all flex items-center justify-center shrink-0 ${
@@ -797,7 +801,7 @@ export default function HomePage() {
                     YOUR UNIFI HOME <br className="hidden md:block"/>INSTALLATION GUIDE
                 </h2>
                 <div className="button button-arrow w-full flex justify-center">
-                    <Link href="/support/installation" className="group cursor-pointer flex items-stretch h-[54px] w-full max-w-[280px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_8px_20px_rgba(24,0,231,0.25)] rounded-full">
+                    <Link href="/installation-guide" className="group cursor-pointer flex items-stretch h-[54px] w-full max-w-[280px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_8px_20px_rgba(24,0,231,0.25)] rounded-full">
                         <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3]">
                             <span className="translate-x-3">See My Guide</span>
                         </div>

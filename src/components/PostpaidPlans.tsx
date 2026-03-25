@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { CheckCircle2, ChevronDown, ChevronUp, Star, Gift, Zap, Smartphone, Globe, ShieldCheck, ArrowRight } from "lucide-react";
 
 interface PlanFeature {
@@ -452,12 +453,12 @@ export default function PostpaidPlans() {
 
                     {/* Standardized CTA Button inspired by Home Plans */}
                     <div className="mt-6 mb-2 w-full flex items-stretch h-[50px] group/btn cursor-pointer pointer-events-auto transition-all duration-300">
-                      <a
-                        href={selectedOptions[plan.id] && plan.buyNowWithNetflixUrl ? plan.buyNowWithNetflixUrl : plan.buyNowUrl}
+                      <Link
+                        href={`/apply-unifi-mobile?plan=${plan.name}`}
                         className={`flex-1 font-black text-[14px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] hover:bg-[#0C00B3] decoration-transparent`}
                       >
                         <span className="translate-x-3">BUY NOW</span>
-                      </a>
+                      </Link>
                       <div className="w-[4px] bg-white z-10 shrink-0"></div>
                       <div 
                         className="w-14 transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover/btn:bg-[#0C00B3]"

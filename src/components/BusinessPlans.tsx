@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 // --- DATA CONFIGURATION START ---
 
@@ -445,10 +446,13 @@ export default function BusinessPlans() {
                                               </div>
                                             </div>
                                             <div className="mt-2 text-center cursor-pointer pointer-events-auto">
-                                              <button className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold shadow-sm hover:shadow-lg ring-offset-white transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none text-white bg-[#005B9F] hover:bg-[#FF7A00] h-10 px-4 py-2 gap-0 pointer-events-auto w-full">
+                                              <Link 
+                                                href={`/apply-unifi-business?package=Unifi%20Business%20Broadband&plan=${plan.speed}${plan.unit}`} 
+                                                className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap rounded-full font-bold shadow-sm hover:shadow-lg ring-offset-white transition-all hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none text-white bg-[#005B9F] hover:bg-[#FF7A00] h-10 px-4 py-2 gap-0 pointer-events-auto w-full"
+                                              >
                                                 <span className="flex-1">Select</span>
                                                 <span className="mx-2 block"><svg xmlns="http://www.w3.org/2000/svg" width="22.4" height="40" viewBox="0 0 22.4 40"><g><path d="M192.2,220.14l12.166,20.027L192.2,260.14H202.6L214.6,240.167,202.6,220.14Z" transform="translate(-192.199 -220.14)" fill="currentColor"/></g></svg></span>
-                                              </button>
+                                              </Link>
                                             </div>
                                           </div>
                                         </div>
