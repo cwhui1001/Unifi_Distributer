@@ -12,12 +12,35 @@
   --font-mono: var(--font-geist-mono);
 
   --animate-float: float 4s ease-in-out infinite;
+  --animate-fade-in-up: fade-in-up 0.7s ease-out forwards;
+  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
+
   @keyframes float {
     0%, 100% {
       transform: translateY(0);
     }
     50% {
       transform: translateY(-10px);
+    }
+  }
+
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.4;
     }
   }
 }
