@@ -6,71 +6,71 @@ import { ArrowLeft, FileText, ChevronRight, ExternalLink } from "lucide-react";
 const tncItems = [
   {
     title: "Unifi Home Free 3 Months Prime Promo Campaign T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/TnC%20Broadband%20With%20Waiver%20Campaign%202025%20V2.pdf",
+    url: "/tncfaq/home/tnc/TnC-Broadband-With-Waiver-Campaign-2025-V2.pdf",
   },
   {
     title: "Unifi UniVerse Campaign T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/TC-UniVERSE-Campaign.pdf",
+    url: "/tncfaq/home/tnc/TC-UniVERSE-Campaign.pdf",
   },
   {
     title: "General T&C for unifi Home",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/General-TnC-unifi-Home.pdf",
+    url: "/tncfaq/home/tnc/General-TnC-unifi-Home.pdf",
   },
   {
     title: "UNIFI TV PACK(S) SUBSCRIPTION T&C",
-    url: "https://unifi.com.my/sites/default/files/page/assets/documents/unifi-tv/GENERAL%20TERMS%20AND%20CONDITIONS%20FOR%20Unifi%20TV%20PACKS%20SUBSCRIPTION%20version%204.0%20pslsip%20revision%2022.9.2023.pdf",
+    url: "/tncfaq/home/tnc/Unifi-TV-General-PnC.pdf",
   },
   {
     title: "UNIFI TV SPORTS PACK, KIDS PACK, MOVIES PACK AND FAMILY PACK T&C",
-    url: "https://unifi.com.my/sites/default/files/page/assets/documents/unifi-tv/SPECIFIC%20TERMS%20AND%20CONDITIONS%20FOR%20UNIFI%20TV%20SPORTS%20PACK%20UNIFI%20TV%20KIDS%20PACK%20UNIFI%20TV%20MOVIES%20PACK%20%20UNIFI%20TV%20FAMILY%20PACK%20%20pslsip%20revised%2027.9.2023%20clean.pdf",
+    url: "/tncfaq/home/tnc/Unifi-TV-Specific-PnC.pdf",
   },
   {
     title: "Unifi Over-The-Top (OTT)/ Streaming App Subscription T&C",
-    url: "https://unifi.com.my/sites/default/files/page/assets/documents/unifi-tv/General%20TC%20for%20Streaming%20App%20revised%20pslsip%2029.9.2023%20V3.pdf",
+    url: "/tncfaq/home/tnc/Unifi-TV-Streaming-App-PnC.pdf",
   },
   {
     title: "24 hours Restoration for unifi Home T&C",
-    url: "https://unifi.com.my/sites/default/files/page/assets/pdf/fibre/24Hours-Restoration-Guarantee-For-Unifi-Service-Terms-%26-Conditions-Ver-1.2-7December-2021.pdf",
+    url: "/tncfaq/home/tnc/24Hours-Restoration-Guarantee-TNC.pdf",
   },
   {
     title: "UNIFI EZOWN FOR HOME SMART DEVICE T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/Terms-Conditions-Smart-Device-2025-EzOwn.pdf",
+    url: "/tncfaq/home/tnc/Terms-Conditions-Smart-Device-2025-EzOwn.pdf",
   },
   {
     title: "UNIFI 1GBPS AND 2GBPS T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/TC-for-Unifi-2Gbps-1Gbps-Plan.pdf",
+    url: "/tncfaq/home/tnc/TC-for-Unifi-2Gbps-1Gbps-Plan.pdf",
   },
   {
     title: "SMART HOME T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/unifismarthome/UNIFI.SMART.HOME.TC.product.pdf",
+    url: "/tncfaq/home/tnc/UNIFI-SMART-HOME-TC-product.pdf",
   },
   {
     title: "Mesh wi-fi T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/TnC%20Mesh%20WiFi%202025.pdf",
+    url: "/tncfaq/home/tnc/TnC-Mesh-WiFi-2025.pdf",
   },
   {
     title: "unifi cloud gaming",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/Unifi_Blacknut_Cloud_Gaming_Terms_and_Conditions.pdf",
+    url: "/tncfaq/home/tnc/Unifi_Blacknut_Cloud_Gaming_Terms_and_Conditions.pdf",
   },
   {
     title: "DEVICE FIESTA UNIFI HOME PLUS",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/TnCs-Unifi-Home-Plus-Campaign.pdf",
+    url: "/tncfaq/home/tnc/TnCs-Unifi-Home-Plus-Campaign.pdf",
   },
   {
     title: "unifi smarthome campaign promo",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/unifismarthome/UNIFI.SMART.HOME.TC.campaign.pdf",
+    url: "/tncfaq/home/tnc/UNIFI-SMART-HOME-TC-campaign.pdf",
   },
   {
     title: "HOMELINE (TELEPHONE) T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/Homeline-TnC.pdf",
+    url: "/tncfaq/home/tnc/Homeline-TnC.pdf",
   },
   {
     title: "WIRELESS HOME PHONE (WHP) ON LTE NETWORK T&C",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/TC-for-wireless-home.pdf",
+    url: "/tncfaq/home/tnc/TC-for-wireless-home.pdf",
   },
   {
     title: "5G Wireless Backup for Consumers",
-    url: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/wireless/5G-Wireless-Backup-T%26C.pdf",
+    url: "/tncfaq/home/tnc/5G-Wireless-Backup-TNC.pdf",
   },
 ];
 
@@ -157,13 +157,7 @@ export default function HomeTNC() {
         </div>
       </main>
 
-      <footer className="py-12 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400 text-sm font-medium">
-            © {new Date().getFullYear()} TM Technology Services Sdn Bhd. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      
 
       <style jsx>{`
         @keyframes fadeInUp {

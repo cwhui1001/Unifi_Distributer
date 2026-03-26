@@ -22,17 +22,6 @@ export default function Footer() {
             <p className="text-blue-100 text-sm leading-relaxed max-w-xs">
               Experience lighting-fast internet, endless entertainment with Unifi TV, and uninterrupted connectivity with our all-new postpaid plans.
             </p>
-            <div className="flex space-x-4 pt-2">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A00] transition-colors hover:-translate-y-1 transform duration-200">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A00] transition-colors hover:-translate-y-1 transform duration-200">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF7A00] transition-colors hover:-translate-y-1 transform duration-200">
-                <Instagram className="w-5 h-5" />
-              </a>
-            </div>
           </div>
 
           {/* Links 1 */}
@@ -51,7 +40,7 @@ export default function Footer() {
             <ul className="space-y-4 text-sm">
               <li><Link href="/check-coverage" className="text-blue-200 hover:text-white transition-colors">Check Coverage</Link></li>
               <li><Link href="/installation-guide" className="text-blue-200 hover:text-white transition-colors">Installation Guide</Link></li>
-              <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Contact Us</a></li>
+              <li><a href="mailto:sales@unifi-online.my" className="text-blue-200 hover:text-white transition-colors">Contact Us</a></li>
             </ul>
           </div>
 
@@ -59,8 +48,10 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-6 border-b border-blue-800 pb-2">Legal</h3>
             <ul className="space-y-4 text-sm">
+              <li><a href="#" className="text-blue-200 hover:text-white transition-colors"></a></li>
+              <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Terms of Use</a></li>
+              <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Privacy Notice</a></li>
               <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Terms & Conditions</a></li>
-              <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Privacy Policy</a></li>
             </ul>
           </div>
         </div>

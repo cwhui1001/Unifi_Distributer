@@ -7,23 +7,23 @@ import { ChevronDown, ArrowLeft, Search, HelpCircle } from "lucide-react";
 const CAMPAIGN_FAQS = [
   {
     title: "Unifi Home Free 3 Months Prime Promo Campaign FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ%20Broadband%20With%20Waiver%20Campaign%202025%20V2.pdf"
+    link: "/tncfaq/home/faq/FAQ-Broadband-With-Waiver-Campaign-2025-V2.pdf"
   },
   {
     title: "KONGSI RAYA ONLINE EXCLUSIVE CAMPAIGN",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ-Kongsi-Raya-Online-Campaign.pdf"
+    link: "/tncfaq/home/faq/FAQ-Kongsi-Raya-Online-Campaign.pdf"
   },
   {
     title: "Unifi UniVerse Campaign FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ-Universe-Campaign-Q2_2025.pdf"
+    link: "/tncfaq/home/faq/FAQ-Universe-Campaign-Q2_2025.pdf"
   },
   {
     title: "Upgrading Your Existing Plans To New Platform Plans FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/Unifi_Universe_Campaign_FAQ.pdf"
+    link: "/tncfaq/home/faq/Unifi_Universe_Campaign_FAQ.pdf"
   },
   {
     title: "General FAQ for unifi Home",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/General-FAQ-unifi-Home-Plan-updated-August-2023.pdf"
+    link: "/tncfaq/home/faq/General-FAQ-unifi-Home-Plan-updated-August-2023.pdf"
   },
   {
     title: "UNIFI TV PACKS FAQ",
@@ -35,47 +35,47 @@ const CAMPAIGN_FAQS = [
   },
   {
     title: "Unifi Home bill date realignment FAQ",
-    link: "https://unifi.com.my/sites/default/files/page/assets/pdf/fibre/Bill-Date-(Bill-Period)-Realignment-FAQ-14January-2022.pdf"
+    link: "/tncfaq/home/faq/Bill-Date-Realignment-FAQ.pdf"
   },
   {
     title: "UNIFI EZOWN FOR HOME SMART DEVICE FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ.Smart.Device.2025.EzOwn.New.and.Existing._01022026.pdf"
+    link: "/tncfaq/home/faq/FAQ-Smart-Device-2025-EzOwn.pdf"
   },
   {
     title: "TM Wi-Fi 6 Combo Box FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ-Wi-Fi-6-Combo-Box.pdf"
+    link: "/tncfaq/home/faq/FAQ-Wi-Fi-6-Combo-Box.pdf"
   },
   {
     title: "Mesh Wi-Fi FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ-Mesh-Wi-Fi-2025.pdf"
+    link: "/tncfaq/home/faq/FAQ-Mesh-Wi-Fi-2025.pdf"
   },
   {
     title: "On Site Support and Customer Charging Proposition FAQ",
-    link: "https://unifi.com.my/sites/default/files/page/assets/pdf/fibre/FAQ%20CCP%20and%20OSS%20ver2.pdf"
+    link: "/tncfaq/home/faq/FAQ-CCP-and-OSS-ver2.pdf"
   },
   {
     title: "SMART HOME FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/unifismarthome/Smart_Home_product-FAQ.pdf"
+    link: "/tncfaq/home/faq/Smart_Home_product-FAQ.pdf"
   },
   {
     title: "UNIFI 1GBPS AND 2GBPS FAQ",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ-for-basic-1Gbps-2Gbps.pdf"
+    link: "/tncfaq/home/faq/FAQ-for-basic-1Gbps-2Gbps.pdf"
   },
   {
     title: "DEVICE FIESTA UNIFI HOME PLUS",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/FAQ-Home-Broadband-Plus-Campaign.pdf"
+    link: "/tncfaq/home/faq/FAQ-Home-Broadband-Plus-Campaign.pdf"
   },
   {
     title: "unifi cloud gaming",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/Blacknut-Cloud-Gaming-FAQ.pdf"
+    link: "/tncfaq/home/faq/Blacknut-Cloud-Gaming-FAQ.pdf"
   },
   {
     title: "unifi smarthome campaign promo",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/unifismarthome/Unifi-smart-home-campaign-promo-faq.pdf"
+    link: "/tncfaq/home/faq/Unifi-smart-home-campaign-promo-faq.pdf"
   },
   {
     title: "5G Wireless Backup for Consumers",
-    link: "https://unifi.com.my/sites/default/files/html/List-FAQ/Home/wireless/FAQ-5G-Wireless-Backup.pdf"
+    link: "/tncfaq/home/faq/FAQ-5G-Wireless-Backup.pdf"
   }
 ];
 

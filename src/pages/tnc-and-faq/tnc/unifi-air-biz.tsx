@@ -1,107 +1,112 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { ArrowLeft, Wifi, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, FileText, ExternalLink, Wifi, Scale } from "lucide-react";
+
+const AIR_BIZ_TNC_DOCS = [
+  {
+    title: "TERMS AND CONDITIONS FOR UNIFI AIR BIZ 5G",
+    link: "/tncfaq/business/airbiz/tnc/TNC-FOR-Unifi-Air-Biz-5G.pdf"
+  }
+];
 
 export default function UnifiAirBizTNC() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
       <Head>
         <title>Unifi Air Biz Terms & Conditions | Unifi Business</title>
+        <meta name="description" content="Official Terms & Conditions for Unifi Air Biz wireless broadband services. Download the relevant policy documents." />
       </Head>
 
-      <div className="bg-[#005B9F] text-white py-16 text-center relative overflow-hidden shadow-xl">
+      <header className="relative bg-[#FF7A00] text-white overflow-hidden py-12 md:py-20 flex-shrink-0">
         <div className="absolute top-0 right-0 p-8 opacity-10">
           <Wifi className="w-64 h-64 text-white rotate-12" />
         </div>
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent"></div>
         
-        <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
-          <Link href="/products/wireless-broadband-unifi-air" className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Air Biz Plans
-          </Link>
-          <h1 className="text-4xl md:text-5xl font-black mb-4 uppercase tracking-tight leading-none">Air Biz Terms & Conditions</h1>
-          <p className="text-xl text-white/90 font-medium font-sans">Agreement for Unifi Air Biz Wireless Services</p>
-        </div>
-      </div>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
+          <nav className="mb-10">
+            <Link 
+              href="/products/wireless-broadband-unifi-air" 
+              className="inline-flex items-center text-white/90 hover:text-white group transition-all duration-300"
+            >
+              <ArrowLeft className="w-5 h-5 mr-3 group-hover:-translate-x-1.5 transition-transform duration-300" />
+              <span className="text-sm font-bold tracking-widest uppercase">Back to Air Biz</span>
+            </Link>
+          </nav>
 
-      <div className="flex-1 max-w-4xl w-full mx-auto px-4 py-12">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 mb-12">
-          <div className="p-8 md:p-12">
-            <div className="flex items-center mb-8 pb-8 border-b border-gray-100">
-              <ShieldCheck className="w-12 h-12 text-[#FF7A00] mr-6" />
-              <div>
-                <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Wireless Service Agreement</h2>
-                <p className="text-gray-500 font-medium italic">Last updated: March 2024</p>
-              </div>
-            </div>
-
-            <div className="space-y-10">
-              <section>
-                <h3 className="text-xl font-bold text-[#005B9F] mb-4 flex items-center font-sans">
-                  <span className="w-8 h-8 rounded-full bg-blue-50 text-[#005B9F] flex items-center justify-center mr-3 text-sm">01</span>
-                  SERVICE NATURE
-                </h3>
-                <p className="text-gray-600 leading-relaxed font-medium pl-11 mb-2">
-                  Unifi Air Biz is a wireless broadband service that provides internet connectivity via our 5G and 4G 
-                  networks. It is a location-flexible solution that does not require fixed line cabling.
-                </p>
-                <p className="text-gray-600 leading-relaxed font-medium pl-11">
-                  Speed and stability may vary based on signal strength and network environment at the point of use.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-bold text-[#005B9F] mb-4 flex items-center font-sans">
-                  <span className="w-8 h-8 rounded-full bg-blue-50 text-[#005B9F] flex items-center justify-center mr-3 text-sm">02</span>
-                  HARDWARE & OWNERSHIP
-                </h3>
-                <p className="text-gray-600 leading-relaxed font-medium pl-11">
-                  TM provides high-performance 5G/4G routers for use with the service. The hardware remains the 
-                  property of the business owner only after the 24-month contract has been fully settled. 
-                  Premature termination requires the return of functional hardware.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-bold text-[#005B9F] mb-4 flex items-center font-sans">
-                  <span className="w-8 h-8 rounded-full bg-blue-50 text-[#005B9F] flex items-center justify-center mr-3 text-sm">03</span>
-                  DATA LIMITS & FUP
-                </h3>
-                <p className="text-gray-600 leading-relaxed font-medium pl-11 mb-4">
-                  The 'Unlimited 5G Data' is provided subject to our Fair Usage Policy (FUP). This policy is designed 
-                  to prevent misuse of the network that may result in degradation for other users.
-                </p>
-                <ul className="pl-11 space-y-2">
-                  <li className="flex items-center text-sm text-gray-500">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF7A00] mr-2" />
-                    Unlimited 5G data for all local use.
-                  </li>
-                  <li className="flex items-center text-sm text-gray-500">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF7A00] mr-2" />
-                    Speed may be throttle if FUP threshold is exceeded.
-                  </li>
-                </ul>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-bold text-[#005B9F] mb-4 flex items-center font-sans">
-                  <span className="w-8 h-8 rounded-full bg-blue-50 text-[#005B9F] flex items-center justify-center mr-3 text-sm">04</span>
-                  PLUG & PLAY INSTALLATION
-                </h3>
-                <p className="text-gray-600 leading-relaxed font-medium pl-11">
-                  The service is considered fully installed once the SIM has been activated and data usage has commenced. 
-                  Technical support is provided for any network-related connectivity issues.
-                </p>
-              </section>
-            </div>
+          <div className="max-w-4xl">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight uppercase animate-fade-in-up">
+              Air Biz <br className="hidden md:block" />
+              Terms & Conditions
+            </h1>
+            
+            <p 
+              className="text-xl md:text-2xl text-white/95 font-medium leading-relaxed opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "200ms", animationFillMode: "forwards" }}
+            >
+              Get connected wirelessly with confidence. Review our terms for Unifi Air Biz and download the official 5G service agreements.
+            </p>
           </div>
         </div>
+      </header>
 
-        <div className="text-center text-gray-400 text-sm">
-          <p>© {new Date().getFullYear()} TM Technology Services Sdn Bhd. Connecting businesses wirelessly.</p>
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-16">
+        <h2 className="text-2xl font-black text-gray-900 mb-10 text-center uppercase tracking-widest">
+          OFFICIAL DOCUMENTS
+        </h2>
+
+        <div className="grid gap-4">
+          {AIR_BIZ_TNC_DOCS.map((doc, index) => (
+            <div 
+              key={index}
+              className="group bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6"
+              style={{ 
+                animation: `fadeInUp 0.6s ease-out forwards`,
+                animationDelay: `${index * 50}ms`,
+                opacity: 0
+              }}
+            >
+              <div className="flex items-center gap-5 flex-1 w-full">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-orange-50 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-500 text-[#FF7A00]">
+                  <Scale className="w-6 h-6 md:w-7 md:h-7" />
+                </div>
+                <h2 className="text-lg md:text-xl font-extrabold text-gray-800 leading-tight group-hover:text-[#FF7A00] transition-colors duration-300 uppercase tracking-tight">
+                  {doc.title}
+                </h2>
+              </div>
+              
+              <a 
+                href={doc.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full md:w-auto inline-flex items-center justify-center px-8 py-4 bg-[#FF7A00] hover:bg-[#E66E00] text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-orange-100 hover:shadow-orange-200 group/btn"
+              >
+                <span>VIEW DOCUMENT</span>
+                <ExternalLink className="w-5 h-5 ml-3 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+              </a>
+            </div>
+          ))}
         </div>
-      </div>
+      </main>
+
+      
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 }

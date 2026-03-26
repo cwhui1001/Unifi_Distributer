@@ -211,8 +211,8 @@ export default function HomePage() {
         <section 
           className="relative text-white pt-2 pb-40 overflow-hidden innerHeroBanner z-10"
         >
-          {/* Vibrant Orange Gradient Background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#FFA200] via-[#FF7A00] to-[#D64400]"></div>
+          {/* Vibrant Orange to Blue Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#FFA200] via-[#FF7A00] to-[#1800E7]"></div>
           
           {/* Swooping Wave at the bottom matching the Unifi style */}
           <div className="absolute -bottom-1 left-0 w-full overflow-hidden leading-[0]">
@@ -707,7 +707,7 @@ export default function HomePage() {
 
       {/* Coverage Section */}
       <section className="relative pt-16 pb-28 md:pb-36 overflow-hidden z-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FFA200] via-[#FF7A00] to-[#D64400]"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FFA200] via-[#FF7A00] to-[#1800E7]"></div>
         
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 z-30 container text-center pt-6">
             <h2 className="text-[1.8rem] md:text-4xl lg:text-[2.8rem] font-black uppercase tracking-tight text-white mb-5 leading-[1.1] drop-shadow-sm px-2">

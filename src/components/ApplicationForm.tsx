@@ -172,23 +172,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
           </Link>
         </div>
 
-        {/* Notice Card */}
-        <div className="bg-orange-50/50 border-l-8 border-[#FF7A00] rounded-2xl p-6 md:p-8 max-w-4xl mx-auto shadow-sm animate-pulse-slow">
-          <div className="flex gap-4">
-            <AlertCircle className="w-8 h-8 text-[#FF7A00] shrink-0 mt-1" />
-            <div className="space-y-4">
-              <p className="text-gray-800 leading-relaxed">
-                Kindly be informed that we can only assist customers who want to do <strong className="text-[#1800E7]">NEW APPLICATION</strong>. For <strong>RELOCATION</strong>, <strong>COMPLAINTS</strong>, etc (<strong>EXISTING USER</strong>) please refer to <strong>careline 100</strong>.
-              </p>
-              <p className="text-gray-800 leading-relaxed italic">
-                Harap maklum bahawa kami hanya boleh membantu pelanggan yang mahu membuat <strong>PERMOHONAN BARU</strong> sahaja. Untuk pelanggan yang sedia ada, penempatan semula, aduan, lain-lain… Sila hubungi talian khidmat pelanggan <strong>100</strong>.
-              </p>
-              <p className="text-gray-800 leading-relaxed font-medium">
-                就此通知我们只能协助您办理<strong>申请新的配套</strong>。如您有其它关于搬家、投诉或是现有用户，可以联系我们客服热线 <strong>100</strong>。
-              </p>
-            </div>
-          </div>
-        </div>
+        
       </div>
 
       {/* Main Form Card */}

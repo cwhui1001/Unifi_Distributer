@@ -8,7 +8,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const navLinks = [
-    { name: "Home Plan", path: "/" },
+    { name: "Home", path: "/" },
     { name: "Business", path: "/business" },
     { name: "Postpaid", path: "/postpaid" },
   ];

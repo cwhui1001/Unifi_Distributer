@@ -283,19 +283,9 @@ export default function FixedIpPlans() {
       </div>
 
       <div className="mx-4 flex flex-col sm:flex-row items-center justify-center gap-6 py-12 border-t border-gray-200 xl:mx-28 2xl:mx-auto 2xl:px-8">
-        <a href="/tnc-and-faq/faq/business" target="_blank" rel="noopener noreferrer" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
+        <a href="/tncfaq/business/fixed-ip/faq/unifi_addon_fixed_ip_faq.pdf" target="_blank" rel="noopener noreferrer" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
           <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
             <span>View All FAQ</span>
-          </div>
-          <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
-          <div 
-            className="w-[48px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
-            style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
-          ></div>
-        </a>
-        <a href="/tnc-and-faq/tnc/business" target="_blank" rel="noopener noreferrer" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
-          <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
-            <span>View T&C</span>
           </div>
           <div className="w-[5px] bg-white z-10 shrink-0 shadow-sm"></div>
           <div 
