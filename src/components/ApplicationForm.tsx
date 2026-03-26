@@ -82,7 +82,19 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1];
+        resolve(base64String);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.accept1) {
       alert("Please accept the terms and conditions.");
@@ -90,12 +102,51 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     }
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Form Submitted:", { ...formData, ...files });
+    try {
+      // Prepare attachments if files are selected
+      const attachments = [];
+      if (files.mykad_front) {
+        const base64 = await fileToBase64(files.mykad_front);
+        attachments.push({
+          filename: `mykad_front_${formData["user-name"] || 'unnamed'}.${files.mykad_front.name.split('.').pop()}`,
+          content: base64,
+          encoding: 'base64'
+        });
+      }
+      if (files.mykad_back) {
+        const base64 = await fileToBase64(files.mykad_back);
+        attachments.push({
+          filename: `mykad_back_${formData["user-name"] || 'unnamed'}.${files.mykad_back.name.split('.').pop()}`,
+          content: base64,
+          encoding: 'base64'
+        });
+      }
+
+      const response = await fetch("/send-email.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formType: "Broadband Application",
+          formData,
+          attachments,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Form Submitted Successfully");
+        setIsSuccess(true);
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to send application: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("An unexpected error occurred. Please try again later.");
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 2000);
+    }
   };
 
   const inputClasses = "w-full bg-white border border-gray-200 rounded-xl px-4 py-3.5 text-gray-700 font-semibold focus:outline-none focus:ring-2 focus:ring-[#1800E7] focus:border-transparent transition-all duration-300 placeholder:text-gray-400 placeholder:font-medium";
