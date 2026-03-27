@@ -1,11 +1,10 @@
 <?php
 /**
  * PHP Script to handle form submissions for Hostinger (Static Export)
- * This script should be placed in the public/ folder of your Next.js project.
- * It will be exported to the out/ folder automatically during npm run build.
+ * This script handles both Broadband Applications and Coverage Check Requests.
  */
 
-// Allow cross-origin requests (for local testing and different domains)
+// Allow cross-origin requests
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -31,79 +30,163 @@ if (!$data || !isset($data['formType']) || !isset($data['formData'])) {
     exit;
 }
 
-$formType = $data['formType'];
+$formType = $data['formType']; // e.g. "Broadband Application", "Coverage Check Request", "Mobile Postpaid Application"
 $formData = $data['formData'];
 $attachments = $data['attachments'] ?? [];
 
 // CONFIGURATION
 $companyEmail = "sales@unifi-online.my";
-$fromEmail = "noreply@unifi-online.my"; // Hostinger usually requires this to be a real domain email
+$fromEmail = "autoreply@unifi-online.my"; 
 $customerEmail = $formData["user-email"] ?? $formData["email"] ?? "";
-
-// Prepare Email Body Text
-$emailContent = "New $formType Submission Received:\n\n";
-foreach ($formData as $key => $value) {
-    if ($key !== "accept1" && $key !== "user-email") {
-        // Humanize keys (e.g., user-name -> User Name)
+$customerName = $formData["user-name"] ?? "Customer";
+ 
+/**
+ * Helper to format data as HTML table rows
+ */
+function formatDataRows($data) {
+    $rows = "";
+    $skipKeys = ['accept1', 'user-email', 'attachments', 'formType'];
+    
+    foreach ($data as $key => $value) {
+        if (in_array($key, $skipKeys) || is_array($value) || is_bool($value)) continue;
+        
         $label = ucwords(str_replace(['-', '_'], ' ', $key));
-        $emailContent .= "$label: $value\n";
+        $displayValue = htmlspecialchars((string)$value);
+        
+        $rows .= "
+        <tr>
+            <td style='padding: 12px 10px; border-bottom: 1px solid #f0f0f0; width: 40%; font-weight: 700; color: #1800E7; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;'>$label</td>
+            <td style='padding: 12px 10px; border-bottom: 1px solid #f0f0f0; color: #333; font-weight: 600; font-size: 14px;'>$displayValue</td>
+        </tr>";
     }
+    return $rows;
 }
 
-// EMAIL 1: SEND TO COMPANY
-$subject = "[New $formType] - " . ($formData["user-name"] ?? "Customer Request");
+/**
+ * Main Template Wrapper
+ */
+function getEmailTemplate($title, $greeting, $introText, $rows, $isCustomer, $accentColor = "#FF7A00") {
+    $headerColor = "#1800E7";
+    $footerText = $isCustomer ? "Our registration team will verify your details and contact you within 24 business hours." : "Please process this request as soon as possible.";
+    
+    // Add a hidden preheader to help with spam filters
+    $preheader = $isCustomer ? "Thank you for your unifi request." : "New lead submission from Unifi Portal.";
+
+    $whatNext = $isCustomer ? "
+    <div style='margin-top: 40px; padding: 20px; background-color: #fff8f0; border-radius: 16px; border: 1px solid #ffeeda;'>
+        <p style='font-size: 14px; color: #9a6e3a; margin: 0; font-weight: 600; line-height: 1.5;'>
+            <strong>What's Next?</strong><br>
+            $footerText
+        </p>
+    </div>" : "<p style='font-size: 14px; color: #64748b; margin-top: 20px; text-align: center;'>$footerText</p>";
+
+    return "
+    <!DOCTYPE html>
+    <html lang='en'>
+    <head><meta charset='UTF-8'></head>
+    <body style='font-family: Arial, sans-serif; background-color: #f4f7f9; margin: 0; padding: 0;'>
+        <div style='display: none; max-height: 0px; overflow: hidden;'>$preheader</div>
+        <div style='max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #eef2f5;'>
+            <div style='background: $headerColor; padding: 30px; text-align: center;'>
+                <div style='display: inline-block; background: white; padding: 8px 16px; border-radius: 8px; margin-bottom: 15px;'>
+                    <span style='color: $accentColor; font-weight: 900; font-style: italic; font-size: 18px;'>unifi</span>
+                </div>
+                <h1 style='color: #ffffff; margin: 0; font-size: 20px; font-weight: bold; text-transform: uppercase;'>$title</h1>
+            </div>
+            <div style='padding: 30px;'>
+                <div style='margin-bottom: 30px;'>
+                    <h2 style='font-size: 18px; color: #111; margin: 0 0 10px 0;'>$greeting</h2>
+                    <p style='font-size: 14px; color: #444; margin: 0; line-height: 1.6;'>$introText</p>
+                </div>
+                <div style='background-color: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #f1f5f9;'>
+                    <table style='width: 100%;'>
+                        $rows
+                    </table>
+                </div>
+                $whatNext
+                <div style='margin-top: 40px; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 20px;'>
+                    <p style='font-size: 11px; color: #999;'>Sent from Unifi Authorized Distributer Portal</p>
+                </div>
+            </div>
+            <div style='background-color: #f8fafc; padding: 20px; text-align: center;'>
+                <p style='font-size: 10px; color: #999; margin: 0;'>&copy; " . date('Y') . " Unifi Online Sales Team</p>
+            </div>
+        </div>
+    </body>
+    </html>";
+}
+
+// Generate Email Content based on form type
+$isCoverage = (strpos($formType, 'Coverage') !== false);
+$rows = formatDataRows($formData);
+
+if ($isCoverage) {
+    $subjectLabel = "Coverage Check Request";
+    $companyGreeting = "New Coverage Verification Requested";
+    $companyIntro = "A potential customer wants to verify unifi availability at their location.";
+    $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
+    $customerIntro = "We've received your request to check unifi coverage at your address. Our team is looking into it now!";
+    $accentColor = "#9D50E5";
+} else {
+    $subjectLabel = "New Application";
+    $companyGreeting = "High Priority: New Application Received";
+    $companyIntro = "A new broadband application has been submitted. Please review the details below.";
+    $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
+    $customerIntro = "Thank you for applying for Unifi. We have received your application and documents for processing.";
+    $accentColor = "#FF7A00";
+}
+
+// Simple subject without brackets to avoid spam filters
+$subject = "$subjectLabel - $customerName";
+$htmlToCompany = getEmailTemplate($formType, $companyGreeting, $companyIntro, $rows, false, $accentColor);
+$htmlToCustomer = getEmailTemplate($formType, $customerGreeting, $customerIntro, $rows, true, $accentColor);
+
+// Prepare Clean Headers (Synchronized with working customer email)
 $boundary = md5(time());
-
-$headers = "From: $fromEmail\r\n";
-if ($customerEmail) {
-    $headers .= "Reply-To: $customerEmail\r\n";
-}
+$headers = "From: Unifi Distributer <$fromEmail>\r\n";
+$headers .= "Reply-To: $customerEmail\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
 
-// Multipart body
-$body = "--$boundary\r\n";
-$body .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-$body .= $emailContent . "\r\n";
+if (empty($attachments)) {
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $body = $htmlToCompany;
+} else {
+    $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+    $body = "--$boundary\r\n";
+    $body .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+    $body .= $htmlToCompany . "\r\n";
 
-// Add Attachments (Base64)
-foreach ($attachments as $att) {
-    $filename = $att['filename'];
-    $content = $att['content']; // This is the Base64 string from the frontend
-    
-    $body .= "--$boundary\r\n";
-    $body .= "Content-Type: application/octet-stream; name=\"$filename\"\r\n";
-    $body .= "Content-Description: $filename\r\n";
-    $body .= "Content-Disposition: attachment; filename=\"$filename\"; size=" . strlen($content) . ";\r\n";
-    $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
-    $body .= chunk_split($content) . "\r\n";
+    foreach ($attachments as $att) {
+        $filename = $att['filename'];
+        $content = $att['content'];
+        $body .= "--$boundary\r\n";
+        $body .= "Content-Type: application/octet-stream; name=\"$filename\"\r\n";
+        $body .= "Content-Disposition: attachment; filename=\"$filename\"\r\n";
+        $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
+        $body .= chunk_split($content) . "\r\n";
+    }
+    $body .= "--$boundary--";
 }
-$body .= "--$boundary--";
 
-// Execute send to company
-$mailToCompany = mail($companyEmail, $subject, $body, $headers);
+// Send to company
+$mailToCompany = mail($companyEmail, $subject, $body, $headers, "-f $fromEmail");
 
-// EMAIL 2: SEND TO CUSTOMER (Confirmation)
-if ($customerEmail && $mailToCompany) {
-    $custSubject = "Receipt: Your Unifi $formType request has been received";
-    $custHeaders = "From: $fromEmail\r\n";
-    $custHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
+// Send to customer (Using same logic that worked previously)
+if ($customerEmail) {
+    $custHeaders = "From: Unifi Distributer <$fromEmail>\r\n";
+    $custHeaders .= "Reply-To: $fromEmail\r\n";
+    $custHeaders .= "MIME-Version: 1.0\r\n";
+    $custHeaders .= "Content-Type: text/html; charset=UTF-8\r\n";
     
-    $custBody = "Hello " . ($formData["user-name"] ?? "Customer") . ",\n\n";
-    $custBody .= "Thank you for reaching out to us. Your $formType request has been successfully received and is being processed.\n\n";
-    $custBody .= "Summary of your submission:\n--------------------------\n";
-    $custBody .= $emailContent;
-    $custBody .= "\n--------------------------\n";
-    $custBody .= "Our team will contact you within 24 hours.\n\nBest regards,\nUnifi Online Sales Team";
-    
-    mail($customerEmail, $custSubject, $custBody, $custHeaders);
+    $custSubject = "Receipt We've received your $formType";
+    mail($customerEmail, $custSubject, $htmlToCustomer, $custHeaders, "-f $fromEmail");
 }
 
 if ($mailToCompany) {
-    echo json_encode(["message" => "Success: Application sent to $companyEmail"]);
+    echo json_encode(["message" => "Success: Details sent to $companyEmail"]);
 } else {
     http_response_code(500);
-    echo json_encode(["message" => "Error: Server failed to send email. Check Hostinger mail settings."]);
+    echo json_encode(["message" => "Error: System failed to send email. Ensure the server is configured correctly."]);
 }
 ?>

@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { 
   User, Mail, Phone, MapPin, Search, ChevronRight, Hash, Layers, Home, 
   Navigation, Globe, Send, CreditCard, Calendar, Package, Check, 
-  AlertCircle, Building2, Upload, FileText, CheckCircle2, X
+  AlertCircle, Building2, Upload, FileText, CheckCircle2, X, Smartphone
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { sendToWhatsApp } from "../utils/whatsapp";
 
 interface ApplicationFormProps {
   initialType: "home" | "business";
@@ -82,6 +83,13 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     }
   };
 
+  const removeFile = (name: "mykad_front" | "mykad_back") => {
+    setFiles(prev => ({ ...prev, [name]: null }));
+    // Also clear the file input value
+    const element = document.getElementById(name) as HTMLInputElement;
+    if (element) element.value = "";
+  };
+
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -100,6 +108,12 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
       alert("Please accept the terms and conditions.");
       return;
     }
+
+    if (!files.mykad_front || !files.mykad_back) {
+      alert("Please upload both the front and back side of your ID.");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -136,10 +150,27 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
 
       if (response.ok) {
         console.log("Form Submitted Successfully");
+        // Send to WhatsApp first before UI changes
+        const label = initialType === 'home' ? 'Home' : 'Business';
+        sendToWhatsApp(`Unifi ${label} Broadband Application`, formData);
         setIsSuccess(true);
       } else {
-        const errorData = await response.json();
-        alert(`Failed to send application: ${errorData.message}`);
+        let errorMessage = "Server error";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          errorMessage = "PHP script not found or server error (normal in local development).";
+        }
+
+        // Handle local testing fallback
+        if (window.location.hostname === "localhost") {
+          setIsSuccess(true);
+          const label = initialType === 'home' ? 'Home' : 'Business';
+          sendToWhatsApp(`Unifi ${label} Broadband Application (Fallback)`, formData);
+        } else {
+          alert(`Failed to send application: ${errorMessage}`);
+        }
       }
     } catch (error) {
       console.error("Submission error:", error);
@@ -168,6 +199,16 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
             Thank you for applying. Our agents will process your application and contact you within 24 hours to finalize details.
           </p>
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => {
+                const label = initialType === 'home' ? 'Home' : 'Business';
+                sendToWhatsApp(`Unifi ${label} Broadband Application`, formData);
+              }}
+              className="px-8 py-4 bg-green-500 text-white font-black rounded-full hover:bg-green-600 transition-all duration-300 shadow-xl shadow-green-200 uppercase tracking-widest text-sm flex items-center justify-center gap-2"
+            >
+              <Smartphone className="w-5 h-5" />
+              Chat on WhatsApp
+            </button>
             <Link 
               href="/"
               className="px-8 py-4 bg-[#1800E7] text-white font-black rounded-full hover:bg-[#0C00B3] transition-all duration-300 shadow-xl shadow-blue-200 uppercase tracking-widest text-sm"
@@ -394,7 +435,6 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                         className="hidden" 
                         onChange={handleFileChange}
                         accept="image/*,.pdf"
-                        required
                       />
                       <label 
                         htmlFor="mykad_front" 
@@ -402,18 +442,34 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                           files.mykad_front ? "border-green-200 bg-green-50" : "border-gray-200 hover:border-[#1800E7] hover:bg-blue-50/30"
                         }`}
                       >
-                        <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="flex items-center gap-3 overflow-hidden flex-1">
                           <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${files.mykad_front ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-400"}`}>
-                            <Upload className="w-4 h-4" />
+                            {files.mykad_front ? <CheckCircle2 className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
                           </div>
-                          <div className="flex flex-col overflow-hidden">
+                          <div className="flex flex-col overflow-hidden mr-auto">
                             <span className="text-[11px] font-black uppercase text-gray-400">FRONT SIDE</span>
                             <span className="text-sm font-bold text-gray-700 truncate">
                               {files.mykad_front ? files.mykad_front.name : "Choose File"}
                             </span>
                           </div>
+                          {files.mykad_front && (
+                            <button 
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                removeFile("mykad_front");
+                              }}
+                              className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-colors group/btn"
+                              title="Remove file"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          )}
                         </div>
-                        <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        {!files.mykad_front && (
+                          <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        )}
                       </label>
                     </div>
 
@@ -425,7 +481,6 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                         className="hidden" 
                         onChange={handleFileChange}
                         accept="image/*,.pdf"
-                        required
                       />
                       <label 
                         htmlFor="mykad_back" 
@@ -433,18 +488,34 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                           files.mykad_back ? "border-green-200 bg-green-50" : "border-gray-200 hover:border-[#1800E7] hover:bg-blue-50/30"
                         }`}
                       >
-                        <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="flex items-center gap-3 overflow-hidden flex-1">
                           <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${files.mykad_back ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-400"}`}>
-                            <Upload className="w-4 h-4" />
+                            {files.mykad_back ? <CheckCircle2 className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
                           </div>
-                          <div className="flex flex-col overflow-hidden">
+                          <div className="flex flex-col overflow-hidden mr-auto">
                             <span className="text-[11px] font-black uppercase text-gray-400">BACK SIDE</span>
                             <span className="text-sm font-bold text-gray-700 truncate">
                               {files.mykad_back ? files.mykad_back.name : "Choose File"}
                             </span>
                           </div>
+                          {files.mykad_back && (
+                            <button 
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                removeFile("mykad_back");
+                              }}
+                              className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-colors group/btn"
+                              title="Remove file"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          )}
                         </div>
-                        <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        {!files.mykad_back && (
+                          <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        )}
                       </label>
                     </div>
                   </div>
@@ -569,8 +640,10 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                   onChange={handleInputChange}
                   required
                 />
-                <div className="w-6 h-6 border-2 border-gray-300 rounded-lg peer-checked:bg-[#1800E7] peer-checked:border-[#1800E7] transition-all flex items-center justify-center group-hover:border-[#1800E7]">
-                  <Check className="w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity stroke-[4]" />
+                <div className="w-6 h-6 border-2 border-gray-300 rounded-lg bg-white peer-checked:bg-[#1800E7] peer-checked:border-[#1800E7] transition-all flex items-center justify-center group-hover:border-[#1800E7] shadow-sm">
+                  <svg className="hidden peer-checked:block w-4 h-4 peer-checked:text-white stroke-[4]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
               </div>
               <span className="text-gray-700 font-bold select-none leading-relaxed">

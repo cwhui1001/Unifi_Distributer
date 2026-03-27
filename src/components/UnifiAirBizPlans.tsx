@@ -33,18 +33,18 @@ export default function UnifiAirBizPlans() {
   ];
 
   return (
-    <div className="bg-white rounded-t-3xl md:py-8 relative mt-[4dvh] z-40 mx-auto md:mt-0">
+    <div className="bg-white rounded-t-3xl md:py-8 relative mt-[4dvh] z-40 w-full md:mt-0">
       <div>
-        <div className=" bottom-0 left-0 right-0 z-30 mx-auto hidden max-w-[1536px] md:block">
-          <div className="mx-auto w-4/5">
+        <div className=" bottom-0 left-0 right-0 z-30 mx-auto hidden max-w-7xl md:block">
+          <div className="mx-auto w-4/5 px-4 sm:px-6 lg:px-8">
             <div className="flex flex-row justify-center gap-4 xl:gap-8">
-              <Link href="/business" className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 font-hk rounded-none py-4 px-6 w-full h-auto font-bold bg-[#E6E6E6] text-tm-grey-500">
+              <Link href="/business/" className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 font-hk rounded-none py-4 px-6 w-full h-auto font-bold bg-[#E6E6E6] text-tm-grey-500">
                 <span className="text-sm">Unifi Business Broadband</span>
               </Link>
-              <Link href="/products/wireless-broadband-unifi-air" className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 font-hk rounded-none py-4 px-6 w-full h-auto font-bold border-x border-t-8 border-tm-cobalt-blue-600 bg-white text-tm-cobalt-blue-600">
+              <Link href="/products/wireless-broadband-unifi-air/" className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 font-hk rounded-none py-4 px-6 w-full h-auto font-bold border-x border-t-8 border-tm-cobalt-blue-600 bg-white text-tm-cobalt-blue-600">
                 <span className="text-sm">Unifi Air Biz</span>
               </Link>
-              <Link href="/products/fixed-ip" className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 font-hk rounded-none py-4 px-6 w-full h-auto font-bold bg-[#E6E6E6] text-tm-grey-500">
+              <Link href="/products/fixed-ip/" className="overflow-hidden inline-flex items-center justify-center whitespace-nowrap ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 mb-2 font-hk rounded-none py-4 px-6 w-full h-auto font-bold bg-[#E6E6E6] text-tm-grey-500">
                 <span className="text-sm">Fixed IP</span>
               </Link>
             </div>
@@ -52,7 +52,7 @@ export default function UnifiAirBizPlans() {
         </div>
       </div>
       
-      <div className="lg:mx-18 mx-4 max-w-[1536px] whitespace-pre-wrap py-8 text-tm-grey-900 md:mx-8 xl:mx-24 2xl:mx-auto 2xl:px-2 gap-8 flex flex-col md:flex-row">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 gap-8 flex flex-col md:flex-row">
         <div className="w-full text-tm-grey-900 md:w-1/3">
           <h2 className="uppercase text-3xl font-extrabold text-[#005B9F]">Connect Multiple Devices with Unifi Air Biz (Wireless Broadband)</h2>
           <div className="mt-4 text-gray-700">Converge all business connections with a simple, wireless portable broadband solution. Its ultra-easy setup ensures a seamless, friction-free experience from the moment you plug it in.</div>
@@ -99,15 +99,15 @@ export default function UnifiAirBizPlans() {
       </div>
       
       <div className="relative py-8">
-        <div className="lg:mx-18 mx-4 max-w-[1536px] py-8 md:mx-8 xl:mx-24 2xl:mx-auto">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-5 text-tm-grey-900">
             <h2 className="uppercase text-3xl font-extrabold text-[#005B9F]">Discover unifi air biz plans</h2>
             <p className="mt-4 text-gray-600">Reliable wireless broadband plans that enable next-level business growth</p>
           </div>
           <div className="w-full transition-all">
             <div>
-              <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden -mx-4 mt-4 px-4 md:mx-0 md:mt-0 md:px-0" style={{ scrollbarWidth: 'none' }}>
-                <div className="tableContent relative z-10 mr-auto w-full" id=":rag:">
+              <div className="overflow-x-auto [&::-webkit-scrollbar]:hidden mt-4 px-0" style={{ scrollbarWidth: 'none' }}>
+                <div className="tableContent relative z-10 mx-auto w-full" id=":rag:">
                   <div className="sticky-outer-wrapper tableHeader">
                     <div className="sticky-inner-wrapper" style={{ position: 'relative', top: '0px', zIndex: 100 }}>
                       <div className="flex flex-col [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
@@ -304,8 +304,8 @@ export default function UnifiAirBizPlans() {
           </div>
         </div>
       </div>
-      <div className="mx-4 flex flex-col sm:flex-row items-center justify-center gap-6 py-12 border-t border-gray-200 xl:mx-28 2xl:mx-auto 2xl:px-8">
-        <a href="/tnc-and-faq/faq/unifi-air-biz" target="_blank" rel="noopener noreferrer" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
+      <div className="mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 py-12 border-t border-gray-200 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Link href="/tnc-and-faq/faq/unifi-air-biz/" target="_blank" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full text-white no-underline">
           <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
             <span>View All FAQ</span>
           </div>
@@ -314,9 +314,9 @@ export default function UnifiAirBizPlans() {
             className="w-[48px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
             style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
           ></div>
-        </a>
+        </Link>
 
-        <a href="/tnc-and-faq/tnc/unifi-air-biz" target="_blank" rel="noopener noreferrer" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full">
+        <Link href="/tnc-and-faq/tnc/unifi-air-biz/" target="_blank" className="group cursor-pointer flex items-stretch h-[54px] w-full sm:w-auto min-w-[220px] decoration-transparent relative z-10 pointer-events-auto shadow-[0_5px_15px_rgba(24,0,231,0.2)] rounded-full text-white no-underline">
           <div className="flex-1 font-extrabold text-[15px] tracking-wide text-white transition-all rounded-l-full flex justify-center items-center outline-none bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-l-[2px] border-[#1800E7] group-hover:border-[#0C00B3] px-6">
             <span>View T&C</span>
           </div>
@@ -325,7 +325,7 @@ export default function UnifiAirBizPlans() {
             className="w-[48px] transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] border-y-[2px] border-r-[2px] border-[#1800E7] group-hover:border-[#0C00B3]"
             style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
           ></div>
-        </a>
+        </Link>
       </div>
     </div>
   );

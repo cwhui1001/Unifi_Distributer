@@ -29,8 +29,8 @@ export default function Footer() {
             <h3 className="font-bold text-lg mb-6 border-b border-blue-800 pb-2">Plans</h3>
             <ul className="space-y-4 text-sm">
               <li><Link href="/" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Home Broadband</Link></li>
-              <li><Link href="/business" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Business Broadband</Link></li>
-              <li><Link href="/postpaid" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Postpaid Mobile</Link></li>
+              <li><Link href="/business/" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Business Broadband</Link></li>
+              <li><Link href="/postpaid/" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Postpaid Mobile</Link></li>
             </ul>
           </div>
 
@@ -38,8 +38,8 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-6 border-b border-blue-800 pb-2">Support</h3>
             <ul className="space-y-4 text-sm">
-              <li><Link href="/check-coverage" className="text-blue-200 hover:text-white transition-colors">Check Coverage</Link></li>
-              <li><Link href="/installation-guide" className="text-blue-200 hover:text-white transition-colors">Installation Guide</Link></li>
+              <li><Link href="/check-coverage/" className="text-blue-200 hover:text-white transition-colors">Check Coverage</Link></li>
+              <li><Link href="/installation-guide/" className="text-blue-200 hover:text-white transition-colors">Installation Guide</Link></li>
               <li><a href="mailto:sales@unifi-online.my" className="text-blue-200 hover:text-white transition-colors">Contact Us</a></li>
             </ul>
           </div>
@@ -48,10 +48,8 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-6 border-b border-blue-800 pb-2">Legal</h3>
             <ul className="space-y-4 text-sm">
-              <li><a href="#" className="text-blue-200 hover:text-white transition-colors"></a></li>
-              <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Terms of Use</a></li>
-              <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Privacy Notice</a></li>
-              <li><a href="#" className="text-blue-200 hover:text-white transition-colors">Terms & Conditions</a></li>
+              <li><Link href="/tnc-and-faq/tnc/home/" className="text-blue-200 hover:text-white transition-colors">Terms & Conditions</Link></li>
+              <li><Link href="/tnc-and-faq/faq/home/" className="text-blue-200 hover:text-white transition-colors">Privacy Notice (FAQ)</Link></li>
             </ul>
           </div>
         </div>

@@ -3,9 +3,10 @@ import { useRouter } from "next/router";
 import { 
   User, Mail, Phone, MapPin, Search, ChevronRight, Hash, Layers, 
   Globe, Send, CreditCard, Package, Check, Smartphone, 
-  AlertCircle, Upload, CheckCircle2, RefreshCcw, Star
+  AlertCircle, Upload, CheckCircle2, RefreshCcw, Star, X
 } from "lucide-react";
 import Link from "next/link";
+import { sendToWhatsApp } from "../utils/whatsapp";
 
 export default function MobileApplicationForm() {
   const router = useRouter();
@@ -89,6 +90,12 @@ export default function MobileApplicationForm() {
     }
   };
 
+  const removeFile = (name: "mykad_front" | "mykad_back") => {
+    setFiles(prev => ({ ...prev, [name]: null }));
+    const element = document.getElementById(name) as HTMLInputElement;
+    if (element) element.value = "";
+  };
+
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -107,6 +114,12 @@ export default function MobileApplicationForm() {
       alert("Please accept the terms and conditions.");
       return;
     }
+
+    if (!files.mykad_front || !files.mykad_back) {
+      alert("Please upload both the front and back side of your ID.");
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -143,10 +156,25 @@ export default function MobileApplicationForm() {
 
       if (response.ok) {
         console.log("Mobile Application Submitted Successfully");
+        // Send to WhatsApp first
+        sendToWhatsApp("Mobile Postpaid Application", formData);
         setIsSuccess(true);
       } else {
-        const errorData = await response.json();
-        alert(`Failed to send mobile application: ${errorData.message}`);
+        let errorMessage = "Server error";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          errorMessage = "PHP script or server error (normal in local development).";
+        }
+
+        // Handle local testing fallback
+        if (window.location.hostname === "localhost") {
+          setIsSuccess(true);
+          sendToWhatsApp("Mobile Application (Fallback)", formData);
+        } else {
+          alert(`Failed to send mobile application: ${errorMessage}`);
+        }
       }
     } catch (error) {
       console.error("Mobile submission error:", error);
@@ -175,6 +203,13 @@ export default function MobileApplicationForm() {
             Awesome! Your Unifi Mobile application has been received. Our team will verify your details and contact you for the next steps.
           </p>
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => sendToWhatsApp("Mobile Postpaid Application", formData)}
+              className="px-8 py-4 bg-green-500 text-white font-black rounded-full hover:bg-green-600 transition-all duration-300 shadow-xl shadow-green-200 uppercase tracking-widest text-sm flex items-center justify-center gap-2"
+            >
+              <Smartphone className="w-5 h-5" />
+              Chat on WhatsApp
+            </button>
             <Link 
               href="/postpaid"
               className="px-8 py-4 bg-[#1800E7] text-white font-black rounded-full hover:bg-[#0C00B3] transition-all duration-300 shadow-xl shadow-blue-200 uppercase tracking-widest text-sm"
@@ -379,7 +414,6 @@ export default function MobileApplicationForm() {
                         className="hidden" 
                         onChange={handleFileChange}
                         accept="image/*,.pdf"
-                        required
                       />
                       <label 
                         htmlFor="mykad_front" 
@@ -387,18 +421,34 @@ export default function MobileApplicationForm() {
                           files.mykad_front ? "border-green-200 bg-green-50" : "border-gray-200 hover:border-[#1800E7] hover:bg-blue-50/30"
                         }`}
                       >
-                        <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="flex items-center gap-3 overflow-hidden flex-1">
                           <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${files.mykad_front ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-400"}`}>
-                            <Upload className="w-4 h-4" />
+                            {files.mykad_front ? <CheckCircle2 className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
                           </div>
-                          <div className="flex flex-col overflow-hidden">
+                          <div className="flex flex-col overflow-hidden mr-auto">
                             <span className="text-[11px] font-black uppercase text-gray-400">FRONT SIDE</span>
                             <span className="text-sm font-bold text-gray-700 truncate">
                               {files.mykad_front ? files.mykad_front.name : "Choose File"}
                             </span>
                           </div>
+                          {files.mykad_front && (
+                            <button 
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                removeFile("mykad_front");
+                              }}
+                              className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-colors group/btn"
+                              title="Remove file"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          )}
                         </div>
-                        <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        {!files.mykad_front && (
+                          <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        )}
                       </label>
                     </div>
 
@@ -410,7 +460,6 @@ export default function MobileApplicationForm() {
                         className="hidden" 
                         onChange={handleFileChange}
                         accept="image/*,.pdf"
-                        required
                       />
                       <label 
                         htmlFor="mykad_back" 
@@ -418,18 +467,34 @@ export default function MobileApplicationForm() {
                           files.mykad_back ? "border-green-200 bg-green-50" : "border-gray-200 hover:border-[#1800E7] hover:bg-blue-50/30"
                         }`}
                       >
-                        <div className="flex items-center gap-3 overflow-hidden">
+                        <div className="flex items-center gap-3 overflow-hidden flex-1">
                           <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${files.mykad_back ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-400"}`}>
-                            <Upload className="w-4 h-4" />
+                            {files.mykad_back ? <CheckCircle2 className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
                           </div>
-                          <div className="flex flex-col overflow-hidden">
+                          <div className="flex flex-col overflow-hidden mr-auto">
                             <span className="text-[11px] font-black uppercase text-gray-400">BACK SIDE</span>
                             <span className="text-sm font-bold text-gray-700 truncate">
                               {files.mykad_back ? files.mykad_back.name : "Choose File"}
                             </span>
                           </div>
+                          {files.mykad_back && (
+                            <button 
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                removeFile("mykad_back");
+                              }}
+                              className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-colors group/btn"
+                              title="Remove file"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          )}
                         </div>
-                        <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        {!files.mykad_back && (
+                          <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                        )}
                       </label>
                     </div>
                   </div>
@@ -549,8 +614,10 @@ export default function MobileApplicationForm() {
                   onChange={handleInputChange}
                   required
                 />
-                <div className="w-6 h-6 border-2 border-gray-300 rounded-lg peer-checked:bg-[#1800E7] peer-checked:border-[#1800E7] transition-all flex items-center justify-center group-hover:border-[#1800E7]">
-                  <Check className="w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity stroke-[4]" />
+                <div className="w-6 h-6 border-2 border-gray-300 rounded-lg bg-white peer-checked:bg-[#1800E7] peer-checked:border-[#1800E7] transition-all flex items-center justify-center group-hover:border-[#1800E7] shadow-sm">
+                  <svg className="hidden peer-checked:block w-4 h-4 peer-checked:text-white stroke-[4]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
                 </div>
               </div>
               <span className="text-gray-700 font-bold select-none leading-relaxed">

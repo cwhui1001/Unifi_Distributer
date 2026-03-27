@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { User, Mail, Phone, Building2, MapPin, Search, ChevronRight, Hash, Layers, Home, Navigation, Globe, Send } from "lucide-react";
+import Link from "next/link";
+import { User, Mail, Phone, Building2, MapPin, Search, ChevronRight, Hash, Layers, Home, Navigation, Globe, Send, Smartphone } from "lucide-react";
 
 export default function CoverageForm() {
   const [formData, setFormData] = useState({
@@ -44,9 +45,28 @@ export default function CoverageForm() {
       if (response.ok) {
         console.log("Coverage form submitted successfully");
         setIsSuccess(true);
+        // Also send to WhatsApp
+        import("../utils/whatsapp").then(({ sendToWhatsApp }) => {
+          sendToWhatsApp("Coverage Check Request", formData);
+        });
       } else {
-        const errorData = await response.json();
-        alert(`Failed to submit request: ${errorData.message}`);
+        let errorMessage = "Server error";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          errorMessage = "PHP script not found or server error (this is normal in local development).";
+        }
+        
+        // Even if email fails locally, we can still trigger WhatsApp for testing
+        if (window.location.hostname === "localhost") {
+          setIsSuccess(true);
+          import("../utils/whatsapp").then(({ sendToWhatsApp }) => {
+            sendToWhatsApp("Coverage Check Request (Fallback)", formData);
+          });
+        } else {
+          alert(`Failed to submit request: ${errorMessage}`);
+        }
       }
     } catch (error) {
       console.error("Submission error:", error);
@@ -71,12 +91,25 @@ export default function CoverageForm() {
         <p className="text-gray-600 text-lg font-medium max-w-md mx-auto leading-relaxed">
           Thank you for checking your coverage. Our team will verify your location and get back to you within 24 hours.
         </p>
-        <button 
-          onClick={() => setIsSuccess(false)}
-          className="mt-10 px-8 py-4 bg-[#1800E7] text-white font-black rounded-full hover:bg-[#0C00B3] transition-all duration-300 shadow-lg shadow-blue-200 uppercase tracking-widest text-sm"
-        >
-          Verify Another Address
-        </button>
+        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+          <button 
+            onClick={() => {
+              import("../utils/whatsapp").then(({ sendToWhatsApp }) => {
+                sendToWhatsApp("Coverage Check Request", formData);
+              });
+            }}
+            className="px-8 py-4 bg-green-500 text-white font-black rounded-full hover:bg-green-600 transition-all duration-300 shadow-xl shadow-green-200 uppercase tracking-widest text-sm flex items-center justify-center gap-2"
+          >
+            <Smartphone className="w-5 h-5" />
+            Chat on WhatsApp
+          </button>
+          <button 
+            onClick={() => setIsSuccess(false)}
+            className="px-8 py-4 bg-[#1800E7] text-white font-black rounded-full hover:bg-[#0C00B3] transition-all duration-300 shadow-xl shadow-blue-200 uppercase tracking-widest text-sm"
+          >
+            Verify Another Address
+          </button>
+        </div>
       </div>
     );
   }
@@ -317,11 +350,12 @@ export default function CoverageForm() {
                       <option value="Symphonet">Symphonet</option>
                       <option value="Others">Others</option>
                     </select>
-                    <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />
                   </div>
                 </div>
               </div>
             </div>
+
+            
 
             <div className="pt-8">
               <button

@@ -335,7 +335,7 @@ export default function PostpaidPlans() {
                 <div className="p-8 pt-6 flex-1 flex flex-col">
                   {/* Plan Name & Speed */}
                   <div className="mb-6">
-                    <h3 className="text-3xl font-black text-gray-900 leading-tight">
+                    <h3 className="text-2xl font-black text-gray-900 leading-tight">
                       {plan.name}
                     </h3>
                     <div className="text-gray-900 font-bold mt-1">
