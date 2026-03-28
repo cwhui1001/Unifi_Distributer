@@ -34,7 +34,7 @@ $formType = $data['formType']; // e.g. "Broadband Application", "Coverage Check 
 $formData = $data['formData'];
 $attachments = $data['attachments'] ?? [];
 
-// CONFIGURATION
+// Configuration
 $companyEmail = "sales@unifi-online.my";
 $fromEmail = "autoreply@unifi-online.my"; 
 $customerEmail = $formData["user-email"] ?? $formData["email"] ?? "";
@@ -69,9 +69,6 @@ function getEmailTemplate($title, $greeting, $introText, $rows, $isCustomer, $ac
     $headerColor = "#1800E7";
     $footerText = $isCustomer ? "Our registration team will verify your details and contact you within 24 business hours." : "Please process this request as soon as possible.";
     
-    // Add a hidden preheader to help with spam filters
-    $preheader = $isCustomer ? "Thank you for your unifi request." : "New lead submission from Unifi Portal.";
-
     $whatNext = $isCustomer ? "
     <div style='margin-top: 40px; padding: 20px; background-color: #fff8f0; border-radius: 16px; border: 1px solid #ffeeda;'>
         <p style='font-size: 14px; color: #9a6e3a; margin: 0; font-weight: 600; line-height: 1.5;'>
@@ -85,7 +82,6 @@ function getEmailTemplate($title, $greeting, $introText, $rows, $isCustomer, $ac
     <html lang='en'>
     <head><meta charset='UTF-8'></head>
     <body style='font-family: Arial, sans-serif; background-color: #f4f7f9; margin: 0; padding: 0;'>
-        <div style='display: none; max-height: 0px; overflow: hidden;'>$preheader</div>
         <div style='max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #eef2f5;'>
             <div style='background: $headerColor; padding: 30px; text-align: center;'>
                 <div style='display: inline-block; background: white; padding: 8px 16px; border-radius: 8px; margin-bottom: 15px;'>
@@ -99,13 +95,13 @@ function getEmailTemplate($title, $greeting, $introText, $rows, $isCustomer, $ac
                     <p style='font-size: 14px; color: #444; margin: 0; line-height: 1.6;'>$introText</p>
                 </div>
                 <div style='background-color: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #f1f5f9;'>
-                    <table style='width: 100%;'>
+                    <table style='width: 100%; border-collapse: collapse;'>
                         $rows
                     </table>
                 </div>
                 $whatNext
                 <div style='margin-top: 40px; text-align: center; border-top: 1px solid #f1f5f9; padding-top: 20px;'>
-                    <p style='font-size: 11px; color: #999;'>Sent from Unifi Authorized Distributer Portal</p>
+                    <p style='font-size: 11px; color: #999;'>Sent from Unifi Authorized Distributor Portal</p>
                 </div>
             </div>
             <div style='background-color: #f8fafc; padding: 20px; text-align: center;'>
@@ -121,41 +117,45 @@ $isCoverage = (strpos($formType, 'Coverage') !== false);
 $rows = formatDataRows($formData);
 
 if ($isCoverage) {
-    $subjectLabel = "Coverage Check Request";
+    $subjectLabel = "Coverage Inquiry"; // Changed from 'Request' to be less 'spammy'
     $companyGreeting = "New Coverage Verification Requested";
     $companyIntro = "A potential customer wants to verify unifi availability at their location.";
     $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
     $customerIntro = "We've received your request to check unifi coverage at your address. Our team is looking into it now!";
     $accentColor = "#9D50E5";
 } else {
-    $subjectLabel = "New Application";
-    $companyGreeting = "High Priority: New Application Received";
+    $subjectLabel = "New Application"; // Changed from 'New Application'
+    $companyGreeting = "New Application Received";
     $companyIntro = "A new broadband application has been submitted. Please review the details below.";
     $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
     $customerIntro = "Thank you for applying for Unifi. We have received your application and documents for processing.";
     $accentColor = "#FF7A00";
 }
 
-// Simple subject without brackets to avoid spam filters
-$subject = "$subjectLabel - $customerName";
+// Improved Subject
+$subject = "[$subjectLabel] $customerName"; 
 $htmlToCompany = getEmailTemplate($formType, $companyGreeting, $companyIntro, $rows, false, $accentColor);
 $htmlToCustomer = getEmailTemplate($formType, $customerGreeting, $customerIntro, $rows, true, $accentColor);
 
-// Prepare Clean Headers (Synchronized with working customer email)
-$boundary = md5(time());
-$headers = "From: Unifi Distributer <$fromEmail>\r\n";
+// Prepare Clean Headers
+$boundary = "PHP-mixed-" . md5(time());
+$headers = "From: Unifi Distributor <$fromEmail>\r\n";
 $headers .= "Reply-To: $customerEmail\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
+$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+$headers .= "X-Priority: 1 (Highest)\r\n";
+$headers .= "Importance: High\r\n";
 
 if (empty($attachments)) {
     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     $body = $htmlToCompany;
 } else {
     $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+    
     $body = "--$boundary\r\n";
     $body .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $body .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-    $body .= $htmlToCompany . "\r\n";
+    $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+    $body .= $htmlToCompany . "\r\n\r\n";
 
     foreach ($attachments as $att) {
         $filename = $att['filename'];
@@ -172,14 +172,15 @@ if (empty($attachments)) {
 // Send to company
 $mailToCompany = mail($companyEmail, $subject, $body, $headers, "-f $fromEmail");
 
-// Send to customer (Using same logic that worked previously)
+// Send to customer
 if ($customerEmail) {
-    $custHeaders = "From: Unifi Distributer <$fromEmail>\r\n";
+    $custHeaders = "From: Unifi Distributor <$fromEmail>\r\n";
     $custHeaders .= "Reply-To: $fromEmail\r\n";
     $custHeaders .= "MIME-Version: 1.0\r\n";
+    $custHeaders .= "X-Mailer: PHP/" . phpversion() . "\r\n";
     $custHeaders .= "Content-Type: text/html; charset=UTF-8\r\n";
     
-    $custSubject = "Receipt We've received your $formType";
+    $custSubject = "Confirmation: We've received your $formType";
     mail($customerEmail, $custSubject, $htmlToCustomer, $custHeaders, "-f $fromEmail");
 }
 

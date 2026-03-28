@@ -623,11 +623,7 @@ export default function HomePage() {
                         <div className="mb-4 rounded-[0.85rem] border border-gray-200 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex flex-col relative">
                           <div className="bg-gradient-to-r from-[#FF7A00] via-[#9D50E5] to-[#1800E7] text-white text-[16px] font-extrabold px-4 py-2.5 relative rounded-t-[0.85rem]">
                             Get Add-Ons
-                            {isAnyAddonSelected && (
-                              <div className="absolute -top-[60px] -right-2 w-24 h-auto">
-                                <img src="/images/tng_voucher_promo.png" alt="RM30 Touch N Go Voucher" className="w-full h-auto object-contain drop-shadow-md" />
-                              </div>
-                            )}
+                            
                           </div>
                           <div className="bg-white p-3 pt-3">
                             <div className="text-[14px] font-extrabold text-black mb-2.5">Optional Bundle (Select One):</div>
