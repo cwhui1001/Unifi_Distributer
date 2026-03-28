@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Head from "next/head";
-import { CheckCircle2, Zap, Home, ShieldCheck, ChevronDown, ChevronLeft, ChevronRight, ArrowUpDown, Router, Headset } from "lucide-react";
+import { CheckCircle2, Zap, Home, ShieldCheck, ChevronDown, ChevronLeft, ChevronRight, ArrowUpDown, Router, Headset, X } from "lucide-react";
 import Link from "next/link";
 import HomeFAQ from "@/components/HomeFAQ";
 
@@ -35,10 +35,62 @@ export default function HomePage() {
   const toggleSelectedAddon = (e: React.MouseEvent, planIndex: number, addonIndex: number) => {
     e.stopPropagation();
     const key = `${planIndex}-${addonIndex}`;
-    setSelectedAddons(prev => ({ ...prev, [key]: !prev[key] }));
+    setSelectedAddons(prev => {
+      const newState = { ...prev };
+      const isCurrentlySelected = !!prev[key];
+      
+      // Deselect all others for this specific plan
+      plans[planIndex].addOns.forEach((_, i) => {
+        newState[`${planIndex}-${i}`] = false;
+      });
+
+      // Toggle current only if it wasn't already selected (making it genuinely exclusive toggle)
+      if (!isCurrentlySelected) {
+        newState[key] = true;
+      }
+      
+      return newState;
+    });
   };
 
+  const [isWinbackPopupOpen, setIsWinbackPopupOpen] = useState(false);
+  const [hasWinbackPopupShown, setHasWinbackPopupShown] = useState(false);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasWinbackPopupShown) {
+            setIsWinbackPopupOpen(true);
+            setHasWinbackPopupShown(true);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    const winbackSection = document.getElementById("winback-section");
+    if (winbackSection) {
+      observer.observe(winbackSection);
+    }
+
+    return () => {
+      if (winbackSection) {
+        observer.unobserve(winbackSection);
+      }
+    };
+  }, [hasWinbackPopupShown]);
+
+  useEffect(() => {
+    if (isWinbackPopupOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isWinbackPopupOpen]);
   const scrollLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: -380, behavior: 'smooth' });
@@ -145,6 +197,9 @@ export default function HomePage() {
       saveForever: "Save RM10/month forever",
       price: "89",
       slashedPrice: "RRP RM99/mth",
+      priceWithAddon: "118.90",
+      slashedPriceWithAddon: "RRP RM128.90/mth",
+      saveWithAddon: "Save RM10",
     },
     {
       speed: "300 Mbps",
@@ -158,6 +213,9 @@ export default function HomePage() {
       saveForever: "Save RM10/month forever",
       price: "129",
       slashedPrice: "RRP RM139/mth",
+      priceWithAddon: "132",
+      slashedPriceWithAddon: "RRP RM165.90/mth",
+      saveWithAddon: "Save RM26.90",
     },
     {
       speed: "500 Mbps",
@@ -171,6 +229,9 @@ export default function HomePage() {
       saveForever: "Save RM10/month forever",
       price: "149",
       slashedPrice: "RRP RM159/mth",
+      priceWithAddon: "203.90",
+      slashedPriceWithAddon: "RRP RM208.90/mth",
+      saveWithAddon: "Save RM5",
     },
     {
       speed: "1 Gbps",
@@ -184,6 +245,9 @@ export default function HomePage() {
       saveForever: null,
       price: "249",
       slashedPrice: "RRP RM289/mth",
+      priceWithAddon: "293.90",
+      slashedPriceWithAddon: "RRP RM338.90/mth",
+      saveWithAddon: null,
     },
     {
       speed: "2 Gbps",
@@ -197,6 +261,9 @@ export default function HomePage() {
       saveForever: null,
       price: "319",
       slashedPrice: null,
+      priceWithAddon: "363.90",
+      slashedPriceWithAddon: "RRP RM368.90/mth",
+      saveWithAddon: "Save RM5",
     }
   ];
 
@@ -270,7 +337,7 @@ export default function HomePage() {
       <section className="py-8 bg-gray-50 relative">
         <div className="max-w-[1350px] mx-auto relative px-2 sm:px-6 lg:px-8">
           {/* WINBACK SPECIAL PROMO SECTION */}
-          <div className="mb-10 px-4 sm:px-0">
+          <div id="winback-section" className="mb-10 px-4 sm:px-0 scroll-mt-24">
             <div className="text-center mb-10">
               <h2 className="text-3xl md:text-[2.5rem] font-black tracking-tight leading-none uppercase">
                 <span className="text-[#FF7A00]">Unifi </span>
@@ -473,13 +540,20 @@ export default function HomePage() {
               }
             `}</style>
 
-            {plans.map((plan, index) => (
-              <div 
-                key={index} 
-                className={`flex-none w-[85vw] sm:w-[350px] snap-center h-auto flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
-                  plan.bestSeller ? 'z-10' : ''
-                }`}
-              >
+            {plans.map((plan, index) => {
+              const isAnyAddonSelected = plan.addOns.some((_, i) => selectedAddons[`${index}-${i}`]);
+              const currentPrice = isAnyAddonSelected ? (plan.priceWithAddon || plan.price) : plan.price;
+              const currentSlashed = isAnyAddonSelected ? (plan.slashedPriceWithAddon || plan.slashedPrice) : plan.slashedPrice;
+              const currentLimitedOffer = isAnyAddonSelected ? plan.saveWithAddon : plan.limitedOffer;
+              const show3MonthFree = plan.has3MonthFree && !isAnyAddonSelected;
+
+              return (
+                <div 
+                  key={index} 
+                  className={`flex-none w-[85vw] sm:w-[350px] snap-center h-auto flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
+                    plan.bestSeller ? 'z-10' : ''
+                  }`}
+                >
                 {/* Header Slot Spacer - Ensures Tops Align */}
                 <div className="w-full shrink-0 relative z-0 flex flex-col justify-end" style={{ height: '42px' }}>
                   {plan.bestSeller && (
@@ -501,7 +575,7 @@ export default function HomePage() {
                     <div className={`bg-orange-50 text-orange-600 text-[11px] font-bold px-4 py-[6px] rounded-br-[1rem] ${plan.bestSeller ? '' : 'rounded-tl-[1.25rem]'}`}>
                       {plan.label}
                     </div>
-                    {plan.has3MonthFree && (
+                    {show3MonthFree && (
                       <div className={`bg-gradient-to-r from-[#FF7A00] to-[#1800E7] text-white text-[11px] font-extrabold px-3 py-[6px] rounded-bl-[1rem] ${plan.bestSeller ? '' : 'rounded-tr-[1.25rem]'}`}>
                         3 Month Free
                       </div>
@@ -546,9 +620,14 @@ export default function HomePage() {
 
                     {/* Add-Ons Box */}
                       {plan.addOns.length > 0 && (
-                        <div className="mb-4 rounded-[0.85rem] border border-gray-200 overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex flex-col">
-                          <div className="bg-gradient-to-r from-[#FF7A00] via-[#9D50E5] to-[#1800E7] text-white text-[16px] font-extrabold px-4 py-2.5">
-                            Get Add-Ons. Get a voucher.
+                        <div className="mb-4 rounded-[0.85rem] border border-gray-200 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex flex-col relative">
+                          <div className="bg-gradient-to-r from-[#FF7A00] via-[#9D50E5] to-[#1800E7] text-white text-[16px] font-extrabold px-4 py-2.5 relative rounded-t-[0.85rem]">
+                            Get Add-Ons
+                            {isAnyAddonSelected && (
+                              <div className="absolute -top-[60px] -right-2 w-24 h-auto">
+                                <img src="/images/tng_voucher_promo.png" alt="RM30 Touch N Go Voucher" className="w-full h-auto object-contain drop-shadow-md" />
+                              </div>
+                            )}
                           </div>
                           <div className="bg-white p-3 pt-3">
                             <div className="text-[14px] font-extrabold text-black mb-2.5">Optional Bundle (Select One):</div>
@@ -649,9 +728,9 @@ export default function HomePage() {
 
                     {/* Pricing */}
                     <div className="flex flex-col mt-4">
-                      {plan.limitedOffer ? (
+                      {currentLimitedOffer ? (
                         <div className="bg-[#FF6A00] text-white font-bold text-[11px] px-3 py-[3px] rounded-full inline-flex self-start mb-3 shadow-sm">
-                          {plan.limitedOffer}
+                          {currentLimitedOffer}
                         </div>
                       ) : (
                          <div className="h-[26px] mb-3"></div>
@@ -660,15 +739,21 @@ export default function HomePage() {
                       <div className="flex items-end gap-[2px] mb-1">
                         <span className="text-[1.5rem] font-black text-[#1800E7] leading-none mb-[2px] tracking-tight">RM</span>
                         <span className="text-[3rem] font-black text-[#1800E7] leading-none tracking-tighter">
-                          {plan.price}
+                          {currentPrice}
                         </span>
                         <span className="text-black font-extrabold text-[12px] mb-[6px] ml-[2px]">/mth</span>
-                        {plan.slashedPrice && (
-                          <span className="text-[#FF7A00] font-bold text-[11px] line-through ml-2 mb-[6px]">{plan.slashedPrice}</span>
+                        {currentSlashed && (
+                          <span className="text-[#FF7A00] font-bold text-[11px] line-through ml-2 mb-[6px]">{currentSlashed}</span>
                         )}
                       </div>
                       
-                      {plan.saveForever ? (
+                      {isAnyAddonSelected && (
+                        <div className="text-[11px] font-bold text-gray-500 mb-1">
+                          For the first 24 months
+                        </div>
+                      )}
+                      
+                      {plan.saveForever && !isAnyAddonSelected ? (
                         <div className="bg-[#EEF2FF] text-[#1800E7] font-extrabold text-[11px] px-3 py-1.5 rounded-[6px] inline-flex self-start mt-1 relative">
                           {plan.saveForever}
                         </div>
@@ -699,7 +784,8 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+          })}
             </div>
           </div>
         </div>
@@ -817,6 +903,31 @@ export default function HomePage() {
       </section>
 
       <HomeFAQ />
+
+      {/* Winback Popup */}
+      {isWinbackPopupOpen && (
+        <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/70 backdrop-blur-md animate-in fade-in duration-500" 
+            onClick={() => setIsWinbackPopupOpen(false)}
+          />
+          <div className="relative w-full max-w-[400px] max-h-[90vh] overflow-y-auto bg-white rounded-[2rem] shadow-[0_50px_100px_rgba(0,0,0,0.5)] animate-in zoom-in slide-in-from-bottom-12 duration-500 border-4 border-[#FF7A00]">
+            <button 
+              onClick={() => setIsWinbackPopupOpen(false)}
+              className="absolute top-4 right-4 z-[10002] p-2 bg-white/90 rounded-full shadow-lg border border-gray-100 text-[#FF7A00] hover:scale-110 transition-all duration-300"
+            >
+              <X className="w-5 h-5 stroke-[3]" />
+            </button>
+            <div className="w-full h-auto flex flex-col">
+              <img 
+                src="/images/winback-popup.jpeg" 
+                alt="Winback Special Promo" 
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

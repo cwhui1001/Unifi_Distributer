@@ -46,9 +46,11 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
   const [files, setFiles] = useState<{
     mykad_front: File | null;
     mykad_back: File | null;
+    utility_bill: File | null;
   }>({
     mykad_front: null,
     mykad_back: null,
+    utility_bill: null,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -83,7 +85,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     }
   };
 
-  const removeFile = (name: "mykad_front" | "mykad_back") => {
+  const removeFile = (name: "mykad_front" | "mykad_back" | "utility_bill") => {
     setFiles(prev => ({ ...prev, [name]: null }));
     // Also clear the file input value
     const element = document.getElementById(name) as HTMLInputElement;
@@ -131,6 +133,14 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
         const base64 = await fileToBase64(files.mykad_back);
         attachments.push({
           filename: `mykad_back_${formData["user-name"] || 'unnamed'}.${files.mykad_back.name.split('.').pop()}`,
+          content: base64,
+          encoding: 'base64'
+        });
+      }
+      if (files.utility_bill) {
+        const base64 = await fileToBase64(files.utility_bill);
+        attachments.push({
+          filename: `utility_bill_${formData["user-name"] || 'unnamed'}.${files.utility_bill.name.split('.').pop()}`,
           content: base64,
           encoding: 'base64'
         });
@@ -517,6 +527,55 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                           <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
                         )}
                       </label>
+                    </div>
+
+                    <div className={groupClasses + " mt-4 md:mt-2"}>
+                      <label className={labelClasses}>Attach water bill / electric bill / tenancy agreement</label>
+                      <div className="relative">
+                        <input 
+                          type="file" 
+                          id="utility_bill" 
+                          name="utility_bill" 
+                          className="hidden" 
+                          onChange={handleFileChange}
+                          accept="image/*,.pdf"
+                        />
+                        <label 
+                          htmlFor="utility_bill" 
+                          className={`flex items-center justify-between px-4 py-3 border-2 border-dashed rounded-xl cursor-pointer transition-all ${
+                            files.utility_bill ? "border-green-200 bg-green-50" : "border-gray-200 hover:border-[#1800E7] hover:bg-blue-50/30"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3 overflow-hidden flex-1">
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${files.utility_bill ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-400"}`}>
+                              {files.utility_bill ? <CheckCircle2 className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
+                            </div>
+                            <div className="flex flex-col overflow-hidden mr-auto">
+                              <span className="text-[11px] font-black uppercase text-gray-400">SUPPORTING DOC</span>
+                              <span className="text-sm font-bold text-gray-700 truncate">
+                                {files.utility_bill ? files.utility_bill.name : "Choose File"}
+                              </span>
+                            </div>
+                            {files.utility_bill && (
+                              <button 
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  removeFile("utility_bill");
+                                }}
+                                className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-colors group/btn"
+                                title="Remove file"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            )}
+                          </div>
+                          {!files.utility_bill && (
+                            <div className="px-3 py-1 bg-white border border-gray-200 rounded-lg text-[10px] font-black text-gray-500 uppercase">Browse</div>
+                          )}
+                        </label>
+                      </div>
                     </div>
                   </div>
                   <p className="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-wider">Supports JPG / PNG / PDF, maximum 5MB per file</p>

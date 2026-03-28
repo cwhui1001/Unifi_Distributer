@@ -9,16 +9,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 lg:gap-12 mb-12">
           {/* Brand Col */}
           <div className="space-y-6 md:col-span-1">
-            <Link href="/" className="flex items-center group inline-flex mb-2">
-              <img 
-                src="/images/unifi.svg" 
-                alt="logo" 
-                className="mr-2 brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity" 
-                width="121" 
-                height="39" 
-                id="unifiLogo-footer" 
-              />
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link href="/" className="flex items-center group inline-flex mb-2">
+                <img 
+                src="/images/unifi-logo2.png" 
+                alt="logo 2" 
+                className="h-8 md:h-10 w-auto mb-2" 
+                id="unifiLogo2-footer" 
+                /> 
+              </Link>
+            </div>
             <p className="text-blue-100 text-sm leading-relaxed max-w-xs">
               Experience lighting-fast internet, endless entertainment with Unifi TV, and uninterrupted connectivity with our all-new postpaid plans.
             </p>
@@ -49,15 +49,19 @@ export default function Footer() {
             <h3 className="font-bold text-lg mb-6 border-b border-blue-800 pb-2">Legal</h3>
             <ul className="space-y-4 text-sm">
               <li><Link href="/tnc-and-faq/tnc/home/" className="text-blue-200 hover:text-white transition-colors">Terms & Conditions</Link></li>
-              <li><Link href="/tnc-and-faq/faq/home/" className="text-blue-200 hover:text-white transition-colors">Privacy Notice (FAQ)</Link></li>
+              <li><Link href="/tnc-and-faq/faq/home/" className="text-blue-200 hover:text-white transition-colors">Frequently Asked Questions</Link></li>
+              <li><Link href="/privacy-policy/" className="text-blue-200 hover:text-white transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="pt-8 border-t border-blue-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-blue-300">
-          <p>&copy; {new Date().getFullYear()} TM TECHNOLOGY SERVICES SDN. BHD. Company No. 200201003726 (571389-H). All Rights Reserved.</p>
+          <div className="flex flex-col gap-2 text-center md:text-left">
+            <p>Authorized Dealer for TM TECHNOLOGY SERVICES SDN. BHD | Independent Sales & Consultation</p>
+            <p>© 2026 | All Rights Reserved | All trademarks are the property of their respective owner.</p>
+          </div>
         </div>
       </div>
     </footer>
   );
-}
+} 

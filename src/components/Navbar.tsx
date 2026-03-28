@@ -20,16 +20,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
+          <div className="flex-shrink-0 flex items-center gap-2 sm:gap-4">
             <Link href="/" className="flex items-center group">
               <img 
-                src="/images/unifi.svg" 
-                alt="logo" 
-                className="mr-2 group-hover:scale-105 transition-transform" 
-                width="121" 
-                height="39" 
-                id="unifiLogo" 
-              />
+              src="/images/unifi-logo2.png" 
+              alt="logo 2" 
+              className="h-8 md:h-10 w-auto object-contain" 
+              id="unifiLogo2" 
+            />
             </Link>
           </div>
 

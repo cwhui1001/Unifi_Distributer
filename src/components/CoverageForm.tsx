@@ -386,7 +386,7 @@ export default function CoverageForm() {
         </div>
       </div>
 
-      <div className="mt-12 text-center text-gray-400 font-bold text-sm select-none">
+      <div className="mt-12 text-center text-gray-400 font-bold text-sm select-none pb-12">
         <p>By submitting this form, you agree to being contacted for unifi coverage verification and promotions.</p>
       </div>
     </div>
