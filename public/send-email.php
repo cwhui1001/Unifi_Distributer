@@ -112,32 +112,40 @@ function getEmailTemplate($title, $greeting, $introText, $rows, $isCustomer, $ac
     </html>";
 }
 
-// Generate Email Content based on form type
+// Configuration to avoid spam (unifying structure and labels)
+// $isCoverage is TRUE if it's a coverage inquiry form
 $isCoverage = (strpos($formType, 'Coverage') !== false);
 $rows = formatDataRows($formData);
 
+// Set completely identical labels to bypass spam filters that suspect 'Coverage' terms
+$subjectLabel = "Lead Notification"; 
+$companyGreeting = "New Lead: Received"; 
+$companyIntro = "A new submission was received from the online portal. Details are included below.";
+$accentColor = "#FF7A00"; 
+
 if ($isCoverage) {
-    $subjectLabel = "Coverage Inquiry"; // Changed from 'Request' to be less 'spammy'
-    $companyGreeting = "New Coverage Verification Requested";
-    $companyIntro = "A potential customer wants to verify unifi availability at their location.";
+    $subjectLabel = "Coverage Inquiry"; 
+    $companyGreeting = "New Coverage Inquiry Received"; 
+    $companyIntro = "A potential customer has requested a unifi coverage check. Details are below.";
+    $accentColor = "#9D50E5"; 
     $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
     $customerIntro = "We've received your request to check unifi coverage at your address. Our team is looking into it now!";
-    $accentColor = "#9D50E5";
 } else {
-    $subjectLabel = "New Application"; // Changed from 'New Application'
+    $subjectLabel = "New Application";
     $companyGreeting = "New Application Received";
-    $companyIntro = "A new broadband application has been submitted. Please review the details below.";
+    $companyIntro = "A new broadband application has been submitted successfully. Details are below.";
+    $accentColor = "#FF7A00";
     $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
     $customerIntro = "Thank you for applying for Unifi. We have received your application and documents for processing.";
-    $accentColor = "#FF7A00";
 }
 
-// Improved Subject
+// Improved Subject (The label helps distinguish the form type)
 $subject = "[$subjectLabel] $customerName"; 
-$htmlToCompany = getEmailTemplate($formType, $companyGreeting, $companyIntro, $rows, false, $accentColor);
+$htmlToCompany = getEmailTemplate($subjectLabel, $companyGreeting, $companyIntro, $rows, false, $accentColor);
 $htmlToCustomer = getEmailTemplate($formType, $customerGreeting, $customerIntro, $rows, true, $accentColor);
 
 // Prepare Clean Headers
+// FORCE multipart/mixed for ALL emails (this is the key structure that bypasses the spam filter for application forms)
 $boundary = "PHP-mixed-" . md5(time());
 $headers = "From: Unifi Distributor <$fromEmail>\r\n";
 $headers .= "Reply-To: $customerEmail\r\n";
@@ -145,18 +153,16 @@ $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 $headers .= "X-Priority: 1 (Highest)\r\n";
 $headers .= "Importance: High\r\n";
+$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
 
-if (empty($attachments)) {
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $body = $htmlToCompany;
-} else {
-    $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
-    
-    $body = "--$boundary\r\n";
-    $body .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-    $body .= $htmlToCompany . "\r\n\r\n";
+// Construct body using multipart/mixed regardless of attachments
+$body = "--$boundary\r\n";
+$body .= "Content-Type: text/html; charset=UTF-8\r\n";
+$body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+$body .= $htmlToCompany . "\r\n\r\n";
 
+// Add attachments if any exist
+if (!empty($attachments)) {
     foreach ($attachments as $att) {
         $filename = $att['filename'];
         $content = $att['content'];
@@ -166,8 +172,8 @@ if (empty($attachments)) {
         $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
         $body .= chunk_split($content) . "\r\n";
     }
-    $body .= "--$boundary--";
 }
+$body .= "--$boundary--";
 
 // Send to company
 $mailToCompany = mail($companyEmail, $subject, $body, $headers, "-f $fromEmail");
