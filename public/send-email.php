@@ -36,9 +36,12 @@ $attachments = $data['attachments'] ?? [];
 
 // Configuration
 $companyEmail = "sales@unifi-online.my";
-$fromEmail = "autoreply@unifi-online.my"; 
+$fromEmail = "sales@unifi-online.my"; 
 $customerEmail = $formData["user-email"] ?? $formData["email"] ?? "";
 $customerName = $formData["user-name"] ?? "Customer";
+
+// Validate user-supplied email before using it in headers.
+$validatedCustomerEmail = filter_var($customerEmail, FILTER_VALIDATE_EMAIL) ? $customerEmail : "";
  
 /**
  * Helper to format data as HTML table rows
@@ -112,57 +115,51 @@ function getEmailTemplate($title, $greeting, $introText, $rows, $isCustomer, $ac
     </html>";
 }
 
-// Configuration to avoid spam (unifying structure and labels)
-// $isCoverage is TRUE if it's a coverage inquiry form
+// Generate Email Content based on form type
 $isCoverage = (strpos($formType, 'Coverage') !== false);
 $rows = formatDataRows($formData);
 
-// Set completely identical labels to bypass spam filters that suspect 'Coverage' terms
-$subjectLabel = "Lead Notification"; 
-$companyGreeting = "New Lead: Received"; 
-$companyIntro = "A new submission was received from the online portal. Details are included below.";
-$accentColor = "#FF7A00"; 
-
 if ($isCoverage) {
-    $subjectLabel = "Coverage Inquiry"; 
-    $companyGreeting = "New Coverage Inquiry Received"; 
-    $companyIntro = "A potential customer has requested a unifi coverage check. Details are below.";
-    $accentColor = "#9D50E5"; 
+    $subjectLabel = "Coverage Check Request"; // Changed from 'New Coverage Verification Request'
+    $companyGreeting = "New Coverage Verification Requested";
+    $companyIntro = "A potential customer wants to verify unifi availability at their location.";
     $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
     $customerIntro = "We've received your request to check unifi coverage at your address. Our team is looking into it now!";
+    $accentColor = "#9D50E5";
 } else {
-    $subjectLabel = "New Application";
+    $subjectLabel = "New Application"; // Changed from 'New Application'
     $companyGreeting = "New Application Received";
-    $companyIntro = "A new broadband application has been submitted successfully. Details are below.";
-    $accentColor = "#FF7A00";
+    $companyIntro = "A new broadband application has been submitted. Please review the details below.";
     $customerGreeting = "Hello " . htmlspecialchars($customerName) . ",";
     $customerIntro = "Thank you for applying for Unifi. We have received your application and documents for processing.";
+    $accentColor = "#FF7A00";
 }
 
-// Improved Subject (The label helps distinguish the form type)
+// Improved Subject
 $subject = "[$subjectLabel] $customerName"; 
-$htmlToCompany = getEmailTemplate($subjectLabel, $companyGreeting, $companyIntro, $rows, false, $accentColor);
+$htmlToCompany = getEmailTemplate($formType, $companyGreeting, $companyIntro, $rows, false, $accentColor);
 $htmlToCustomer = getEmailTemplate($formType, $customerGreeting, $customerIntro, $rows, true, $accentColor);
 
 // Prepare Clean Headers
-// FORCE multipart/mixed for ALL emails (this is the key structure that bypasses the spam filter for application forms)
 $boundary = "PHP-mixed-" . md5(time());
 $headers = "From: Unifi Distributor <$fromEmail>\r\n";
-$headers .= "Reply-To: $customerEmail\r\n";
+$headers .= "Reply-To: " . ($validatedCustomerEmail ?: $fromEmail) . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
+$headers .= "Date: " . date('r') . "\r\n";
+$headers .= "Message-ID: <" . uniqid() . "@unifi-online.my>\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-$headers .= "X-Priority: 1 (Highest)\r\n";
-$headers .= "Importance: High\r\n";
-$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
 
-// Construct body using multipart/mixed regardless of attachments
-$body = "--$boundary\r\n";
-$body .= "Content-Type: text/html; charset=UTF-8\r\n";
-$body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-$body .= $htmlToCompany . "\r\n\r\n";
+if (empty($attachments)) {
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $body = $htmlToCompany;
+} else {
+    $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+    
+    $body = "--$boundary\r\n";
+    $body .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $body .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
+    $body .= $htmlToCompany . "\r\n\r\n";
 
-// Add attachments if any exist
-if (!empty($attachments)) {
     foreach ($attachments as $att) {
         $filename = $att['filename'];
         $content = $att['content'];
@@ -172,22 +169,24 @@ if (!empty($attachments)) {
         $body .= "Content-Transfer-Encoding: base64\r\n\r\n";
         $body .= chunk_split($content) . "\r\n";
     }
+    $body .= "--$boundary--";
 }
-$body .= "--$boundary--";
 
 // Send to company
 $mailToCompany = mail($companyEmail, $subject, $body, $headers, "-f $fromEmail");
 
 // Send to customer
-if ($customerEmail) {
+if ($validatedCustomerEmail) {
     $custHeaders = "From: Unifi Distributor <$fromEmail>\r\n";
     $custHeaders .= "Reply-To: $fromEmail\r\n";
     $custHeaders .= "MIME-Version: 1.0\r\n";
+    $custHeaders .= "Date: " . date('r') . "\r\n";
+    $custHeaders .= "Message-ID: <" . uniqid() . "@unifi-online.my>\r\n";
     $custHeaders .= "X-Mailer: PHP/" . phpversion() . "\r\n";
     $custHeaders .= "Content-Type: text/html; charset=UTF-8\r\n";
     
     $custSubject = "Confirmation: We've received your $formType";
-    mail($customerEmail, $custSubject, $htmlToCustomer, $custHeaders, "-f $fromEmail");
+    mail($validatedCustomerEmail, $custSubject, $htmlToCustomer, $custHeaders, "-f $fromEmail");
 }
 
 if ($mailToCompany) {
