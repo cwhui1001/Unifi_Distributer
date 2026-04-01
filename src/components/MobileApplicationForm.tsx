@@ -673,14 +673,14 @@ export default function MobileApplicationForm() {
                   onChange={handleInputChange}
                   required
                 />
-                <div className="w-6 h-6 border-2 border-gray-300 rounded-lg bg-white peer-checked:bg-[#1800E7] peer-checked:border-[#1800E7] transition-all flex items-center justify-center group-hover:border-[#1800E7] shadow-sm">
-                  <svg className="hidden peer-checked:block w-4 h-4 peer-checked:text-white stroke-[4]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
+                <div className={`w-6 h-6 border-2 rounded-lg transition-all flex items-center justify-center shadow-sm ${formData.accept1 ? 'bg-[#1800E7] border-[#1800E7]' : 'border-gray-300 bg-white group-hover:border-[#1800E7]'}`}>
+                  {formData.accept1 && (
+                    <Check className="w-4 h-4 text-white stroke-[4]" />
+                  )}
                 </div>
               </div>
               <span className="text-gray-700 font-bold select-none leading-relaxed">
-                I have read and agree to be bound by the <Link href="/tnc" className="text-[#1800E7] hover:underline decoration-2 underline-offset-4">Terms & Conditions</Link> accompanying the Unifi Mobile subscription.
+                I have read and agree to be bound by the <Link href="/tnc-and-faq/tnc/postpaid" className="text-[#1800E7] hover:underline decoration-2 underline-offset-4">Terms & Conditions</Link> accompanying the Unifi Mobile subscription.
               </span>
             </label>
           </section>
