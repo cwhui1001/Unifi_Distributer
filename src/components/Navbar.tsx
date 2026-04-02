@@ -9,8 +9,8 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Business", path: "/business/" },
-    { name: "Postpaid", path: "/postpaid/" },
+    { name: "Business", path: "/business" },
+    { name: "Postpaid", path: "/postpaid" },
   ];
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -34,7 +34,7 @@ export default function Navbar() {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => {
-              const isActive = router.pathname === link.path;
+              const isActive = link.path === "/" ? router.pathname === "/" : router.pathname.startsWith(link.path);
               return (
                 <Link
                   key={link.name}
@@ -47,7 +47,7 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <Link href="/check-coverage/">
+            <Link href="/check-coverage">
               <button className="bg-[#FF7A00] hover:bg-[#e06b00] text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-orange-500/30 transition-all hover:shadow-orange-500/50 hover:-translate-y-0.5 ml-4">
                 Check Coverage
               </button>
@@ -74,7 +74,7 @@ export default function Navbar() {
       >
         <div className="px-4 pt-2 pb-6 space-y-2">
           {navLinks.map((link) => {
-            const isActive = router.pathname === link.path;
+            const isActive = link.path === "/" ? router.pathname === "/" : router.pathname.startsWith(link.path);
             return (
               <Link
                 key={link.name}
@@ -91,7 +91,7 @@ export default function Navbar() {
             );
           })}
           <div className="pt-4 px-3">
-            <Link href="/check-coverage/" onClick={() => setIsOpen(false)}>
+            <Link href="/check-coverage" onClick={() => setIsOpen(false)}>
               <button className="w-full bg-[#FF7A00] hover:bg-[#e06b00] text-white px-4 py-3 rounded-full font-bold shadow-md transition-colors">
                 Check Coverage
               </button>

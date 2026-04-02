@@ -85,7 +85,7 @@ export default function PostpaidPage() {
       </section>
 
       {/* Plans Section */}
-      <section className="pb-15 bg-white relative">
+      <section id="postpaid-plans-section" className="pb-15 bg-white relative">
         <PostpaidPlans />
       </section>
 
