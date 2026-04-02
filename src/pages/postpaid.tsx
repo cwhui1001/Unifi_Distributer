@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import PostpaidPlans from "@/components/PostpaidPlans";
 import PostpaidFAQ from "@/components/PostpaidFAQ";
+import PostpaidPopup from "@/components/PostpaidPopup";
 
 export default function PostpaidPage() {
 
@@ -174,6 +175,7 @@ export default function PostpaidPage() {
       </section>
 
       <PostpaidFAQ />
+      <PostpaidPopup />
     </>
   );
 }
