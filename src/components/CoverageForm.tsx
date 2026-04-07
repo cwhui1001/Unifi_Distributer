@@ -209,7 +209,6 @@ export default function CoverageForm() {
                       name="building_name" 
                       placeholder="Building Unit" 
                       className={`${inputClasses} pl-12`}
-                      required
                       value={formData["building_name"]}
                       onChange={handleInputChange}
                     />
@@ -225,7 +224,6 @@ export default function CoverageForm() {
                       name="floor_no" 
                       placeholder="Building Floor" 
                       className={`${inputClasses} pl-12`}
-                      required
                       value={formData["floor_no"]}
                       onChange={handleInputChange}
                     />
@@ -241,7 +239,6 @@ export default function CoverageForm() {
                       name="unit_no" 
                       placeholder="Building Block" 
                       className={`${inputClasses} pl-12`}
-                      required
                       value={formData["unit_no"]}
                       onChange={handleInputChange}
                     />
@@ -257,7 +254,6 @@ export default function CoverageForm() {
                       name="block_no" 
                       placeholder="Building Name" 
                       className={`${inputClasses} pl-12`}
-                      required
                       value={formData["block_no"]}
                       onChange={handleInputChange}
                     />
