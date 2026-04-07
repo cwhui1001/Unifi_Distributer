@@ -10,34 +10,34 @@ const FreeDeviceSection: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           
-          {/* Enhanced Images Part */}
-          <div className="flex-1 relative h-[320px] md:h-[450px] flex justify-center items-center">
-            {/* Background Glow */}
-            <div className="absolute inset-0 bg-[#1800E7]/5 rounded-full blur-[100px] scale-75 opacity-60"></div>
+          {/* Optimized Images Part */}
+          <div className="flex-1 w-full lg:relative lg:h-[450px] mb-12 lg:mb-0">
+            {/* Background Glow - Only on desktop for cleaner mobile */}
+            <div className="hidden lg:block absolute inset-0 bg-[#1800E7]/5 rounded-full blur-[100px] scale-75 opacity-60"></div>
             
-            {/* vivo Phone (Back) */}
-            <div className="absolute left-4 md:left-[1%] bottom-6 md:bottom-12 w-[250px] md:w-[350px] z-10 transform -rotate-[8deg] hover:rotate-0 hover:scale-110 hover:z-30 transition-all duration-700 animate-float-slow">
-              <div className="p-3 bg-white/30 backdrop-blur-[2px] rounded-[2.5rem] border border-gray-200/20 shadow-sm">
-                <img 
-                  src="/images/postpaid/vivo-phone.jpeg" 
-                  alt="vivo 5G Smartphone"
-                  className="w-full h-auto rounded-3xl drop-shadow-[0_20px_40px_rgba(0,0,0,0.1)]"
-                />
+            <div className="flex flex-row justify-center items-center gap-4 lg:block">
+              {/* vivo Phone */}
+              <div className="relative lg:absolute lg:left-[1%] lg:bottom-12 w-[140px] sm:w-[170px] lg:w-[350px] z-10 transform -rotate-[6deg] lg:-rotate-[8deg] hover:rotate-0 hover:scale-110 hover:z-30 transition-all duration-700 animate-float-slow">
+                <div className="p-2 lg:p-3 bg-white/30 backdrop-blur-[2px] rounded-[1.5rem] lg:rounded-[2.5rem] border border-gray-200/20 shadow-sm">
+                  <img 
+                    src="/images/postpaid/vivo-phone.jpeg" 
+                    alt="vivo 5G Smartphone"
+                    className="w-full h-auto rounded-xl lg:rounded-3xl drop-shadow-[0_10px_20px_rgba(0,0,0,0.1)]"
+                  />
+                </div>
+              </div>
+
+              {/* Samsung Phone */}
+              <div className="relative lg:absolute lg:right-[2%] lg:top-12 w-[140px] sm:w-[170px] lg:w-[350px] z-20 transform rotate-[8deg] lg:rotate-[12deg] hover:rotate-0 hover:scale-110 hover:z-30 transition-all duration-700 animate-float lg:translate-x-0 -translate-x-4">
+                <div className="p-2 lg:p-3 bg-white/40 backdrop-blur-[2px] rounded-[1.5rem] lg:rounded-[2.5rem] border border-gray-200/30 shadow-md">
+                  <img 
+                    src="/images/postpaid/samsung-a06.jpeg" 
+                    alt="Samsung Galaxy A06 5G"
+                    className="w-full h-auto rounded-xl lg:rounded-3xl drop-shadow-[0_15px_30px_rgba(0,0,0,0.15)]"
+                  />
+                </div>
               </div>
             </div>
-
-            {/* Samsung Phone (Front) */}
-            <div className="absolute right-4 md:right-[2%] top-6 md:top-12 w-[250px] md:w-[350px] z-20 transform rotate-[12deg] hover:rotate-0 hover:scale-110 hover:z-30 transition-all duration-700 animate-float">
-              <div className="p-3 bg-white/40 backdrop-blur-[2px] rounded-[2.5rem] border border-gray-200/30 shadow-md">
-                <img 
-                  src="/images/postpaid/samsung-a06.jpeg" 
-                  alt="Samsung Galaxy A06 5G"
-                  className="w-full h-auto rounded-3xl drop-shadow-[0_25px_50px_rgba(0,0,0,0.15)]"
-                />
-              </div>
-            </div>
-
-            
           </div>
 
           {/* Text & Button Column */}
