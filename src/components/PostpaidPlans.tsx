@@ -65,14 +65,6 @@ export default function PostpaidPlans() {
         extraData: "10GB for RM10 / 50GB for RM45",
         offers: [
           {
-            title: "Free RM20 TNG Voucher",
-            items: [
-              "Exclusively for Online Signup only",
-              "Enter promo code KONGSI20 on the Review Order page."
-            ],
-            icon: "ticket"
-          },
-          {
             title: "Get 230GB data for only RM1",
             items: ["with 100GB 5G and 100GB 4G/5G data add-on"],
             icon: "addon_data"
@@ -317,20 +309,6 @@ export default function PostpaidPlans() {
                     </div>
                   )}
                 </div>
-
-                {/* Voucher Image for Postpaid 39 */}
-                {plan.id === "postpaid_39" && (
-                  <div className="absolute top-8 right-1 z-20 flex flex-col items-center">
-                    <img 
-                      src="/images/postpaid/tng-voucher-promo.png" 
-                      alt="Voucher" 
-                      className="h-24 w-auto drop-shadow-md hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="bg-[#1800E7] text-white text-[8px] font-black px-2 py-0.5 rounded mt-[-8px] relative z-30 uppercase tracking-tighter shadow-sm">
-                      CODE: KONGSI20
-                    </div>
-                  </div>
-                )}
 
                 <div className="p-8 pt-6 flex-1 flex flex-col">
                   {/* Plan Name & Speed */}
