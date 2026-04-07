@@ -3,6 +3,8 @@ import Head from "next/head";
 import PostpaidPlans from "@/components/PostpaidPlans";
 import PostpaidFAQ from "@/components/PostpaidFAQ";
 import PostpaidPopup from "@/components/PostpaidPopup";
+import FreeDeviceSection from "@/components/FreeDeviceSection";
+
 
 export default function PostpaidPage() {
 
@@ -47,7 +49,7 @@ export default function PostpaidPage() {
                 GET EXTRA 200GB TO STREAM, SCROLL, GAME & MORE!
               </h1>
               <p className="text-xl md:text-2xl text-white font-medium mb-10 max-w-xl drop-shadow-sm">
-                Get UNI5G Postpaid 39 online & enjoy FREE RM20 TNG Voucher!
+                Get UNI5G Postpaid 39 online!
               </p>
             </div>
             
@@ -88,6 +90,9 @@ export default function PostpaidPage() {
       <section id="postpaid-plans-section" className="pb-15 bg-white relative">
         <PostpaidPlans />
       </section>
+
+      {/* Free Phone Promotion Section */}
+      <FreeDeviceSection />
 
       {/* Why Choose Section */}
       <section className="py-15 bg-white relative overflow-hidden">
