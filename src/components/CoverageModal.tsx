@@ -1,18 +1,34 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { X } from "lucide-react";
 import CoverageForm from "./CoverageForm";
 
 export default function CoverageModal() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const isThankYouRoute = router.pathname === "/thankyou";
 
   useEffect(() => {
+    if (isThankYouRoute) {
+      setIsOpen(false);
+      return;
+    }
+
     // Show modal after a short delay on mount
     const timer = setTimeout(() => {
       setIsOpen(true);
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isThankYouRoute]);
+
+  useEffect(() => {
+    const handleRouteChangeStart = () => setIsOpen(false);
+    router.events.on("routeChangeStart", handleRouteChangeStart);
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+    };
+  }, [router.events]);
 
   useEffect(() => {
     if (isOpen) {
@@ -27,7 +43,7 @@ export default function CoverageModal() {
 
   const closeModal = () => setIsOpen(false);
 
-  if (!isOpen) return null;
+  if (!isOpen || isThankYouRoute) return null;
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">

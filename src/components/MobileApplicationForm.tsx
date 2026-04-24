@@ -56,7 +56,6 @@ export default function MobileApplicationForm() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
   const mobilePlans = [
     "UNI5G POSTPAID Mobile™ 39 - RM 39/month",
@@ -168,7 +167,7 @@ export default function MobileApplicationForm() {
         console.log("Mobile Application Submitted Successfully");
         // Send to WhatsApp first
         sendToWhatsApp("Mobile Postpaid Application", formData);
-        setIsSuccess(true);
+        await router.push("/thankyou");
       } else {
         let errorMessage = "Server error";
         try {
@@ -180,8 +179,8 @@ export default function MobileApplicationForm() {
 
         // Handle local testing fallback
         if (window.location.hostname === "localhost") {
-          setIsSuccess(true);
           sendToWhatsApp("Mobile Application (Fallback)", formData);
+          await router.push("/thankyou");
         } else {
           alert(`Failed to send mobile application: ${errorMessage}`);
         }
@@ -198,45 +197,6 @@ export default function MobileApplicationForm() {
   const iconClasses = "absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1800E7]/60";
   const groupClasses = "relative group flex flex-col gap-1.5";
   const labelClasses = "text-[13px] font-black text-gray-900 uppercase tracking-wider ml-1 mb-1";
-
-  if (isSuccess) {
-    return (
-      <div className="w-full max-w-4xl mx-auto py-20 px-4">
-        <div className="bg-white rounded-[2rem] shadow-[0_40px_100px_rgba(0,0,0,0.1)] p-8 md:p-16 text-center border border-gray-100 animate-in fade-in zoom-in duration-700">
-          <div className="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-8 border-4 border-green-100 shadow-inner">
-            <Send className="w-10 h-10 text-green-500" />
-          </div>
-          <h2 className="text-4xl font-black text-gray-900 mb-4 uppercase tracking-tight italic">
-            <span className="text-[#FF7A00]">Mobile App</span> <span className="text-[#1800E7]">Received!</span>
-          </h2>
-          <p className="text-gray-600 text-lg font-medium max-w-md mx-auto leading-relaxed">
-            Awesome! Your Unifi Mobile application has been received. Our team will verify your details and contact you for the next steps.
-          </p>
-          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => sendToWhatsApp("Mobile Postpaid Application", formData)}
-              className="px-8 py-4 bg-green-500 text-white font-black rounded-full hover:bg-green-600 transition-all duration-300 shadow-xl shadow-green-200 uppercase tracking-widest text-sm flex items-center justify-center gap-2"
-            >
-              <Smartphone className="w-5 h-5" />
-              Chat on WhatsApp
-            </button>
-            <Link 
-              href="/postpaid"
-              className="px-8 py-4 bg-[#1800E7] text-white font-black rounded-full hover:bg-[#0C00B3] transition-all duration-300 shadow-xl shadow-blue-200 uppercase tracking-widest text-sm"
-            >
-              Back to Plans
-            </Link>
-            <button 
-              onClick={() => setIsSuccess(false)}
-              className="px-8 py-4 bg-white text-[#1800E7] font-black rounded-full border-2 border-[#1800E7] hover:bg-gray-50 transition-all duration-300 uppercase tracking-widest text-sm"
-            >
-              Apply Again
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-12 md:py-20 font-sans">
