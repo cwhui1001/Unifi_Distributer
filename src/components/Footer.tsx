@@ -31,6 +31,7 @@ export default function Footer() {
               <li><Link href="/" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Home Broadband</Link></li>
               <li><Link href="/business/" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Business Broadband</Link></li>
               <li><Link href="/postpaid/" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Postpaid Mobile</Link></li>
+              <li><Link href="/devices" className="text-blue-200 hover:text-white transition-colors flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]"></span>Devices & Add-ons</Link></li>
             </ul>
           </div>
 

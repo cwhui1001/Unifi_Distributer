@@ -11,6 +11,7 @@ export default function Navbar() {
     { name: "Home", path: "/" },
     { name: "Business", path: "/business" },
     { name: "Postpaid", path: "/postpaid" },
+    { name: "Devices", path: "/devices" },
   ];
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -69,7 +70,7 @@ export default function Navbar() {
       {/* Mobile Nav */}
       <div
         className={`md:hidden absolute w-full bg-white border-b border-gray-100 shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="px-4 pt-2 pb-6 space-y-2">
