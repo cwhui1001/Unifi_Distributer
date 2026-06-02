@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import { 
   Tv, 
@@ -31,7 +32,7 @@ interface Product {
   id: string;
   name: string;
   brand: string;
-  category: "tvs" | "laptops";
+  category: "tvs" | "laptops" | "phones";
   addonBadge?: string; // e.g. "ADD ON RM10/M"
   image: string;
   rrpText: string;
@@ -39,6 +40,7 @@ interface Product {
 }
 
 export default function DevicesPage() {
+  const router = useRouter();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   // Keep track of active variant for each product
@@ -46,6 +48,13 @@ export default function DevicesPage() {
     "sharp-samsung-tv-small": "43",
     "apple-ipad-11": "128GB",
     "sharp-samsung-tv-large": "65",
+    "samsung-a16": "256GB",
+    "redmi-note-14": "256GB",
+    "oppo-a5": "256GB",
+    "samsung-a06": "128GB",
+    "honor-x7d": "128GB",
+    "zte-blade-a75": "128GB",
+    "vivo-y29s": "128GB",
   });
 
   // Keep track of active plan for each product's active variant
@@ -55,21 +64,30 @@ export default function DevicesPage() {
     "apple-ipad-11-128GB": "500mbps-ipad",
     "sharp-samsung-tv-large-65": "500mbps-65",
     "sharp-samsung-tv-large-75": "1gbps-75",
+    "samsung-a16-256GB": "uni5g99-a16",
+    "redmi-note-14-256GB": "uni5g99-redmi14",
+    "oppo-a5-256GB": "uni5g99-oppoa5",
+    "samsung-a06-128GB": "uni5g69-a06",
+    "honor-x7d-128GB": "uni5g69-honor",
+    "zte-blade-a75-128GB": "uni5g69-zte",
+    "vivo-y29s-128GB": "uni5g69-vivo",
   });
 
   const whatsappNumber = "601133383836";
 
-  // Formulate target WhatsApp checkout link based on customer selection
+  // Redirect to application form with package, speed/plan, and device prefilled
   const handleBuyNow = (productName: string, variantLabel: string, planName: string, speed: string, price: number) => {
-    const message = `Hi! I'm interested in subscribing to the Unifi Device Fiesta Bundle:\n\n` +
-      `• Device: ${productName} (${variantLabel})\n` +
-      `• Broadband Speed: ${speed}\n` +
-      `• Plan: ${planName}\n` +
-      `• Plan Price: RM${price}/mth\n\n` +
-      `Please check my eligibility and assist me with registration!`;
+    const isMobilePlan = speed.startsWith("UNI5G");
+    const deviceName = `${productName} (${variantLabel})`;
     
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
+    if (isMobilePlan) {
+      // Mobile postpaid smartphones -> Switch to mobile application form
+      const planNumber = speed.replace(/\D/g, ""); // Extract MNP plan e.g. "99" or "69"
+      router.push(`/apply-unifi-mobile?plan=${planNumber}&device=${encodeURIComponent(deviceName)}`);
+    } else {
+      // Home fibre TVs and iPads -> Switch to home fibre application form
+      router.push(`/apply-unifi-home?package=Unifi%20Home%20Plan&plan=${encodeURIComponent(speed)}&device=${encodeURIComponent(deviceName)}`);
+    }
   };
 
   // Unifi Device Fiesta Product Data mapped exactly from mockup image
@@ -138,6 +156,126 @@ export default function DevicesPage() {
           label: "75\"",
           plans: [
             { id: "1gbps-75", name: "Unifi 1Gbps Home Fibre + 75\" TV Pack", speed: "1Gbps", price: 269 }
+          ]
+        }
+      ]
+    },
+    {
+      id: "samsung-a16",
+      name: "Samsung Galaxy A16 5G",
+      brand: "Samsung",
+      category: "phones",
+      image: "/images/devices/samsungA16.png",
+      rrpText: "RRP RM899",
+      variants: [
+        {
+          id: "256GB",
+          label: "256GB",
+          plans: [
+            { id: "uni5g99-a16", name: "UNI5G Postpaid 99 (1 SIM)", speed: "UNI5G99", price: 69 }
+          ]
+        }
+      ]
+    },
+    {
+      id: "redmi-note-14",
+      name: "Redmi Note 14 5G",
+      brand: "Redmi",
+      category: "phones",
+      image: "/images/devices/redmiNote14.png",
+      rrpText: "RRP RM899",
+      variants: [
+        {
+          id: "256GB",
+          label: "256GB",
+          plans: [
+            { id: "uni5g99-redmi14", name: "UNI5G Postpaid 99 (1 SIM)", speed: "UNI5G99", price: 69 }
+          ]
+        }
+      ]
+    },
+    {
+      id: "oppo-a5",
+      name: "OPPO A5 5G",
+      brand: "OPPO",
+      category: "phones",
+      image: "/images/devices/oppoA5.png",
+      rrpText: "RRP RM1099",
+      variants: [
+        {
+          id: "256GB",
+          label: "256GB",
+          plans: [
+            { id: "uni5g99-oppoa5", name: "UNI5G Postpaid 99 (1 SIM)", speed: "UNI5G99", price: 69 }
+          ]
+        }
+      ]
+    },
+    {
+      id: "samsung-a06",
+      name: "Samsung Galaxy A06 5G",
+      brand: "Samsung",
+      category: "phones",
+      image: "/images/devices/samsungA06.png",
+      rrpText: "RRP RM699",
+      variants: [
+        {
+          id: "128GB",
+          label: "128GB",
+          plans: [
+            { id: "uni5g69-a06", name: "UNI5G Postpaid 69 (1 SIM)", speed: "UNI5G69", price: 59 }
+          ]
+        }
+      ]
+    },
+    {
+      id: "honor-x7d",
+      name: "Honor X7d 5G",
+      brand: "Honor",
+      category: "phones",
+      image: "/images/devices/honor_x7d.png",
+      rrpText: "RRP RM699",
+      variants: [
+        {
+          id: "128GB",
+          label: "128GB",
+          plans: [
+            { id: "uni5g69-honor", name: "UNI5G Postpaid 69 (1 SIM)", speed: "UNI5G69", price: 59 }
+          ]
+        }
+      ]
+    },
+    {
+      id: "zte-blade-a75",
+      name: "ZTE Blade A75 5G",
+      brand: "ZTE",
+      category: "phones",
+      image: "/images/devices/zte.png",
+      rrpText: "RRP RM749",
+      variants: [
+        {
+          id: "128GB",
+          label: "128GB",
+          plans: [
+            { id: "uni5g69-zte", name: "UNI5G Postpaid 69 (1 SIM)", speed: "UNI5G69", price: 59 }
+          ]
+        }
+      ]
+    },
+    {
+      id: "vivo-y29s",
+      name: "vivo Y29s 5G",
+      brand: "vivo",
+      category: "phones",
+      addonBadge: "NEW",
+      image: "/images/devices/vivo.png",
+      rrpText: "RRP RM899",
+      variants: [
+        {
+          id: "128GB",
+          label: "128GB",
+          plans: [
+            { id: "uni5g69-vivo", name: "UNI5G Postpaid 69 (1 SIM)", speed: "UNI5G69", price: 59 }
           ]
         }
       ]
@@ -260,7 +398,7 @@ export default function DevicesPage() {
                 >
                   {/* Badge */}
                   <span className="absolute top-4 left-4 z-10 py-1 px-3.5 bg-[#FF7A00] text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-sm">
-                    Device Fiesta
+                    {product.category === "phones" ? "FREE 5G PHONE" : "Device Fiesta"}
                   </span>
 
                   {/* Addon overlay badge (like ADD ON RM10/M) */}
@@ -284,7 +422,6 @@ export default function DevicesPage() {
                   {/* Interactivity & Details Area */}
                   <div className="p-6 md:p-8 flex-1 flex flex-col justify-between space-y-6">
                     <div>
-                      <div className="text-xs font-bold text-gray-400 mb-1.5 uppercase tracking-widest">{product.brand} Authorized</div>
                       <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-[#1800E7] transition-colors uppercase leading-tight min-h-[56px] flex items-center">
                         {product.name}
                       </h3>
@@ -324,7 +461,7 @@ export default function DevicesPage() {
                     {/* Plan Options Selector */}
                     <div>
                       <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-3">
-                        Select speed & plan:
+                        {product.category === "phones" ? "Selected Postpaid Plan:" : "Select speed & plan:"}
                       </label>
                       <div className="space-y-3 pr-1">
                         {activeVariant.plans.map((plan) => {

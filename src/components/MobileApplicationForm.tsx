@@ -28,19 +28,68 @@ export default function MobileApplicationForm() {
     postcode: "",
     existing_user: "New",
     accept1: false,
+    device: "",
   });
 
   useEffect(() => {
     if (router.isReady) {
-      const { plan } = router.query;
+      const { plan, device } = router.query;
+      
+      let parsedDevice = "";
+      if (device) {
+        const devStr = device as string;
+        // Fuzzy matching logic for Mobile Devices
+        const matchedPhone = availablePhones.find(p => {
+          const cleanP = p.replace(/\s+/g, "").toLowerCase();
+          const cleanDev = devStr.replace(/\s+/g, "").toLowerCase();
+          return cleanP.includes(cleanDev) || cleanDev.includes(cleanP);
+        });
+        
+        if (matchedPhone) {
+          parsedDevice = matchedPhone;
+        } else {
+          // Fallback keyword matching just in case
+          const lower = devStr.toLowerCase();
+          if (lower.includes("a16")) {
+            parsedDevice = "Samsung Galaxy A16 5G (256GB)";
+          } else if (lower.includes("14")) {
+            parsedDevice = "Redmi Note 14 5G (256GB)";
+          } else if (lower.includes("oppo") || lower.includes("a5")) {
+            parsedDevice = "OPPO A5 5G (256GB)";
+          } else if (lower.includes("a06")) {
+            parsedDevice = "Samsung Galaxy A06 5G (128GB)";
+          } else if (lower.includes("honor") || lower.includes("x7")) {
+            parsedDevice = "Honor X7d 5G (128GB)";
+          } else if (lower.includes("zte") || lower.includes("a75")) {
+            parsedDevice = "ZTE Blade A75 5G (128GB)";
+          } else if (lower.includes("vivo") || lower.includes("y29")) {
+            parsedDevice = "vivo Y29s 5G (128GB)";
+          }
+        }
+      }
+
       if (plan) {
         // Find the matching plan in mobilePlans
         const matchedPlan = mobilePlans.find(p => 
           p.toLowerCase().includes((plan as string).toLowerCase())
         );
         if (matchedPlan) {
-          setFormData(prev => ({ ...prev, package: matchedPlan }));
+          setFormData(prev => ({ 
+            ...prev, 
+            package: matchedPlan,
+            device: parsedDevice || prev.device 
+          }));
+        } else {
+          setFormData(prev => ({ 
+            ...prev, 
+            device: parsedDevice || prev.device 
+          }));
         }
+      } else if (parsedDevice) {
+        setFormData(prev => ({ 
+          ...prev, 
+          device: parsedDevice 
+        }));
       }
     }
   }, [router.isReady, router.query]);
@@ -64,6 +113,16 @@ export default function MobileApplicationForm() {
     "UNI5G POSTPAID Family™ 129 - RM 129/month",
     "UNI5G POSTPAID Family™ 159 - RM 159/month",
     "UNI5G POSTPAID Family™ 189 - RM 189/month",
+  ];
+
+  const availablePhones = [
+    "Samsung Galaxy A16 5G (256GB)",
+    "Redmi Note 14 5G (256GB)",
+    "OPPO A5 5G (256GB)",
+    "Samsung Galaxy A06 5G (128GB)",
+    "Honor X7d 5G (128GB)",
+    "ZTE Blade A75 5G (128GB)",
+    "vivo Y29s 5G (128GB)"
   ];
 
   const telcos = [
@@ -226,7 +285,7 @@ export default function MobileApplicationForm() {
               <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Select Mobile Plan</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className={groupClasses}>
                 <label className={labelClasses}>Select Plan</label>
                 <div className="relative">
@@ -241,6 +300,25 @@ export default function MobileApplicationForm() {
                     <option value="">Choose your UNI5G plan</option>
                     {mobilePlans.map(plan => (
                       <option key={plan} value={plan}>{plan}</option>
+                    ))}
+                  </select>
+                  <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />
+                </div>
+              </div>
+
+              <div className={groupClasses}>
+                <label className={labelClasses}>Bundled Free 5G Phone</label>
+                <div className="relative">
+                  <Smartphone className={iconClasses} />
+                  <select 
+                    name="device"
+                    className={`${inputClasses} pl-12 appearance-none cursor-pointer pr-10`}
+                    value={formData.device}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">No Bundled Device</option>
+                    {availablePhones.map(phone => (
+                      <option key={phone} value={phone}>{phone}</option>
                     ))}
                   </select>
                   <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />

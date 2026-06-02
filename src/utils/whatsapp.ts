@@ -38,6 +38,7 @@ export const sendToWhatsApp = (formType: string, formData: Record<string, any>) 
     "new-number3": "Choice 3",
     "new-number4": "Choice 4",
     "new-number5": "Choice 5",
+    "device": "Bundled Device",
   };
 
   Object.entries(formData).forEach(([key, value]) => {

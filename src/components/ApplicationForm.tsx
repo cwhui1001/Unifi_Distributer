@@ -28,16 +28,48 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     postcode: "",
     existing_user: "",
     accept1: false,
+    device: "",
   });
 
   useEffect(() => {
     if (router.isReady) {
-      const { package: pkg, plan } = router.query;
-      if (pkg || plan) {
+      const { package: pkg, plan, device } = router.query;
+      
+      let parsedDevice = "";
+      if (device) {
+        const devStr = device as string;
+        // Fuzzy matching logic for Home Broadband Devices (TVs & iPads)
+        const matchedFibreDevice = availableFibreDevices.find(d => {
+          const cleanD = d.replace(/\s+/g, "").toLowerCase();
+          const cleanDev = devStr.replace(/\s+/g, "").toLowerCase();
+          return cleanD.includes(cleanDev) || cleanDev.includes(cleanD);
+        });
+        
+        if (matchedFibreDevice) {
+          parsedDevice = matchedFibreDevice;
+        } else {
+          // Fallback keyword matching just in case
+          const lower = devStr.toLowerCase();
+          if (lower.includes("43")) {
+            parsedDevice = "Samsung/Sharp TV (43\")";
+          } else if (lower.includes("55")) {
+            parsedDevice = "Samsung/Sharp TV (55\")";
+          } else if (lower.includes("65")) {
+            parsedDevice = "Samsung/Sharp TV (65\")";
+          } else if (lower.includes("75")) {
+            parsedDevice = "Samsung/Sharp TV (75\")";
+          } else if (lower.includes("ipad")) {
+            parsedDevice = "Apple iPad 11 (128GB)";
+          }
+        }
+      }
+
+      if (pkg || plan || parsedDevice) {
         setFormData(prev => ({
           ...prev,
           package: (pkg as string) || prev.package,
-          plan: (plan as string) || prev.plan
+          plan: (plan as string) || prev.plan,
+          device: parsedDevice || prev.device
         }));
       }
     }
@@ -65,6 +97,14 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     "Unifi Air Biz": ["Unifi Air Biz 5G 99", "Unifi Air Biz 5G 149"],
     "Fixed IP": ["1 Fixed IP", "5 Fixed IP"],
   };
+
+  const availableFibreDevices = [
+    "Samsung/Sharp TV (43\")",
+    "Samsung/Sharp TV (55\")",
+    "Samsung/Sharp TV (65\")",
+    "Samsung/Sharp TV (75\")",
+    "Apple iPad 11 (128GB)"
+  ];
 
   const currentPackages = initialType === "home" ? homePackages : businessPackages;
 
@@ -249,7 +289,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
               <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tight">Select Your Plan</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className={groupClasses}>
                 <label className={labelClasses}>Select Package</label>
                 <div className="relative">
@@ -285,6 +325,25 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                     <option value="">--- Please select ---</option>
                     {formData.package && plansByPackage[formData.package]?.map(plan => (
                       <option key={plan} value={plan}>{plan}</option>
+                    ))}
+                  </select>
+                  <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />
+                </div>
+              </div>
+
+              <div className={groupClasses}>
+                <label className={labelClasses}>Bundled Smart Device (Optional)</label>
+                <div className="relative">
+                  <Smartphone className={iconClasses} />
+                  <select 
+                    name="device"
+                    className={`${inputClasses} pl-12 appearance-none cursor-pointer pr-10`}
+                    value={formData.device}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">No Bundled Device</option>
+                    {availableFibreDevices.map(device => (
+                      <option key={device} value={device}>{device}</option>
                     ))}
                   </select>
                   <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />
