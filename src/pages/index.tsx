@@ -31,6 +31,12 @@ export default function HomePage() {
   };
 
   const [selectedAddons, setSelectedAddons] = useState<Record<string, boolean>>({});
+  const [selectedWinbackDeals, setSelectedWinbackDeals] = useState<Record<number, number>>({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+  });
   
   const toggleSelectedAddon = (e: React.MouseEvent, planIndex: number, addonIndex: number) => {
     e.stopPropagation();
@@ -110,7 +116,7 @@ export default function HomePage() {
       description: "Great for small households and apartments with 2 to 4 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi" }
+        { highlight: "Free", text: "6 Months WiFi", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" }
       ],
       features: [
         { title: "Unlimited Data", text: "Download speed up to 100mbps\nUpload speed up to 50mbps" },
@@ -127,8 +133,8 @@ export default function HomePage() {
       description: "Optimal for Families, Home Offices and Townhouses with 4 to 6 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi (30-months contract)" },
-        { highlight: "ADD-ON", text: "RM10/mth Get 43″ TV (36-months contract)" }
+        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" },
+        { highlight: "ADD-ON", text: "RM10/mth Get 43″ TV (36-months contract)", priceAddon: 10, deviceQuery: "43 INCH SMART TV (ADDON RM10)" }
       ],
       features: [
         { title: "Unlimited Data", text: "Download speed up to 300mbps\nUpload speed up to 50mbps" },
@@ -146,10 +152,10 @@ export default function HomePage() {
       description: "Perfect for gamers and streamers in houses with 6 to 8 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi (30-months contract)" },
-        { highlight: "ADD-ON", text: "RM10/mth Get 55″ TV (36-months contract)" },
-        { highlight: "ADD-ON", text: "RM20/mth Get 65″ TV (36-months contract)" },
-        { highlight: "ADD-ON", text: "RM10/mth Get iPad 11″ A16 WiFi 128GB (36-months contract)" }
+        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" },
+        { highlight: "ADD-ON", text: "RM10/mth Get 55″ TV (36-months contract)", priceAddon: 10, deviceQuery: "55 INCH SMART TV (ADDON RM10)" },
+        { highlight: "ADD-ON", text: "RM20/mth Get 65″ TV (36-months contract)", priceAddon: 20, deviceQuery: "65 INCH SMART TV (ADDON RM20)" },
+        { highlight: "ADD-ON", text: "RM10/mth Get iPad 11″ A16 WiFi 128GB (36-months contract)", priceAddon: 10, deviceQuery: "IPAD 11 A16 128GB (ADDON RM10)" }
       ],
       features: [
         { title: "Unlimited Data", text: "Download speed up to 500mbps\nUpload speed up to 100mbps" },
@@ -167,9 +173,9 @@ export default function HomePage() {
       description: "Lightning-Fast Speed for Power Users in Larger Homes with 8 to 10 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi (30-months contract)" },
-        { highlight: "ADD-ON", text: "RM10/mth Get 65″ TV (36-months contract)" },
-        { highlight: "ADD-ON", text: "RM20/mth Get 75″ TV (36-months contract)" }
+        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" },
+        { highlight: "ADD-ON", text: "RM10/mth Get 65″ TV (36-months contract)", priceAddon: 10, deviceQuery: "65 INCH SMART TV (ADDON RM10)" },
+        { highlight: "ADD-ON", text: "RM20/mth Get 75″ TV (36-months contract)", priceAddon: 20, deviceQuery: "75 INCH SMART TV (ADDON RM20)" }
       ],
       features: [
         { title: "Unlimited Data", text: "Download speed up to 1Gbps\nUpload speed up to 500mbps" },
@@ -345,11 +351,11 @@ export default function HomePage() {
               </h2>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px] items-start">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px] items-stretch">
               {winbackPlans.map((wp, index) => (
                 <div 
                   key={index} 
-                  className={`flex-none w-full h-auto flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
+                  className={`flex-none w-full h-full flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
                     wp.bestValue ? 'z-20' : 'hover:z-10'
                   }`}
                 >
@@ -364,7 +370,7 @@ export default function HomePage() {
                   </div>
                   
                   {/* Main White Body */}
-                  <div className={`relative flex flex-col bg-white overflow-hidden w-full h-auto transition-all duration-500 ${
+                  <div className={`relative flex-1 flex flex-col bg-white overflow-hidden w-full transition-all duration-500 ${
                     wp.bestValue 
                       ? 'rounded-b-[1.25rem] border-b-[3px] border-x-[3px] border-[#FF7A00] shadow-[0_15px_40px_rgba(0,0,0,0.12)] hover:shadow-[0_30px_60px_rgba(255,122,0,0.2)]' 
                       : 'rounded-[1.25rem] border border-gray-100 shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:shadow-[0_25px_50px_rgba(0,0,0,0.1)]'
@@ -426,17 +432,33 @@ export default function HomePage() {
                           <div className="bg-white p-3 pt-3">
                             <div className="text-[14px] font-extrabold text-black mb-2.5">Choose ONE exclusive deal:</div>
                             <div className="flex flex-col gap-2.5">
-                              {wp.deals.map((deal, dIdx) => (
-                                <div key={dIdx} className="border border-gray-200 rounded-lg flex flex-col overflow-hidden transition-colors group hover:border-[#9D50E5] p-2 bg-white">
-                                  <div className="flex items-center gap-3">
-                                    
-                                    <span className="text-[14px] font-bold text-gray-800 leading-tight w-[100%]">
-                                      <span className="text-[#FF7A00] uppercase font-bold mr-1">{deal.highlight}</span>
-                                      {deal.text}
-                                    </span>
+                              {wp.deals.map((deal, dIdx) => {
+                                const isSelected = (selectedWinbackDeals[index] ?? 0) === dIdx;
+                                return (
+                                  <div 
+                                    key={dIdx} 
+                                    onClick={() => setSelectedWinbackDeals(prev => ({ ...prev, [index]: dIdx }))}
+                                    className={`border rounded-lg flex flex-col overflow-hidden transition-colors cursor-pointer p-2 bg-white ${
+                                      isSelected ? 'border-[#9D50E5]' : 'border-gray-200 hover:border-[#9D50E5]'
+                                    }`}
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <div 
+                                        className={`w-[18px] h-[18px] border rounded-[4px] flex-shrink-0 flex items-center justify-center transition-colors ${
+                                          isSelected ? 'bg-[#9D50E5] border-[#9D50E5]' : 'border-gray-300'
+                                        }`}
+                                      >
+                                        {isSelected && <CheckCircle2 className="w-3 h-3 text-white stroke-[4]" />}
+                                      </div>
+                                      
+                                      <span className="text-[14px] font-bold text-gray-800 leading-tight w-[100%] select-none">
+                                        <span className="text-[#FF7A00] uppercase font-bold mr-1">{deal.highlight}</span>
+                                        {deal.text}
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                              ))}
+                                );
+                              })}
                             </div>
                             <p className="text-[10px] text-gray-400 italic mt-3 font-medium">*Terms & Conditions Apply</p>
                           </div>
@@ -454,17 +476,19 @@ export default function HomePage() {
                         <div className="flex items-end gap-[2px] mb-1">
                           <span className="text-[1.5rem] font-black text-[#1800E7] leading-none mb-[2px] tracking-tight">RM</span>
                           <span className="text-[3rem] font-black text-[#1800E7] leading-none tracking-tighter">
-                            {wp.price}
+                            {parseInt(wp.price) + (wp.deals[selectedWinbackDeals[index] ?? 0]?.priceAddon ?? 0)}
                           </span>
                           <span className="text-black font-extrabold text-[12px] mb-[6px] ml-[2px]">/mth</span>
                           {wp.slashed && (
-                            <span className="text-[#FF7A00] font-bold text-[11px] line-through ml-2 mb-[6px]">{wp.slashed.replace('RRP: ', '')}</span>
+                            <span className="text-[#FF7A00] font-bold text-[11px] line-through ml-2 mb-[6px]">
+                              RM{parseInt(wp.slashed.replace('RRP: ', '').replace('RM', '')) + (wp.deals[selectedWinbackDeals[index] ?? 0]?.priceAddon ?? 0)}/mth
+                            </span>
                           )}
                         </div>
                         
-                        {wp.contract ? (
+                        {(wp.deals[selectedWinbackDeals[index] ?? 0]?.text.includes("36-months") || wp.contract) ? (
                           <div className="bg-[#EEF2FF] text-[#1800E7] font-extrabold text-[11px] px-3 py-1.5 rounded-[6px] inline-flex self-start mt-1 relative">
-                            {wp.contract}
+                            {wp.deals[selectedWinbackDeals[index] ?? 0]?.text.includes("36-months") ? "36-months contract" : wp.contract}
                           </div>
                         ) : (
                            <div className="h-[28px] mt-1"></div> 
@@ -474,7 +498,11 @@ export default function HomePage() {
                       {/* CTA Button */}
                       <div className="mt-8 mb-2 w-full flex items-stretch h-[46px] group cursor-pointer pointer-events-auto">
                         <Link 
-                          href={`/apply-unifi-home?package=Unifi%20Winback%20Special%20Promo%20Plan&plan=${wp.speedNum}${wp.speedUnit}`} 
+                          href={`/apply-unifi-home?package=Unifi%20Winback%20Special%20Promo%20Plan&plan=${wp.speedNum}${wp.speedUnit}${
+                            wp.deals[selectedWinbackDeals[index] ?? 0]?.deviceQuery 
+                              ? `&device=${encodeURIComponent(wp.deals[selectedWinbackDeals[index] ?? 0].deviceQuery)}` 
+                              : ''
+                          }`} 
                           className={`flex-1 font-extrabold text-[13px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none ${
                             wp.bestValue ? 'bg-[#FF7A00] group-hover:bg-[#E05200]' : 'bg-[#1800E7] group-hover:bg-[#0C00B3]'
                           }`}
@@ -531,7 +559,7 @@ export default function HomePage() {
 
           <div 
             ref={sliderRef}
-            className="flex items-start overflow-x-auto snap-x snap-mandatory gap-[24px] pb-12 pt-8 px-4"
+            className="flex items-stretch overflow-x-auto snap-x snap-mandatory gap-[24px] pb-12 pt-8 px-4"
             style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
           >
             <style jsx>{`
@@ -550,7 +578,7 @@ export default function HomePage() {
               return (
                 <div 
                   key={index} 
-                  className={`flex-none w-[85vw] sm:w-[350px] snap-center h-auto flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
+                  className={`flex-none w-[85vw] sm:w-[350px] snap-center h-full flex flex-col transition-all duration-500 hover:-translate-y-2 relative group pointer-events-auto ${
                     plan.bestSeller ? 'z-10' : ''
                   }`}
                 >

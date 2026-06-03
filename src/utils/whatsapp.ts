@@ -15,10 +15,11 @@ export const sendToWhatsApp = (formType: string, formData: Record<string, any>) 
     "city": "City/State",
     "postcode": "Postcode",
     "existing_user": "Existing User",
+    "full_address": "Full Address",
     
     // Application Form
     "package": "Package",
-    "plan": "Plan",
+    "plan": "Interested Plan",
     "installation_date": "Preferred Installation Date",
     "mykad": "MyKad/Passport",
     

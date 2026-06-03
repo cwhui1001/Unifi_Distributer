@@ -419,6 +419,40 @@ export default function PostpaidPlans() {
                     </div>
                   )}
 
+                  {/* Limited Time Offer Section inspired by Home Special Promo */}
+                  {plan.addons?.offers && plan.addons.offers.length > 0 && (
+                    <div className="mb-8 rounded-[0.85rem] border border-[#FF6B01]/30 overflow-hidden shadow-[0_4px_15px_rgba(255,107,1,0.05)] flex flex-col bg-white">
+                      <div className="bg-gradient-to-r from-[#FF6B01] via-[#9D50E5] to-[#1800E7] text-white text-[13px] font-black px-4 py-2.5 uppercase tracking-wide">
+                        Limited Time Special
+                      </div>
+                      <div className="p-4 flex flex-col gap-4">
+                        {plan.addons.offers.map((offer, idx) => (
+                          <div key={idx} className="flex gap-4 items-start group/offer">
+                            <div className="w-8 h-8 rounded-lg bg-[#FFF5EF] flex items-center justify-center shrink-0 transition-transform group-hover/offer:scale-110">
+                              {offer.icon === 'ticket' ? <Gift className="w-4 h-4 text-[#FF6B01]" /> : <Zap className="w-4 h-4 text-[#FF6B01]" />}
+                            </div>
+                            <div className="flex flex-col">
+                              {offer.title.includes("Voucher") ? (
+                                <span className="bg-[#FF6B01] text-white text-[12px] font-black px-2 py-0.5 rounded-md w-fit mb-1.5 shadow-sm">{offer.title}</span>
+                              ) : (
+                                <span className="text-gray-900 text-[14px] font-black leading-tight mb-1">{offer.title}</span>
+                              )}
+                              {offer.items.map((item, i) => (
+                                <p key={i} className="text-[12px] text-gray-500 font-semibold leading-snug">
+                                  {item.includes("promo code") ? (
+                                    <>Enter <span className="text-[#1800E7] font-black">PROMO CODE {item.split("code ")[1].split(" on")[0]}</span> {item.split(item.split("code ")[1].split(" on")[0])[1]}</>
+                                  ) : item}
+                                </p>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex-1"></div>
+
                   {/* Pricing Area */}
                   <div className="mt-8 mb-2">
                     <div className="flex items-end gap-[2px] mb-2 text-gray-900">
@@ -479,38 +513,6 @@ export default function PostpaidPlans() {
                         <img src="/images/postpaid/circled_addon_family.svg" alt="Family" className="w-3.5 h-3.5" />
                       </div>
                       {plan.addons.familyLines}
-                    </div>
-                  </div>
-                )}
-
-                {/* Limited Time Offer Section inspired by Home Special Promo */}
-                {plan.addons?.offers && plan.addons.offers.length > 0 && (
-                  <div className="rounded-[0.85rem] border border-[#FF6B01]/30 overflow-hidden shadow-[0_4px_15px_rgba(255,107,1,0.05)] flex flex-col bg-white">
-                    <div className="bg-gradient-to-r from-[#FF6B01] via-[#9D50E5] to-[#1800E7] text-white text-[13px] font-black px-4 py-2.5 uppercase tracking-wide">
-                      Limited Time Special
-                    </div>
-                    <div className="p-4 flex flex-col gap-4">
-                      {plan.addons.offers.map((offer, idx) => (
-                        <div key={idx} className="flex gap-4 items-start group/offer">
-                          <div className="w-8 h-8 rounded-lg bg-[#FFF5EF] flex items-center justify-center shrink-0 transition-transform group-hover/offer:scale-110">
-                            {offer.icon === 'ticket' ? <Gift className="w-4 h-4 text-[#FF6B01]" /> : <Zap className="w-4 h-4 text-[#FF6B01]" />}
-                          </div>
-                          <div className="flex flex-col">
-                            {offer.title.includes("Voucher") ? (
-                              <span className="bg-[#FF6B01] text-white text-[12px] font-black px-2 py-0.5 rounded-md w-fit mb-1.5 shadow-sm">{offer.title}</span>
-                            ) : (
-                              <span className="text-gray-900 text-[14px] font-black leading-tight mb-1">{offer.title}</span>
-                            )}
-                            {offer.items.map((item, i) => (
-                              <p key={i} className="text-[12px] text-gray-500 font-semibold leading-snug">
-                                {item.includes("promo code") ? (
-                                  <>Enter <span className="text-[#1800E7] font-black">PROMO CODE {item.split("code ")[1].split(" on")[0]}</span> {item.split(item.split("code ")[1].split(" on")[0])[1]}</>
-                                ) : item}
-                              </p>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
                     </div>
                   </div>
                 )}

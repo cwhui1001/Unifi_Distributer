@@ -37,31 +37,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
       
       let parsedDevice = "";
       if (device) {
-        const devStr = device as string;
-        // Fuzzy matching logic for Home Broadband Devices (TVs & iPads)
-        const matchedFibreDevice = availableFibreDevices.find(d => {
-          const cleanD = d.replace(/\s+/g, "").toLowerCase();
-          const cleanDev = devStr.replace(/\s+/g, "").toLowerCase();
-          return cleanD.includes(cleanDev) || cleanDev.includes(cleanD);
-        });
-        
-        if (matchedFibreDevice) {
-          parsedDevice = matchedFibreDevice;
-        } else {
-          // Fallback keyword matching just in case
-          const lower = devStr.toLowerCase();
-          if (lower.includes("43")) {
-            parsedDevice = "Samsung/Sharp TV (43\")";
-          } else if (lower.includes("55")) {
-            parsedDevice = "Samsung/Sharp TV (55\")";
-          } else if (lower.includes("65")) {
-            parsedDevice = "Samsung/Sharp TV (65\")";
-          } else if (lower.includes("75")) {
-            parsedDevice = "Samsung/Sharp TV (75\")";
-          } else if (lower.includes("ipad")) {
-            parsedDevice = "Apple iPad 11 (128GB)";
-          }
-        }
+        parsedDevice = matchDeviceToFibreOption(device as string, (plan as string) || "");
       }
 
       if (pkg || plan || parsedDevice) {
@@ -98,13 +74,86 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     "Fixed IP": ["1 Fixed IP", "5 Fixed IP"],
   };
 
-  const availableFibreDevices = [
-    "Samsung/Sharp TV (43\")",
-    "Samsung/Sharp TV (55\")",
-    "Samsung/Sharp TV (65\")",
-    "Samsung/Sharp TV (75\")",
-    "Apple iPad 11 (128GB)"
-  ];
+  const getAvailableDevices = (plan: string) => {
+    if (!plan) return [];
+    const planLower = plan.toLowerCase();
+    if (planLower.includes("300mbps")) {
+      return [
+        "FREE 6 MONTHS",
+        "43 INCH SMART TV (ADDON RM10)"
+      ];
+    }
+    if (planLower.includes("500mbps")) {
+      return [
+        "FREE 6 MONTHS",
+        "55 INCH SMART TV (ADDON RM10)",
+        "65 INCH SMART TV (ADDON RM20)",
+        "IPAD 11 A16 128GB (ADDON RM10)"
+      ];
+    }
+    if (planLower.includes("1gbps")) {
+      return [
+        "65 INCH SMART TV (ADDON RM10)",
+        "75 INCH SMART TV (ADDON RM20)"
+      ];
+    }
+    return [];
+  };
+
+  const matchDeviceToFibreOption = (devStr: string, plan: string): string => {
+    const lower = devStr.toLowerCase();
+    const planLower = (plan || "").toLowerCase();
+    
+    // Check if the plan is 300Mbps
+    if (planLower.includes("300mbps")) {
+      if (lower.includes("43")) {
+        return "43 INCH SMART TV (ADDON RM10)";
+      }
+      if (lower.includes("free")) {
+        return "FREE 6 MONTHS";
+      }
+    }
+    // Check if the plan is 500Mbps
+    if (planLower.includes("500mbps")) {
+      if (lower.includes("55")) {
+        return "55 INCH SMART TV (ADDON RM10)";
+      }
+      if (lower.includes("65")) {
+        return "65 INCH SMART TV (ADDON RM20)";
+      }
+      if (lower.includes("ipad")) {
+        return "IPAD 11 A16 128GB (ADDON RM10)";
+      }
+      if (lower.includes("free")) {
+        return "FREE 6 MONTHS";
+      }
+    }
+    // Check if the plan is 1Gbps
+    if (planLower.includes("1gbps")) {
+      if (lower.includes("65")) {
+        return "65 INCH SMART TV (ADDON RM10)";
+      }
+      if (lower.includes("75")) {
+        return "75 INCH SMART TV (ADDON RM20)";
+      }
+    }
+    
+    // Keyword match fallback
+    if (lower.includes("43")) return "43 INCH SMART TV (ADDON RM10)";
+    if (lower.includes("55")) return "55 INCH SMART TV (ADDON RM10)";
+    if (lower.includes("75")) return "75 INCH SMART TV (ADDON RM20)";
+    if (lower.includes("ipad")) return "IPAD 11 A16 128GB (ADDON RM10)";
+    if (lower.includes("free")) return "FREE 6 MONTHS";
+    if (lower.includes("65")) {
+      if (planLower.includes("1gbps")) {
+        return "65 INCH SMART TV (ADDON RM10)";
+      } else {
+        return "65 INCH SMART TV (ADDON RM20)";
+      }
+    }
+    
+    return "";
+  };
 
   const currentPackages = initialType === "home" ? homePackages : businessPackages;
 
@@ -113,7 +162,19 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     if (type === "checkbox") {
       setFormData((prev) => ({ ...prev, [name]: (e.target as HTMLInputElement).checked }));
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData((prev) => {
+        const nextData = { ...prev, [name]: value };
+        if (name === "package") {
+          nextData.plan = "";
+          nextData.device = "";
+        } else if (name === "plan") {
+          const availableForNewPlan = getAvailableDevices(value);
+          if (prev.device && !availableForNewPlan.includes(prev.device)) {
+            nextData.device = "";
+          }
+        }
+        return nextData;
+      });
     }
   };
 
@@ -337,12 +398,13 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                   <Smartphone className={iconClasses} />
                   <select 
                     name="device"
-                    className={`${inputClasses} pl-12 appearance-none cursor-pointer pr-10`}
+                    disabled={!formData.plan || getAvailableDevices(formData.plan).length === 0}
+                    className={`${inputClasses} pl-12 appearance-none cursor-pointer pr-10 disabled:bg-gray-50 disabled:cursor-not-allowed`}
                     value={formData.device}
                     onChange={handleInputChange}
                   >
-                    <option value="">No Bundled Device</option>
-                    {availableFibreDevices.map(device => (
+                    <option value="">{formData.plan && getAvailableDevices(formData.plan).length > 0 ? "No Bundled Device" : "No Device Options for this plan"}</option>
+                    {getAvailableDevices(formData.plan).map(device => (
                       <option key={device} value={device}>{device}</option>
                     ))}
                   </select>

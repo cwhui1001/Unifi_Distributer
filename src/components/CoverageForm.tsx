@@ -7,22 +7,14 @@ export default function CoverageForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     "user-name": "",
-    "user-email": "",
     "user-contact": "",
-    "building_name": "",
-    "floor_no": "",
-    "unit_no": "",
-    "block_no": "",
-    "street": "",
-    "section_no": "",
-    "city": "",
-    "telco": "No",
-    "postcode": "",
+    "full_address": "",
+    "plan": "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -98,223 +90,91 @@ export default function CoverageForm() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Section 1: Personal Information */}
-            <div>
-              <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-3">
-                <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
-                  <User className="w-4 h-4 text-orange-600" />
-                </div>
-                <h3 className="font-black text-lg text-gray-800 uppercase tracking-tight">Personal Details</h3>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Full Name</label>
-                  <div className="relative">
-                    <User className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="user-name" 
-                      placeholder="Name" 
-                      className={`${inputClasses} pl-12`}
-                      required
-                      value={formData["user-name"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Email Address</label>
-                  <div className="relative">
-                    <Mail className={iconClasses} />
-                    <input 
-                      type="email" 
-                      name="user-email" 
-                      placeholder="Email Address" 
-                      className={`${inputClasses} pl-12`}
-                      required
-                      value={formData["user-email"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Contact Number</label>
-                  <div className="relative">
-                    <Phone className={iconClasses} />
-                    <input 
-                      type="tel" 
-                      name="user-contact" 
-                      placeholder="Contact Number" 
-                      className={`${inputClasses} pl-12`}
-                      required
-                      value={formData["user-contact"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 2: Building Details */}
-            <div>
-              <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-3 mt-4">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-                  <Building2 className="w-4 h-4 text-blue-600" />
-                </div>
-                <h3 className="font-black text-lg text-gray-800 uppercase tracking-tight">Installation Address</h3>
+            <div className="space-y-6">
+              {/* Full Name */}
+              <div className={groupClasses}>
+                <label className={labelClasses}>Full Name *</label>
+                <input 
+                  type="text" 
+                  name="user-name" 
+                  placeholder="e.g. Ahmad bin Ali" 
+                  className={inputClasses}
+                  required
+                  value={formData["user-name"]}
+                  onChange={handleInputChange}
+                />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Building Unit</label>
-                  <div className="relative">
-                    <Home className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="building_name" 
-                      placeholder="Building Unit" 
-                      className={`${inputClasses} pl-12`}
-                      value={formData["building_name"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Building Floor</label>
-                  <div className="relative">
-                    <Layers className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="floor_no" 
-                      placeholder="Building Floor" 
-                      className={`${inputClasses} pl-12`}
-                      value={formData["floor_no"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Building Block</label>
-                  <div className="relative">
-                    <Hash className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="unit_no" 
-                      placeholder="Building Block" 
-                      className={`${inputClasses} pl-12`}
-                      value={formData["unit_no"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Building Name</label>
-                  <div className="relative">
-                    <Building2 className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="block_no" 
-                      placeholder="Building Name" 
-                      className={`${inputClasses} pl-12`}
-                      value={formData["block_no"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
+              {/* Phone Number */}
+              <div className={groupClasses}>
+                <label className={labelClasses}>Phone Number *</label>
+                <input 
+                  type="tel" 
+                  name="user-contact" 
+                  placeholder="e.g. 011-1234 5678" 
+                  className={inputClasses}
+                  required
+                  value={formData["user-contact"]}
+                  onChange={handleInputChange}
+                />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Street Name</label>
-                  <div className="relative">
-                    <Navigation className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="street" 
-                      placeholder="Street Name" 
-                      className={`${inputClasses} pl-12`}
-                      required
-                      value={formData["street"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Section</label>
-                  <div className="relative">
-                    <MapPin className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="section_no" 
-                      placeholder="Section" 
-                      className={`${inputClasses} pl-12`}
-                      required
-                      value={formData["section_no"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>City/State</label>
-                  <div className="relative">
-                    <Globe className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="city" 
-                      placeholder="City/State" 
-                      className={`${inputClasses} pl-12`}
-                      required
-                      value={formData["city"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
+              {/* Full Address */}
+              <div className={groupClasses}>
+                <label className={labelClasses}>Full Address *</label>
+                <textarea 
+                  name="full_address" 
+                  placeholder="e.g. No 12, Jalan Ampang, 50450 Kuala Lumpur" 
+                  className={`${inputClasses} resize-none h-28`}
+                  required
+                  value={formData["full_address"]}
+                  onChange={handleInputChange}
+                />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Postcode</label>
-                  <div className="relative">
-                    <Search className={iconClasses} />
-                    <input 
-                      type="text" 
-                      name="postcode" 
-                      placeholder="Postcode" 
-                      className={`${inputClasses} pl-12`}
-                      required
-                      value={formData["postcode"]}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                </div>
-
-                <div className={groupClasses}>
-                  <label className={labelClasses}>Current Telco Service</label>
-                  <div className="relative">
-                    <Layers className={iconClasses} />
-                    <select 
-                      name="telco" 
-                      className={`${inputClasses} pl-12 appearance-none cursor-pointer`}
-                      value={formData["telco"]}
-                      onChange={handleInputChange}
-                    >
-                      <option value="No">No</option>
-                      <option value="Unifi">Unifi</option>
-                      <option value="Streamxy">Streamxy</option>
-                      <option value="Maxis">Maxis</option>
-                      <option value="Time Fibre">Time Fibre</option>
-                      <option value="Symphonet">Symphonet</option>
-                      <option value="Others">Others</option>
-                    </select>
-                  </div>
+              {/* Interested Plan */}
+              <div className={groupClasses}>
+                <label className={labelClasses}>Interested Plan *</label>
+                <div className="relative">
+                  <select 
+                    name="plan" 
+                    className={`${inputClasses} appearance-none cursor-pointer pr-10`}
+                    required
+                    value={formData["plan"]}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Please select plan</option>
+                    <optgroup label="Unifi Home Fibre">
+                      <option value="100Mbps (RM89/mth)">100Mbps (RM89/mth)</option>
+                      <option value="300Mbps (RM129/mth)">300Mbps (RM129/mth)</option>
+                      <option value="500Mbps (RM149/mth)">500Mbps (RM149/mth)</option>
+                      <option value="1Gbps (RM249/mth)">1Gbps (RM249/mth)</option>
+                      <option value="2Gbps (RM319/mth)">2Gbps (RM319/mth)</option>
+                    </optgroup>
+                    <optgroup label="Unifi Business Fibre">
+                      <option value="Business 100Mbps (RM139/mth)">Business 100Mbps (RM139/mth)</option>
+                      <option value="Business 300Mbps (RM249/mth)">Business 300Mbps (RM249/mth)</option>
+                      <option value="Business 500Mbps (RM299/mth)">Business 500Mbps (RM299/mth)</option>
+                      <option value="Business 1Gbps (RM399/mth)">Business 1Gbps (RM399/mth)</option>
+                    </optgroup>
+                    <optgroup label="Unifi Air Biz (Wireless)">
+                      <option value="Unifi Air Biz 5G 99 (RM99/mth)">Unifi Air Biz 5G 99 (RM99/mth)</option>
+                      <option value="Unifi Air Biz 5G 149 (RM149/mth)">Unifi Air Biz 5G 149 (RM149/mth)</option>
+                    </optgroup>
+                    <optgroup label="Fixed IP Add-on">
+                      <option value="1 Fixed IP (RM200/mth)">1 Fixed IP (RM200/mth)</option>
+                      <option value="5 Fixed IP (RM300/mth)">5 Fixed IP (RM300/mth)</option>
+                    </optgroup>
+                    <optgroup label="Unifi Mobile Postpaid">
+                      <option value="UNI5G Postpaid 39 (RM39/mth)">UNI5G Postpaid 39 (RM39/mth)</option>
+                      <option value="UNI5G Postpaid 69 (RM69/mth)">UNI5G Postpaid 69 (RM69/mth)</option>
+                      <option value="UNI5G Postpaid 99 (RM99/mth)">UNI5G Postpaid 99 (RM99/mth)</option>
+                      <option value="UNI5G Postpaid Family 129 (RM129/mth)">UNI5G Postpaid Family 129 (RM129/mth)</option>
+                      <option value="UNI5G Postpaid Family 159 (RM159/mth)">UNI5G Postpaid Family 159 (RM159/mth)</option>
+                      <option value="UNI5G Postpaid Family 189 (RM189/mth)">UNI5G Postpaid Family 189 (RM189/mth)</option>
+                    </optgroup>
+                  </select>
+                  <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />
                 </div>
               </div>
             </div>
