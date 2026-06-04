@@ -117,7 +117,7 @@ export default function HomePage() {
       description: "Great for small households and apartments with 2 to 4 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" }
+        { highlight: "Free", text: "6 Months WiFi", priceAddon: 0, deviceQuery: "FREE 6 MONTHS WIFI" }
       ],
       features: [
         { title: "Unlimited Data", text: "Download speed up to 100mbps\nUpload speed up to 50mbps" },
@@ -134,7 +134,7 @@ export default function HomePage() {
       description: "Optimal for Families, Home Offices and Townhouses with 4 to 6 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" },
+        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS WIFI" },
         { highlight: "ADD-ON", text: "RM10/mth Get 43″ TV (36-months contract)", priceAddon: 10, deviceQuery: "43 INCH SMART TV (ADDON RM10)" }
       ],
       features: [
@@ -153,7 +153,7 @@ export default function HomePage() {
       description: "Perfect for gamers and streamers in houses with 6 to 8 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" },
+        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS WIFI" },
         { highlight: "ADD-ON", text: "RM10/mth Get 55″ TV (36-months contract)", priceAddon: 10, deviceQuery: "55 INCH SMART TV (ADDON RM10)" },
         { highlight: "ADD-ON", text: "RM20/mth Get 65″ TV (36-months contract)", priceAddon: 20, deviceQuery: "65 INCH SMART TV (ADDON RM20)" },
         { highlight: "ADD-ON", text: "RM10/mth Get iPad 11″ A16 WiFi 128GB (36-months contract)", priceAddon: 10, deviceQuery: "IPAD 11 A16 128GB (ADDON RM10)" }
@@ -174,7 +174,7 @@ export default function HomePage() {
       description: "Lightning-Fast Speed for Power Users in Larger Homes with 8 to 10 users/devices.",
       promoImg: "/images/unifi_special_promo.png",
       deals: [
-        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS" },
+        { highlight: "Free", text: "6 Months WiFi (30-months contract)", priceAddon: 0, deviceQuery: "FREE 6 MONTHS WIFI" },
         { highlight: "ADD-ON", text: "RM10/mth Get 65″ TV (36-months contract)", priceAddon: 10, deviceQuery: "65 INCH SMART TV (ADDON RM10)" },
         { highlight: "ADD-ON", text: "RM20/mth Get 75″ TV (36-months contract)", priceAddon: 20, deviceQuery: "75 INCH SMART TV (ADDON RM20)" }
       ],

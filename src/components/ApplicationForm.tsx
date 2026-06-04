@@ -79,13 +79,13 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     const planLower = plan.toLowerCase();
     if (planLower.includes("300mbps")) {
       return [
-        "FREE 6 MONTHS",
+        "FREE 6 MONTHS WIFI",
         "43 INCH SMART TV (ADDON RM10)"
       ];
     }
     if (planLower.includes("500mbps")) {
       return [
-        "FREE 6 MONTHS",
+        "FREE 6 MONTHS WIFI",
         "55 INCH SMART TV (ADDON RM10)",
         "65 INCH SMART TV (ADDON RM20)",
         "IPAD 11 A16 128GB (ADDON RM10)"
@@ -110,7 +110,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
         return "43 INCH SMART TV (ADDON RM10)";
       }
       if (lower.includes("free")) {
-        return "FREE 6 MONTHS";
+        return "FREE 6 MONTHS WIFI";
       }
     }
     // Check if the plan is 500Mbps
@@ -125,7 +125,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
         return "IPAD 11 A16 128GB (ADDON RM10)";
       }
       if (lower.includes("free")) {
-        return "FREE 6 MONTHS";
+        return "FREE 6 MONTHS WIFI";
       }
     }
     // Check if the plan is 1Gbps
@@ -134,7 +134,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
         return "65 INCH SMART TV (ADDON RM10)";
       }
       if (lower.includes("75")) {
-        return "75 INCH SMART TV (ADDON RM20)";
+        return "75 INCH SMART TV (ADDON RM20)"
       }
     }
     
@@ -143,7 +143,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     if (lower.includes("55")) return "55 INCH SMART TV (ADDON RM10)";
     if (lower.includes("75")) return "75 INCH SMART TV (ADDON RM20)";
     if (lower.includes("ipad")) return "IPAD 11 A16 128GB (ADDON RM10)";
-    if (lower.includes("free")) return "FREE 6 MONTHS";
+    if (lower.includes("free")) return "FREE 6 MONTHS WIFI";
     if (lower.includes("65")) {
       if (planLower.includes("1gbps")) {
         return "65 INCH SMART TV (ADDON RM10)";
@@ -393,7 +393,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
               </div>
 
               <div className={groupClasses}>
-                <label className={labelClasses}>Bundled Smart Device (Optional)</label>
+                <label className={labelClasses}>Bundled Deals (Optional)</label>
                 <div className="relative">
                   <Smartphone className={iconClasses} />
                   <select 
