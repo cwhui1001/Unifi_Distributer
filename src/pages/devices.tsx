@@ -10,7 +10,9 @@ import {
   ExternalLink,
   ShieldCheck,
   Zap,
-  Info
+  Info,
+  Maximize2,
+  X
 } from "lucide-react";
 
 // Product Type Definitions
@@ -42,6 +44,9 @@ interface Product {
 export default function DevicesPage() {
   const router = useRouter();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  // Lightbox State
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   // Keep track of active variant for each product
   const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({
@@ -528,119 +533,239 @@ export default function DevicesPage() {
         </div>
       </section>
 
-      {/* 4. Easy Process Steps Section */}
-      <section className="py-24 bg-gray-50/50 border-y border-gray-100">
+      {/* Choose Your Devices Section */}
+      <section className="py-24 bg-gray-50/50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-[#1800E7] text-xs font-black uppercase tracking-widest inline-block mb-3">Simple Process</span>
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 uppercase">
-              HOW TO ORDER WITH <span className="text-[#FF6B01]">UNIFI HOME PLUS</span>
+            <span className="text-[#1800E7] text-xs font-black uppercase tracking-widest inline-block mb-3">Device Matcher</span>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 uppercase tracking-tight">
+              CHOOSE YOUR DEVICES WITH UNIFI HOME PLAN
             </h2>
             <p className="text-base text-gray-500 font-bold max-w-xl mx-auto leading-relaxed">
-              Bringing home your brand new device is extremely simple and fast. Follow our 3-step consultation program.
+              Get premium smart devices bundled directly with your high-speed fibre broadband plan.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 relative">
-            {/* Step 1 */}
-            <div className="bg-white p-8 rounded-3xl border border-gray-200/60 shadow-sm relative space-y-4">
-              <span className="w-12 h-12 rounded-2xl bg-blue-50 text-[#1800E7] flex items-center justify-center font-black text-xl">1</span>
-              <h3 className="text-lg font-black text-gray-900 uppercase">Consult & Check Eligibility</h3>
-              <p className="text-sm text-gray-500 font-semibold leading-relaxed">
-                Connect with our independent TM sales consultant via WhatsApp. Submit your IC verification to check your address coverage and device bundle eligibility.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="bg-white p-8 rounded-3xl border border-gray-200/60 shadow-sm relative space-y-4">
-              <span className="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center font-black text-xl">2</span>
-              <h3 className="text-lg font-black text-gray-900 uppercase">Lock Your Speed & Plan</h3>
-              <p className="text-sm text-gray-500 font-semibold leading-relaxed">
-                Choose the Home Plus plan matching your selected device size (100Mbps, 300Mbps, 500Mbps, or 1Gbps) that fits your household's digital lifestyle.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="bg-white p-8 rounded-3xl border border-gray-200/60 shadow-sm relative space-y-4">
-              <span className="w-12 h-12 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center font-black text-xl">3</span>
-              <h3 className="text-lg font-black text-gray-900 uppercase">Approval & Door Delivery</h3>
-              <p className="text-sm text-gray-500 font-semibold leading-relaxed">
-                Once registered and approved by TM, your high-speed fibre broadband is set up, and your brand-new, factory-sealed device is delivered straight to your home with RM0 upfront!
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Device FAQ Accordion */}
-      <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 uppercase tracking-tight">
-              FREQUENTLY ASKED QUESTIONS
-            </h2>
-            <p className="text-base text-gray-500 font-bold max-w-md mx-auto">
-              Got questions about Unifi Device Fiesta and the Home Plus plans? We have answers.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq, index) => {
-              const isExpanded = expandedFaq === index;
-              return (
-                <div 
-                  key={index} 
-                  className="bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors overflow-hidden"
+          {/* Row 1: 300Mbps & 500Mbps (2 columns) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+            {/* 300Mbps Card */}
+            <div className="group flex flex-col justify-between bg-white border border-gray-200 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-[0_25px_60px_rgba(24,0,231,0.06)] hover:border-orange-100 transition-all duration-300">
+              <div className="bg-[#1800E7] text-white py-3.5 px-6 text-center font-black text-lg uppercase tracking-widest">
+                300Mbps
+              </div>
+              <div className="bg-slate-50/30 p-8 flex flex-col items-center justify-center border-b border-slate-100 h-64">
+                <img 
+                  src="https://unififibre.com.my/wp-content/uploads/2026/05/steve-11.png" 
+                  alt='43" Smart TV' 
+                  className="max-h-full max-w-[85%] object-contain group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+              <div className="p-6 text-center space-y-4">
+                <h3 className="text-xl font-extrabold text-slate-900 uppercase">
+                  43" SMART TV
+                </h3>
+                <button
+                  onClick={() => handleBuyNow("Samsung/Sharp TV", "43\"", "Unifi 300Mbps Home Fibre + Smart TV Pack", "300Mbps", 139)}
+                  className="w-full py-4 bg-[#1800E7] hover:bg-[#FF7A00] text-white rounded-full font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-orange-500/20"
                 >
-                  <button
-                    onClick={() => setExpandedFaq(isExpanded ? null : index)}
-                    className="w-full flex justify-between items-center p-6 text-left focus:outline-none transition-all gap-4"
-                  >
-                    <span className="font-extrabold text-slate-800 text-sm md:text-base leading-snug uppercase tracking-tight">
-                      {faq.q}
-                    </span>
-                    <ChevronDown className={`w-5 h-5 text-[#005B9F] shrink-0 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} />
-                  </button>
-                  
-                  <div 
-                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                      isExpanded ? "max-h-[300px] opacity-100 border-t border-gray-100" : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    <div className="p-6 text-xs md:text-sm font-medium text-slate-600 whitespace-pre-line leading-relaxed">
-                      {faq.a}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                  I WANT THIS
+                </button>
+              </div>
+            </div>
+
+            {/* 500Mbps Card */}
+            <div className="group flex flex-col justify-between bg-white border border-gray-200 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-[0_25px_60px_rgba(24,0,231,0.06)] hover:border-orange-100 transition-all duration-300">
+              <div className="bg-[#1800E7] text-white py-3.5 px-6 text-center font-black text-lg uppercase tracking-widest">
+                500Mbps
+              </div>
+              <div className="bg-slate-50/30 p-8 flex flex-col items-center justify-center border-b border-slate-100 h-64">
+                <img 
+                  src="https://unififibre.com.my/wp-content/uploads/2026/05/steve-10.png" 
+                  alt='55" Smart TV' 
+                  className="max-h-full max-w-[85%] object-contain group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+              <div className="p-6 text-center space-y-4">
+                <h3 className="text-xl font-extrabold text-slate-900 uppercase">
+                  55" SMART TV
+                </h3>
+                <button
+                  onClick={() => handleBuyNow("Samsung/Sharp TV", "55\"", "Unifi 500Mbps Home Fibre + Smart TV Pack", "500Mbps", 159)}
+                  className="w-full py-4 bg-[#1800E7] hover:bg-[#FF7A00] text-white rounded-full font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-orange-500/20"
+                >
+                  I WANT THIS
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Row 2: iPad, 65" TV, 75" TV (3 columns) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* iPad Card */}
+            <div className="group flex flex-col justify-between bg-white border border-gray-200 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-[0_25px_60px_rgba(24,0,231,0.06)] hover:border-orange-100 transition-all duration-300">
+              <div className="bg-[#1800E7] text-white py-3.5 px-6 text-center font-black text-lg uppercase tracking-widest">
+                500Mbps
+              </div>
+              <div className="bg-slate-50/30 p-8 flex flex-col items-center justify-center border-b border-slate-100 h-64">
+                <img 
+                  src="https://unififibre.com.my/wp-content/uploads/2025/10/IMG-16744992_962698e3-302c-4932-b26d-1aec0439df67-1.webp" 
+                  alt='APPLE IPAD A16 11"' 
+                  className="max-h-full max-w-[85%] object-contain group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+              <div className="p-6 text-center space-y-4">
+                <h3 className="text-xl font-extrabold text-slate-900 uppercase min-h-[56px] flex items-center justify-center">
+                  APPLE IPAD A16 11"
+                </h3>
+                <button
+                  onClick={() => handleBuyNow("iPad 11 (A16) 128GB WiFi", "128GB", "Unifi 500Mbps Home Fibre + iPad Add-on", "500Mbps", 159)}
+                  className="w-full py-4 bg-[#1800E7] hover:bg-[#FF7A00] text-white rounded-full font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-orange-500/20"
+                >
+                  I WANT THIS
+                </button>
+              </div>
+            </div>
+
+            {/* 65" TV Card */}
+            <div className="group flex flex-col justify-between bg-white border border-gray-200 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-[0_25px_60px_rgba(24,0,231,0.06)] hover:border-orange-100 transition-all duration-300">
+              <div className="bg-[#1800E7] text-white py-3.5 px-6 text-center font-black text-lg uppercase tracking-widest">
+                500Mbps
+              </div>
+              <div className="bg-slate-50/30 p-8 flex flex-col items-center justify-center border-b border-slate-100 h-64">
+                <img 
+                  src="https://unififibre.com.my/wp-content/uploads/2026/05/steve-12.png" 
+                  alt='65" Smart TV' 
+                  className="max-h-full max-w-[85%] object-contain group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+              <div className="p-6 text-center space-y-4">
+                <h3 className="text-xl font-extrabold text-slate-900 uppercase min-h-[56px] flex items-center justify-center">
+                  65" SMART TV
+                </h3>
+                <button
+                  onClick={() => handleBuyNow("Samsung/Sharp TV", "65\"", "Unifi 500Mbps Home Fibre + 65\" TV Pack", "500Mbps", 169)}
+                  className="w-full py-4 bg-[#1800E7] hover:bg-[#FF7A00] text-white rounded-full font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-orange-500/20"
+                >
+                  I WANT THIS
+                </button>
+              </div>
+            </div>
+
+            {/* 75" TV Card */}
+            <div className="group flex flex-col justify-between bg-white border border-gray-200 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-[0_25px_60px_rgba(24,0,231,0.06)] hover:border-orange-100 transition-all duration-300">
+              <div className="bg-[#1800E7] text-white py-3.5 px-6 text-center font-black text-lg uppercase tracking-widest">
+                1Gbps
+              </div>
+              <div className="bg-slate-50/30 p-8 flex flex-col items-center justify-center border-b border-slate-100 h-64">
+                <img 
+                  src="https://unififibre.com.my/wp-content/uploads/2026/05/steve-12.png" 
+                  alt='75" Smart TV' 
+                  className="max-h-full max-w-[85%] object-contain group-hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+              <div className="p-6 text-center space-y-4">
+                <h3 className="text-xl font-extrabold text-slate-900 uppercase min-h-[56px] flex items-center justify-center">
+                  75" SMART TV
+                </h3>
+                <button
+                  onClick={() => handleBuyNow("Samsung/Sharp TV", "75\"", "Unifi 1Gbps Home Fibre + 75\" TV Pack", "1Gbps", 269)}
+                  className="w-full py-4 bg-[#1800E7] hover:bg-[#FF7A00] text-white rounded-full font-black text-sm uppercase tracking-wider transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-orange-500/20"
+                >
+                  I WANT THIS
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 6. Bottom Call to Action Section */}
-      <section className="py-16 bg-[#1800E7] text-white text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1800E7] to-[#FF6B01]/40 pointer-events-none"></div>
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-10 space-y-6">
-          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight">
-            Ready to bring your favorite device home?
-          </h2>
-          <p className="text-blue-100 font-bold max-w-xl mx-auto text-sm md:text-base">
-            Click below to chat with our independent sales support agent. We will handle address coverage check, plan selection, and order registration for you completely free!
-          </p>
-          <div className="pt-2">
-            <a
-              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hi! I'm interested in checking the Unifi Device Fiesta promotions. Please guide me through checking my eligibility.")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-10 py-5 bg-[#FF6B01] hover:bg-[#e05b00] text-white rounded-full font-black text-base shadow-xl shadow-orange-500/30 uppercase tracking-widest gap-2.5 transition-transform hover:-translate-y-0.5"
+      {/* Device Specifications Section */}
+      <section className="py-16 bg-white border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-[#FF7A00] text-xs font-black uppercase tracking-widest inline-block mb-3">Specifications</span>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 uppercase tracking-tight">
+              Device Specifications & Details
+            </h2>
+            <p className="text-sm md:text-base text-gray-500 font-bold max-w-lg mx-auto">
+              Review full device compatibility, size options, and package rules. Click on any image to zoom and pan.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            {/* Specification 1 */}
+            <div 
+              onClick={() => setLightboxImg("/images/devices/specification.png")}
+              className="bg-white p-4 rounded-3xl border border-gray-200 shadow-sm overflow-hidden flex justify-center relative cursor-pointer group"
             >
-              Start Registration Inquiries
-              <ArrowRight className="w-5 h-5" />
-            </a>
+              <img 
+                src="/images/devices/specification.png" 
+                alt="Device Specifications 1" 
+                className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+              {/* Hover View Overlay */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 text-white">
+                <div className="p-3 bg-white/20 backdrop-blur-md rounded-full border border-white/20 transform scale-75 group-hover:scale-100 transition-transform duration-500">
+                  <Maximize2 className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-sm font-black tracking-wider uppercase select-none">
+                  Click to View
+                </span>
+              </div>
+            </div>
+
+            {/* Specification 2 */}
+            <div 
+              onClick={() => setLightboxImg("/images/devices/specification2.png")}
+              className="bg-white p-4 rounded-3xl border border-gray-200 shadow-sm overflow-hidden flex justify-center relative cursor-pointer group"
+            >
+              <img 
+                src="/images/devices/specification2.png" 
+                alt="Device Specifications 2" 
+                className="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+              />
+              {/* Hover View Overlay */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 text-white">
+                <div className="p-3 bg-white/20 backdrop-blur-md rounded-full border border-white/20 transform scale-75 group-hover:scale-100 transition-transform duration-500">
+                  <Maximize2 className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-sm font-black tracking-wider uppercase select-none">
+                  Click to View
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Lightbox Modal */}
+      {lightboxImg && (
+        <div className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-black/90 backdrop-blur-sm animate-in fade-in duration-300">
+          {/* Close Button */}
+          <button 
+            onClick={() => setLightboxImg(null)}
+            className="absolute top-6 right-6 z-[10002] p-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/10 transition-all hover:scale-110"
+            title="Close View"
+          >
+            <X className="w-6 h-6" />
+          </button>
+
+          {/* Clickable Backdrop to close */}
+          <div 
+            className="absolute inset-0 z-[10000]" 
+            onClick={() => setLightboxImg(null)}
+          />
+
+          {/* Image Wrapper */}
+          <div className="relative w-[90%] max-w-5xl max-h-[85vh] flex items-center justify-center p-4 z-[10001] pointer-events-none">
+            <img 
+              src={lightboxImg} 
+              alt="Fullscreen View" 
+              className="max-w-full max-h-full object-contain rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.5)] border border-white/10"
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }

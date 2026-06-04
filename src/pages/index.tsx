@@ -3,6 +3,7 @@ import Head from "next/head";
 import { CheckCircle2, Zap, Home, ShieldCheck, ChevronDown, ChevronLeft, ChevronRight, ArrowUpDown, Router, Headset, X } from "lucide-react";
 import Link from "next/link";
 import HomeFAQ from "@/components/HomeFAQ";
+import AgentForm from "@/components/AgentForm";
 
 export default function HomePage() {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -279,6 +280,13 @@ export default function HomePage() {
         <title>Home Broadband | unifi Fibre</title>
       </Head>
       
+      {/* Join Agent Section */}
+      <section className="w-full bg-gray-50 py-12 border-b border-gray-100 relative z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AgentForm />
+        </div>
+      </section>
+      
       {/* Hero Section */}
       <div className="w-full bg-white relative">
         <section 
@@ -323,8 +331,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        
       </div>
 
       <div className="w-full bg-white pt-8 pb-4 relative z-20">

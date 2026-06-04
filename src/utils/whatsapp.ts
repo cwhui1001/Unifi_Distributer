@@ -31,6 +31,7 @@ export const sendToWhatsApp = (formType: string, formData: Record<string, any>) 
     "street": "Street",
     "section_no": "Section",
     "telco": "Current Telco",
+    "region": "Region/Area",
     
     // Mobile Form
     "choose-number": "Number Type",
