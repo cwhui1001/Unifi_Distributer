@@ -37,7 +37,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
       
       let parsedDevice = "";
       if (device) {
-        parsedDevice = matchDeviceToFibreOption(device as string, (plan as string) || "");
+        parsedDevice = matchDeviceToFibreOption(device as string, (plan as string) || "", (pkg as string) || "");
       }
 
       if (pkg || plan || parsedDevice) {
@@ -74,9 +74,24 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     "Fixed IP": ["1 Fixed IP", "5 Fixed IP"],
   };
 
-  const getAvailableDevices = (plan: string) => {
+  const getAvailableDevices = (plan: string, currentPackage?: string) => {
     if (!plan) return [];
+    const pkg = currentPackage || formData.package;
     const planLower = plan.toLowerCase();
+
+    if (pkg === "Unifi Home Plan") {
+      if (planLower.includes("100mbps")) {
+        return ["Netflix Basic"];
+      }
+      if (planLower.includes("300mbps")) {
+        return ["Netflix Basic", "Max Standard"];
+      }
+      if (planLower.includes("500mbps") || planLower.includes("1gbps") || planLower.includes("2gbps")) {
+        return ["Netflix Standard"];
+      }
+      return [];
+    }
+
     if (planLower.includes("300mbps")) {
       return [
         "FREE 6 MONTHS WIFI",
@@ -100,9 +115,29 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
     return [];
   };
 
-  const matchDeviceToFibreOption = (devStr: string, plan: string): string => {
+  const matchDeviceToFibreOption = (devStr: string, plan: string, currentPackage?: string): string => {
     const lower = devStr.toLowerCase();
     const planLower = (plan || "").toLowerCase();
+    const pkg = currentPackage || formData.package;
+
+    if (pkg === "Unifi Home Plan") {
+      if (lower.includes("netflix") && lower.includes("basic")) {
+        return "Netflix Basic";
+      }
+      if (lower.includes("netflix") && lower.includes("standard")) {
+        return "Netflix Standard";
+      }
+      if (lower.includes("max")) {
+        return "Max Standard";
+      }
+      if (lower.includes("netflix")) {
+        if (planLower.includes("100mbps") || planLower.includes("300mbps")) {
+          return "Netflix Basic";
+        }
+        return "Netflix Standard";
+      }
+      return "";
+    }
     
     // Check if the plan is 300Mbps
     if (planLower.includes("300mbps")) {
@@ -134,7 +169,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
         return "65 INCH SMART TV (ADDON RM10)";
       }
       if (lower.includes("75")) {
-        return "75 INCH SMART TV (ADDON RM20)"
+        return "75 INCH SMART TV (ADDON RM20)";
       }
     }
     
@@ -168,7 +203,7 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
           nextData.plan = "";
           nextData.device = "";
         } else if (name === "plan") {
-          const availableForNewPlan = getAvailableDevices(value);
+          const availableForNewPlan = getAvailableDevices(value, nextData.package);
           if (prev.device && !availableForNewPlan.includes(prev.device)) {
             nextData.device = "";
           }
@@ -403,7 +438,11 @@ export default function ApplicationForm({ initialType }: ApplicationFormProps) {
                     value={formData.device}
                     onChange={handleInputChange}
                   >
-                    <option value="">{formData.plan && getAvailableDevices(formData.plan).length > 0 ? "No Bundled Device" : "No Device Options for this plan"}</option>
+                    <option value="">
+                      {formData.plan && getAvailableDevices(formData.plan).length > 0 
+                        ? (formData.package === "Unifi Home Plan" ? "No Bundled Deal" : "No Bundled Deal") 
+                        : (formData.package === "Unifi Home Plan" ? "No Deal Options for this plan" : "No Deal Options for this plan")}
+                    </option>
                     {getAvailableDevices(formData.plan).map(device => (
                       <option key={device} value={device}>{device}</option>
                     ))}

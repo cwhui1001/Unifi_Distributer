@@ -794,14 +794,22 @@ export default function HomePage() {
 
                     {/* CTA Button */}
                     <div className="mt-8 mb-2 w-full flex items-stretch h-[46px] group cursor-pointer pointer-events-auto">
-                      <Link 
-                        href={`/apply-unifi-home?package=Unifi%20Home%20Plan&plan=${plan.speed.replace(' ', '')}`}
-                        className={`flex-1 font-extrabold text-[13px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none ${
-                          plan.bestSeller ? 'bg-[#FF7A00] group-hover:bg-[#E05200]' : 'bg-[#1800E7] group-hover:bg-[#0C00B3]'
-                        }`}
-                      >
-                        <span className="translate-x-3">{plan.speed.includes("2 Gb") ? "GET IT NOW" : "SIGN UP NOW"}</span>
-                      </Link>
+                      {(() => {
+                        const selectedAddonIdx = plan.addOns.findLastIndex((_, i) => selectedAddons[`${index}-${i}`]);
+                        const selectedAddon = selectedAddonIdx !== -1 ? plan.addOns[selectedAddonIdx] : "";
+                        return (
+                          <Link 
+                            href={`/apply-unifi-home?package=Unifi%20Home%20Plan&plan=${plan.speed.replace(' ', '')}${
+                              selectedAddon ? `&device=${encodeURIComponent(selectedAddon)}` : ''
+                            }`}
+                            className={`flex-1 font-extrabold text-[13px] tracking-widest text-white transition-all rounded-l-full flex justify-center items-center outline-none ${
+                              plan.bestSeller ? 'bg-[#FF7A00] group-hover:bg-[#E05200]' : 'bg-[#1800E7] group-hover:bg-[#0C00B3]'
+                            }`}
+                          >
+                            <span className="translate-x-3">{plan.speed.includes("2 Gb") ? "GET IT NOW" : "SIGN UP NOW"}</span>
+                          </Link>
+                        );
+                      })()}
                       <div className="w-[4px] bg-white z-10 shrink-0"></div>
                       <div 
                         className={`w-12 transition-all flex items-center justify-center shrink-0 ${
