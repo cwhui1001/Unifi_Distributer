@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { User, Mail, Phone, Building2, MapPin, Search, ChevronRight, Hash, Layers, Home, Navigation, Globe, Send, Smartphone } from "lucide-react";
 
-export default function CoverageForm() {
+export default function CoverageForm({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const [formData, setFormData] = useState({
     "user-name": "",
@@ -69,28 +69,32 @@ export default function CoverageForm() {
     }
   };
 
-  const inputClasses = "w-full bg-white border border-gray-200 rounded-xl px-4 py-3.5 text-gray-700 font-semibold focus:outline-none focus:ring-2 focus:ring-[#1800E7] focus:border-transparent transition-all duration-300 placeholder:text-gray-400 placeholder:font-medium";
+  const inputClasses = compact
+    ? "w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-gray-700 font-semibold focus:outline-none focus:ring-2 focus:ring-[#1800E7] focus:border-transparent transition-all duration-300 placeholder:text-gray-400 placeholder:font-medium text-sm"
+    : "w-full bg-white border border-gray-200 rounded-xl px-4 py-3.5 text-gray-700 font-semibold focus:outline-none focus:ring-2 focus:ring-[#1800E7] focus:border-transparent transition-all duration-300 placeholder:text-gray-400 placeholder:font-medium";
   const iconClasses = "absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1800E7]/60";
   const groupClasses = "relative group flex flex-col gap-1.5";
-  const labelClasses = "text-[13px] font-black text-gray-900 uppercase tracking-wider ml-1";
+  const labelClasses = compact
+    ? "text-[11px] font-black text-gray-900 uppercase tracking-wider ml-1"
+    : "text-[13px] font-black text-gray-900 uppercase tracking-wider ml-1";
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
-      <div className="bg-white rounded-[2rem] shadow-[0_30px_70px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden relative">
+    <div className={`w-full mx-auto ${compact ? "max-w-2xl" : "max-w-5xl"} flex flex-col h-full`}>
+      <div className={`bg-white shadow-[0_30px_70px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden relative flex-1 flex flex-col ${compact ? "rounded-[1.5rem]" : "rounded-[2rem]"}`}>
         <div className="h-2 bg-gradient-to-r from-[#FF7A00] via-[#9D50E5] to-[#1800E7] w-full"></div>
         
-        <div className="p-8 md:p-12">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3 uppercase tracking-tight select-none">
+        <div className={`flex-1 flex flex-col ${compact ? "p-6 sm:p-8" : "p-8 md:p-12"}`}>
+          <div className={`text-center ${compact ? "mb-6" : "mb-12"}`}>
+            <h2 className={`font-black text-gray-900 mb-1.5 uppercase tracking-tight select-none ${compact ? "text-xl sm:text-2xl" : "text-3xl md:text-4xl"}`}>
               Check unifi Coverage
             </h2>
-            <p className="text-gray-500 font-bold text-lg select-none">
+            <p className={`text-gray-500 font-bold select-none ${compact ? "text-sm" : "text-lg"}`}>
               Enter your details below to see if unifi is available in your area.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="space-y-6">
+          <form onSubmit={handleSubmit} className={`flex-1 flex flex-col justify-between ${compact ? "space-y-4" : "space-y-8"}`}>
+            <div className="space-y-6 flex-1">
               {/* Full Name */}
               <div className={groupClasses}>
                 <label className={labelClasses}>Full Name *</label>
@@ -181,28 +185,28 @@ export default function CoverageForm() {
 
             
 
-            <div className="pt-8">
+            <div className={compact ? "pt-4" : "pt-8"}>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-stretch h-[60px] group cursor-pointer transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                className={`w-full flex items-stretch group cursor-pointer transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed ${compact ? "h-[46px]" : "h-[60px]"}`}
               >
-                <div className="flex-1 font-black text-lg tracking-widest text-white transition-all rounded-l-full flex justify-center items-center bg-[#1800E7] group-hover:bg-[#0C00B3] shadow-[0_10px_25px_rgba(24,0,231,0.2)]">
+                <div className={`flex-1 font-black tracking-widest text-white transition-all rounded-l-full flex justify-center items-center bg-[#1800E7] group-hover:bg-[#0C00B3] shadow-[0_10px_25px_rgba(24,0,231,0.2)] ${compact ? "text-sm" : "text-lg"}`}>
                   {isSubmitting ? (
                     <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                       <span>CHECKING...</span>
                     </div>
                   ) : (
                     <span className="translate-x-3 uppercase">Check Coverage Now</span>
                   )}
                 </div>
-                <div className="w-[5px] bg-white z-10 shrink-0"></div>
+                <div className="w-[4px] bg-white z-10 shrink-0"></div>
                 <div 
-                  className="w-16 transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] shadow-[0_10px_25px_rgba(24,0,231,0.2)]"
+                  className={`transition-all flex items-center justify-center shrink-0 bg-[#1800E7] group-hover:bg-[#0C00B3] shadow-[0_10px_25px_rgba(24,0,231,0.2)] ${compact ? "w-12" : "w-16"}`}
                   style={{ clipPath: "polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%)", borderTopRightRadius: "99px", borderBottomRightRadius: "99px" }}
                 >
-                  <ChevronRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform" />
+                  <ChevronRight className={`text-white group-hover:translate-x-1 transition-transform ${compact ? "w-4 h-4" : "w-6 h-6"}`} />
                 </div>
               </button>
             </div>
@@ -210,9 +214,11 @@ export default function CoverageForm() {
         </div>
       </div>
 
-      <div className="mt-12 text-center text-gray-400 font-bold text-sm select-none pb-12">
-        <p>By submitting this form, you agree to being contacted for unifi coverage verification and promotions.</p>
-      </div>
+      {!compact && (
+        <div className="mt-12 text-center text-gray-400 font-bold text-sm select-none pb-12">
+          <p>By submitting this form, you agree to being contacted for unifi coverage verification and promotions.</p>
+        </div>
+      )}
     </div>
   );
 }

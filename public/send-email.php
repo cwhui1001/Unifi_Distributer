@@ -66,6 +66,43 @@ function formatDataRows($data) {
 }
 
 /**
+ * Basic text format template wrapper for company use (easy copy-pasting)
+ */
+function getBasicEmailBody($formType, $formData) {
+    $body = "FORM TYPE: " . $formType . "\r\n\r\n";
+    
+    $customLabels = [
+        "user-name" => "Name",
+        "user-contact" => "Contact Number",
+        "user-email" => "Email",
+        "phone" => "Phone Number",
+        "region" => "Region/Area",
+        "full_address" => "Full Address",
+        "plan" => "Plan/Speed",
+        "package" => "Package",
+        "installation_date" => "Installation Date",
+        "mykad" => "MyKad/Passport",
+        "address1" => "Address Line 1",
+        "address2" => "Address Line 2",
+        "city" => "City",
+        "postcode" => "Postcode",
+        "existing_user" => "Existing User",
+        "device" => "Bundled Deal"
+    ];
+
+    $skipKeys = ['accept1', 'attachments', 'formType'];
+    
+    foreach ($formData as $key => $value) {
+        if (in_array($key, $skipKeys) || is_array($value) || is_bool($value)) continue;
+        
+        $label = isset($customLabels[$key]) ? $customLabels[$key] : ucwords(str_replace(['-', '_'], ' ', $key));
+        $body .= "$label: " . (string)$value . "\r\n";
+    }
+    
+    return "<pre style='font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; color: #333;'>" . htmlspecialchars($body) . "</pre>";
+}
+
+/**
  * Main Template Wrapper
  */
 function getEmailTemplate($title, $greeting, $introText, $rows, $isCustomer, $accentColor = "#FF7A00") {
@@ -137,7 +174,7 @@ if ($isCoverage) {
 
 // Improved Subject
 $subject = "[$subjectLabel] $customerName"; 
-$htmlToCompany = getEmailTemplate($formType, $companyGreeting, $companyIntro, $rows, false, $accentColor);
+$htmlToCompany = getBasicEmailBody($formType, $formData);
 $htmlToCustomer = getEmailTemplate($formType, $customerGreeting, $customerIntro, $rows, true, $accentColor);
 
 // Prepare Clean Headers

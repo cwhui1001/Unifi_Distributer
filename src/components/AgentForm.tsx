@@ -74,11 +74,11 @@ export default function AgentForm() {
   const labelClasses = "text-[11px] font-black text-gray-900 uppercase tracking-wider ml-1";
 
   return (
-    <div className="w-full max-w-6xl mx-auto">
-      <div className="bg-white rounded-[2rem] shadow-[0_30px_70px_rgba(0,0,0,0.12)] border border-gray-100 overflow-hidden relative">
+    <div className="w-full max-w-2xl mx-auto flex flex-col h-full">
+      <div className="bg-white rounded-[2rem] shadow-[0_30px_70px_rgba(0,0,0,0.12)] border border-gray-100 overflow-hidden relative flex-1 flex flex-col">
         <div className="h-2 bg-gradient-to-r from-[#FF7A00] via-[#9D50E5] to-[#1800E7] w-full"></div>
         
-        <div className="p-6 sm:p-8">
+        <div className="p-6 sm:p-8 flex-1 flex flex-col">
           <div className="text-center mb-6">
             <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-1.5 uppercase tracking-tight">
               Join TM unifi Agent
@@ -88,7 +88,8 @@ export default function AgentForm() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
+          <form onSubmit={handleSubmit} className="space-y-4 flex-1 flex flex-col justify-between">
+            <div className="space-y-4 flex-1">
             {/* Name */}
             <div className={groupClasses}>
               <label className={labelClasses}>Name *</label>
@@ -158,9 +159,10 @@ export default function AgentForm() {
                 <MapPin className={iconClasses} />
               </div>
             </div>
+            </div>
 
             {/* Submit Button */}
-            <div className="w-full">
+            <div className="w-full pt-4">
               <button
                 type="submit"
                 disabled={isSubmitting}

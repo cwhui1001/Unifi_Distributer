@@ -4,6 +4,7 @@ import { CheckCircle2, Zap, Home, ShieldCheck, ChevronDown, ChevronLeft, Chevron
 import Link from "next/link";
 import HomeFAQ from "@/components/HomeFAQ";
 import AgentForm from "@/components/AgentForm";
+import CoverageForm from "@/components/CoverageForm";
 
 export default function HomePage() {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -280,10 +281,17 @@ export default function HomePage() {
         <title>Home Broadband | unifi Fibre</title>
       </Head>
       
-      {/* Join Agent Section */}
+      {/* Coverage & Agent Section */}
       <section className="w-full bg-gray-50 py-12 border-b border-gray-100 relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AgentForm />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+            <CoverageForm compact={true} />
+            <AgentForm />
+          </div>
+          
+          <div className="mt-12 text-center text-gray-400 font-bold text-sm select-none">
+            <p>By submitting these forms, you agree to being contacted for unifi coverage verification, agent registration, and promotions.</p>
+          </div>
         </div>
       </section>
       

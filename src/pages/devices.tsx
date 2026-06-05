@@ -83,15 +83,41 @@ export default function DevicesPage() {
   // Redirect to application form with package, speed/plan, and device prefilled
   const handleBuyNow = (productName: string, variantLabel: string, planName: string, speed: string, price: number) => {
     const isMobilePlan = speed.startsWith("UNI5G");
-    const deviceName = `${productName} (${variantLabel})`;
     
     if (isMobilePlan) {
       // Mobile postpaid smartphones -> Switch to mobile application form
+      const deviceName = `${productName} (${variantLabel})`;
       const planNumber = speed.replace(/\D/g, ""); // Extract MNP plan e.g. "99" or "69"
       router.push(`/apply-unifi-mobile?plan=${planNumber}&device=${encodeURIComponent(deviceName)}`);
     } else {
-      // Home fibre TVs and iPads -> Switch to home fibre application form
-      router.push(`/apply-unifi-home?package=Unifi%20Home%20Plan&plan=${encodeURIComponent(speed)}&device=${encodeURIComponent(deviceName)}`);
+      // Home fibre TVs and iPads -> Prefill Unifi Winback Special Promo Plan and their specific deals
+      let deviceQuery = "";
+      if (productName.includes("TV")) {
+        if (variantLabel.includes("43")) {
+          deviceQuery = "43 INCH SMART TV (ADDON RM10)";
+        } else if (variantLabel.includes("55")) {
+          deviceQuery = "55 INCH SMART TV (ADDON RM10)";
+        } else if (variantLabel.includes("65")) {
+          if (speed.toLowerCase().includes("1gbps")) {
+            deviceQuery = "65 INCH SMART TV (ADDON RM10)";
+          } else {
+            deviceQuery = "65 INCH SMART TV (ADDON RM20)";
+          }
+        } else if (variantLabel.includes("75")) {
+          deviceQuery = "75 INCH SMART TV (ADDON RM20)";
+        }
+      } else if (productName.toLowerCase().includes("ipad")) {
+        deviceQuery = "IPAD 11 A16 128GB (ADDON RM10)";
+      }
+
+      const cleanSpeed = speed.replace(" ", ""); // e.g. "300Mbps", "500Mbps", "1Gbps"
+
+      if (deviceQuery) {
+        router.push(`/apply-unifi-home?package=Unifi%20Winback%20Special%20Promo%20Plan&plan=${cleanSpeed}&device=${encodeURIComponent(deviceQuery)}`);
+      } else {
+        const deviceName = `${productName} (${variantLabel})`;
+        router.push(`/apply-unifi-home?package=Unifi%20Home%20Plan&plan=${encodeURIComponent(speed)}&device=${encodeURIComponent(deviceName)}`);
+      }
     }
   };
 
@@ -99,8 +125,8 @@ export default function DevicesPage() {
   const products: Product[] = [
     {
       id: "sharp-samsung-tv-small",
-      name: "Samsung/Sharp TV (43\" / 55\")",
-      brand: "Samsung/Sharp",
+      name: "Samsung/Sharp/LG TV (43\" / 55\")",
+      brand: "Samsung/Sharp/LG",
       category: "tvs",
       image: "/images/devices/sharp-tv.png",
       rrpText: "",
@@ -141,8 +167,8 @@ export default function DevicesPage() {
     },
     {
       id: "sharp-samsung-tv-large",
-      name: "Samsung/Sharp TV (65\" / 75\")",
-      brand: "Samsung/Sharp",
+      name: "Samsung/Sharp/LG TV (65\" / 75\")",
+      brand: "Samsung/Sharp/LG",
       category: "tvs",
       addonBadge: "ADD ON RM20/M",
       image: "/images/devices/samsung-tv.png",
