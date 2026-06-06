@@ -8,6 +8,7 @@ export default function CoverageForm({ compact = false }: { compact?: boolean })
   const [formData, setFormData] = useState({
     "user-name": "",
     "user-contact": "",
+    "building_name": "",
     "full_address": "",
     "plan": "",
   });
@@ -129,9 +130,22 @@ export default function CoverageForm({ compact = false }: { compact?: boolean })
                 <textarea 
                   name="full_address" 
                   placeholder="e.g. No 12, Jalan Ampang, 50450 Kuala Lumpur" 
-                  className={`${inputClasses} resize-none h-28`}
+                  className={`${inputClasses} resize-none h-20`}
                   required
                   value={formData["full_address"]}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              {/* Building Name */}
+              <div className={groupClasses}>
+                <label className={labelClasses}>Building Name</label>
+                <input 
+                  type="text" 
+                  name="building_name" 
+                  placeholder="e.g. Menara 118" 
+                  className={inputClasses}
+                  value={formData["building_name"]}
                   onChange={handleInputChange}
                 />
               </div>

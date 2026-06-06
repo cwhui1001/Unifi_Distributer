@@ -77,6 +77,7 @@ function getBasicEmailBody($formType, $formData) {
         "user-email" => "Email",
         "phone" => "Phone Number",
         "region" => "Region/Area",
+        "building_name" => "Building Name",
         "full_address" => "Full Address",
         "plan" => "Plan/Speed",
         "package" => "Package",

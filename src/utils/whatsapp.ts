@@ -24,10 +24,10 @@ export const sendToWhatsApp = (formType: string, formData: Record<string, any>) 
     "mykad": "MyKad/Passport",
     
     // Coverage Form
-    "building_name": "Building Unit",
+    "building_name": "Building Name",
     "floor_no": "Building Floor",
-    "unit_no": "Building Block",
-    "block_no": "Building Name",
+    "unit_no": "Unit No",
+    "block_no": "Block No",
     "street": "Street",
     "section_no": "Section",
     "telco": "Current Telco",
