@@ -10,7 +10,9 @@ export default function CoverageForm({ compact = false }: { compact?: boolean })
     "user-contact": "",
     "building_name": "",
     "full_address": "",
+    "state": "",
     "plan": "",
+    "current_home_wifi": "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -137,6 +139,39 @@ export default function CoverageForm({ compact = false }: { compact?: boolean })
                 />
               </div>
 
+              {/* State */}
+              <div className={groupClasses}>
+                <label className={labelClasses}>State *</label>
+                <div className="relative">
+                  <select 
+                    name="state" 
+                    className={`${inputClasses} appearance-none cursor-pointer pr-10`}
+                    required
+                    value={formData["state"]}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Please select state</option>
+                    <option value="Johor">Johor</option>
+                    <option value="Kedah">Kedah</option>
+                    <option value="Kelantan">Kelantan</option>
+                    <option value="Melaka">Melaka</option>
+                    <option value="Negeri Sembilan">Negeri Sembilan</option>
+                    <option value="Pahang">Pahang</option>
+                    <option value="Pulau Pinang">Pulau Pinang (Penang)</option>
+                    <option value="Perak">Perak</option>
+                    <option value="Perlis">Perlis</option>
+                    <option value="Sabah">Sabah</option>
+                    <option value="Sarawak">Sarawak</option>
+                    <option value="Selangor">Selangor</option>
+                    <option value="Terengganu">Terengganu</option>
+                    <option value="Wilayah Persekutuan Kuala Lumpur">Wilayah Persekutuan Kuala Lumpur (KL)</option>
+                    <option value="Wilayah Persekutuan Labuan">Wilayah Persekutuan Labuan</option>
+                    <option value="Wilayah Persekutuan Putrajaya">Wilayah Persekutuan Putrajaya</option>
+                  </select>
+                  <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />
+                </div>
+              </div>
+
               {/* Building Name */}
               <div className={groupClasses}>
                 <label className={labelClasses}>Building Name</label>
@@ -148,6 +183,32 @@ export default function CoverageForm({ compact = false }: { compact?: boolean })
                   value={formData["building_name"]}
                   onChange={handleInputChange}
                 />
+              </div>
+
+              {/* Current Using Home Wifi */}
+              <div className={groupClasses}>
+                <label className={labelClasses}>Current Using Home Wifi *</label>
+                <div className="relative">
+                  <select 
+                    name="current_home_wifi" 
+                    className={`${inputClasses} appearance-none cursor-pointer pr-10`}
+                    required
+                    value={formData["current_home_wifi"]}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Please select current home wifi</option>
+                    <option value="N/A">N/A</option>
+                    <option value="Unifi">Unifi</option>
+                    <option value="Maxis">Maxis</option>
+                    <option value="Celcomdigi">Celcomdigi</option>
+                    <option value="TIME">TIME</option>
+                    <option value="Allo">Allo</option>
+                    <option value="Freshtel">Freshtel</option>
+                    <option value="Pr1ma">Pr1ma</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none rotate-90" />
+                </div>
               </div>
 
               {/* Interested Plan */}

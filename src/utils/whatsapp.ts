@@ -16,6 +16,7 @@ export const sendToWhatsApp = (formType: string, formData: Record<string, any>) 
     "postcode": "Postcode",
     "existing_user": "Existing User",
     "full_address": "Full Address",
+    "state": "State",
     
     // Application Form
     "package": "Package",
@@ -32,6 +33,7 @@ export const sendToWhatsApp = (formType: string, formData: Record<string, any>) 
     "section_no": "Section",
     "telco": "Current Telco",
     "region": "Region/Area",
+    "current_home_wifi": "Current Using Home Wifi",
     
     // Mobile Form
     "choose-number": "Number Type",
